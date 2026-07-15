@@ -66,7 +66,7 @@ export const primitiveColors = {
 
 export const colors = {
   background: {
-    canvas: primitiveColors.neutral[50],
+    canvas: primitiveColors.violet[50],
     surface: primitiveColors.neutral[0],
     subtle: primitiveColors.mint[50],
     brand: primitiveColors.mint[500],
