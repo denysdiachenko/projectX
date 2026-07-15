@@ -7,20 +7,23 @@ import '@/global.css';
 
 import { Platform } from 'react-native';
 
+import { colors, fontFamily, primitiveColors, spacing } from '@/theme';
+
+// Compatibility shape for the remaining Expo starter components.
 export const Colors = {
   light: {
-    text: '#000000',
-    background: '#ffffff',
-    backgroundElement: '#F0F0F3',
-    backgroundSelected: '#E0E1E6',
-    textSecondary: '#60646C',
+    text: colors.text.primary,
+    background: colors.background.canvas,
+    backgroundElement: colors.background.surface,
+    backgroundSelected: colors.background.subtle,
+    textSecondary: colors.text.secondary,
   },
   dark: {
-    text: '#ffffff',
-    background: '#000000',
-    backgroundElement: '#212225',
-    backgroundSelected: '#2E3135',
-    textSecondary: '#B0B4BA',
+    text: primitiveColors.neutral[0],
+    background: primitiveColors.neutral[950],
+    backgroundElement: primitiveColors.neutral[900],
+    backgroundSelected: primitiveColors.neutral[800],
+    textSecondary: primitiveColors.neutral[400],
   },
 } as const;
 
@@ -28,8 +31,7 @@ export type ThemeColor = keyof typeof Colors.light & keyof typeof Colors.dark;
 
 export const Fonts = Platform.select({
   ios: {
-    /** iOS `UIFontDescriptorSystemDesignDefault` */
-    sans: 'system-ui',
+    sans: fontFamily.regular,
     /** iOS `UIFontDescriptorSystemDesignSerif` */
     serif: 'ui-serif',
     /** iOS `UIFontDescriptorSystemDesignRounded` */
@@ -38,13 +40,13 @@ export const Fonts = Platform.select({
     mono: 'ui-monospace',
   },
   default: {
-    sans: 'normal',
+    sans: fontFamily.regular,
     serif: 'serif',
     rounded: 'normal',
     mono: 'monospace',
   },
   web: {
-    sans: 'var(--font-display)',
+    sans: fontFamily.regular,
     serif: 'var(--font-serif)',
     rounded: 'var(--font-rounded)',
     mono: 'var(--font-mono)',
@@ -53,12 +55,12 @@ export const Fonts = Platform.select({
 
 export const Spacing = {
   half: 2,
-  one: 4,
-  two: 8,
-  three: 16,
-  four: 24,
-  five: 32,
-  six: 64,
+  one: spacing.x1,
+  two: spacing.x2,
+  three: spacing.x4,
+  four: spacing.x6,
+  five: spacing.x8,
+  six: spacing.x16,
 } as const;
 
 export const BottomTabInset = Platform.select({ ios: 50, android: 80 }) ?? 0;
