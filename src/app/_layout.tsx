@@ -9,6 +9,7 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 
+import { AppLocalizationProvider } from '@/hooks/app-localization';
 import { AppThemeProvider } from '@/hooks/app-theme';
 
 void SplashScreen.preventAutoHideAsync();
@@ -33,7 +34,9 @@ export default function RootLayout() {
 
   return (
     <AppThemeProvider>
-      <Stack screenOptions={{ headerShown: false }} />
+      <AppLocalizationProvider>
+        <Stack screenOptions={{ headerShown: false }} />
+      </AppLocalizationProvider>
     </AppThemeProvider>
   );
 }
