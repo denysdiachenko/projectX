@@ -29,6 +29,9 @@ export default function createStyles(theme: AppTheme) {
     buttonPressed: {
       opacity: 0.76,
     },
+    buttonDisabled: {
+      opacity: 0.6,
+    },
     buttonLabel: {
       ...typography.labelLarge,
       color: colors.text.primary,

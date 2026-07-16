@@ -6,12 +6,12 @@ const unusedImports = require('eslint-plugin-unused-imports');
 module.exports = defineConfig([
   expoConfig,
   {
-    ignores: ['dist/*'],
+    ignores: ['dist/*', 'supabase/functions/*'],
     plugins: {
       'unused-imports': unusedImports,
     },
     rules: {
-      '@typescript-eslint/no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': 'error',
       'no-unused-vars': 'off',
       'unused-imports/no-unused-imports': 'error',
       'unused-imports/no-unused-vars': [

@@ -1,7 +1,7 @@
 import type {AppTheme} from "@/hooks/app-theme";
 import {StyleSheet} from "react-native";
 
-export function createStyles(theme: AppTheme) {
+export default function createStyles(theme: AppTheme) {
   const {colors, spacing, typography} = theme;
 
   return StyleSheet.create({

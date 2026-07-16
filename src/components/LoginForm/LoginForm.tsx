@@ -12,11 +12,15 @@ import {
   createLoginSchema,
   type LoginFormValues,
 } from '@/validation-schemas/login-schema';
+import {
+  isEmailSignInError,
+} from '@/services/auth';
+import { showToast } from '@/services/toast';
 
 import createStyles from './styles';
 
 type LoginFormProps = {
-  onSubmit: (values: LoginFormValues) => void;
+  onSubmit: (values: LoginFormValues) => Promise<void>;
   onForgotPassword: () => void;
   onGoogleLogin: () => void;
   onAppleLogin: () => void;
@@ -39,13 +43,25 @@ export default function LoginForm({
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<LoginFormValues>({
     defaultValues: { email: '', password: '' },
     mode: 'onBlur',
     resolver: yupResolver(loginSchema),
   });
-  const submitLogin = handleSubmit(onSubmit);
+  const submitLogin = handleSubmit(async (values) => {
+    try {
+      await onSubmit(values);
+    } catch (error) {
+      const errorCode = isEmailSignInError(error) ? error.code : 'unknown';
+
+      showToast({
+        message: copy.errors[errorCode],
+        title: copy.loginErrorTitle,
+        type: 'error',
+      });
+    }
+  });
 
   return (
     <View style={styles.form}>
@@ -57,6 +73,7 @@ export default function LoginForm({
             autoCapitalize="none"
             autoComplete="email"
             autoCorrect={false}
+            editable={!isSubmitting}
             error={errors.email?.message}
             keyboardType="email-address"
             label={copy.emailLabel}
@@ -87,6 +104,7 @@ export default function LoginForm({
               autoCapitalize="none"
               autoComplete="current-password"
               autoCorrect={false}
+              editable={!isSubmitting}
               error={errors.password?.message}
               label={copy.passwordLabel}
               onActionPress={() => setPasswordVisible((visible) => !visible)}
@@ -112,7 +130,13 @@ export default function LoginForm({
       </Pressable>
 
       <View style={styles.loginButton}>
-        <WelcomeButton label={copy.login} variant="primary" onPress={submitLogin} />
+        <WelcomeButton
+          disabled={isSubmitting}
+          label={isSubmitting ? copy.loggingIn : copy.login}
+          loading={isSubmitting}
+          variant="primary"
+          onPress={submitLogin}
+        />
       </View>
 
       <View style={styles.divider}>

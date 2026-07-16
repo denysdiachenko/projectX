@@ -7,8 +7,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAppTheme } from '@/hooks/app-theme';
 import WelcomeButton from "@/components/WelcomeButton/WelcomeButton";
 import WelcomeHero from "@/components/WelcomeHero/WelcomeHero";
+import { ROUTES } from '@/constants/routes';
 import { useAppLocalization } from '@/hooks/app-localization';
-import {createStyles} from "@/app/_content/styles";
+import createStyles from "@/app/_content/styles";
 
 export default function WelcomeScreen() {
   const router = useRouter();
@@ -20,7 +21,7 @@ export default function WelcomeScreen() {
   const handleCreateAccount = () => {};
   const handleGoogle = () => {};
   const handleApple = () => {};
-  const handleLogin = () => router.push('/login');
+  const handleLogin = () => router.push(ROUTES.login);
 
   return (
       <SafeAreaView edges={['bottom']} style={styles.screen}>
