@@ -1,6 +1,7 @@
 import type { ImagePickerAsset } from 'expo-image-picker';
 
 import { supabase } from '@/lib/supabase';
+import type { SupportedLanguage } from '@/localization/types';
 import type { Tables } from '@/types/database';
 
 const AVATAR_BUCKET = 'avatars';
@@ -27,6 +28,14 @@ export async function getUserProfile(userId: string) {
   }
 
   return data;
+}
+
+export async function updateProfileLocale(userId: string, locale: SupportedLanguage) {
+  const { error } = await supabase.from('profiles').update({ locale }).eq('id', userId);
+
+  if (error) {
+    throw error;
+  }
 }
 
 export async function saveUserProfile({

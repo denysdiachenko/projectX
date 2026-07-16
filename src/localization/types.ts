@@ -2,6 +2,7 @@ export type SupportedLanguage = 'uk' | 'en';
 
 export type TranslationSchema = {
   common: {
+    cancel: string;
     dismiss: string;
   };
   welcome: {
@@ -75,9 +76,18 @@ export type TranslationSchema = {
     saving: string;
     settingsSection: string;
     language: string;
-    languageValue: string;
+    languageOptions: {
+      uk: string;
+      en: string;
+    };
     theme: string;
-    themeValue: string;
+    themeOptions: {
+      system: string;
+      light: string;
+      dark: string;
+    };
+    settingSaveErrorTitle: string;
+    settingSaveError: string;
     accountSection: string;
     changePassword: string;
     legalSection: string;

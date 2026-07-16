@@ -2,6 +2,7 @@ import type { TranslationSchema } from '@/localization/types';
 
 export const en: TranslationSchema = {
   common: {
+    cancel: 'Cancel',
     dismiss: 'Dismiss message',
   },
   welcome: {
@@ -76,9 +77,18 @@ export const en: TranslationSchema = {
     saving: 'Saving…',
     settingsSection: 'Settings',
     language: 'Language',
-    languageValue: 'English',
+    languageOptions: {
+      uk: 'Українська',
+      en: 'English',
+    },
     theme: 'Theme',
-    themeValue: 'System',
+    themeOptions: {
+      system: 'System',
+      light: 'Light',
+      dark: 'Dark',
+    },
+    settingSaveErrorTitle: 'Unable to change setting',
+    settingSaveError: 'Check your connection and try again.',
     accountSection: 'Account',
     changePassword: 'Change password',
     legalSection: 'Legal',

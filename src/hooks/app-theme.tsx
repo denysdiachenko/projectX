@@ -1,6 +1,11 @@
-import { createContext, type PropsWithChildren, useContext } from 'react';
+import { createContext, type PropsWithChildren, useContext, useMemo, useState } from 'react';
 import { useColorScheme } from 'react-native';
 
+import {
+  getStoredThemeMode,
+  storeThemeMode,
+  type ThemeMode,
+} from '@/services/preferences-storage';
 import {
   colors,
   darkColors,
@@ -45,7 +50,12 @@ export const darkTheme: AppTheme = {
   statusBar: 'light',
 };
 
-const AppThemeContext = createContext<AppTheme | null>(null);
+type AppThemeContextValue = AppTheme & {
+  mode: ThemeMode;
+  setThemeMode: (mode: ThemeMode) => void;
+};
+
+const AppThemeContext = createContext<AppThemeContextValue | null>(null);
 
 type AppThemeProviderProps = PropsWithChildren<{
   /** Explicit override for previews and tests. The app follows the system scheme when omitted. */
@@ -54,9 +64,23 @@ type AppThemeProviderProps = PropsWithChildren<{
 
 export function AppThemeProvider({ children, theme }: AppThemeProviderProps) {
   const colorScheme = useColorScheme();
-  const resolvedTheme = theme ?? (colorScheme === 'dark' ? darkTheme : lightTheme);
+  const [mode, setMode] = useState<ThemeMode>(getStoredThemeMode);
+  const resolvedTheme =
+    theme ??
+    (mode === 'dark' || (mode === 'system' && colorScheme === 'dark') ? darkTheme : lightTheme);
+  const value = useMemo<AppThemeContextValue>(
+    () => ({
+      ...resolvedTheme,
+      mode: theme?.name ?? mode,
+      setThemeMode: (nextMode) => {
+        setMode(nextMode);
+        storeThemeMode(nextMode);
+      },
+    }),
+    [mode, resolvedTheme, theme?.name],
+  );
 
-  return <AppThemeContext.Provider value={resolvedTheme}>{children}</AppThemeContext.Provider>;
+  return <AppThemeContext.Provider value={value}>{children}</AppThemeContext.Provider>;
 }
 
 export function useAppTheme() {

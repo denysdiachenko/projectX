@@ -7,12 +7,15 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import AppButton from '@/components/AppButton/AppButton';
 import ProfileAvatar from '@/components/ProfileAvatar/ProfileAvatar';
 import DeleteAccountSheet from '@/components/ProfileScreen/DeleteAccountSheet';
+import ProfileSettingSheet from '@/components/ProfileScreen/ProfileSettingSheet';
 import { createProfileStyles } from '@/components/ProfileScreen/styles';
 import ProfileRow from '@/components/ProfileRow/ProfileRow';
 import { ROUTES } from '@/constants/routes';
 import { useAppAuth } from '@/hooks/app-auth';
 import { useAppLocalization } from '@/hooks/app-localization';
 import { useAppTheme } from '@/hooks/app-theme';
+import type { SupportedLanguage } from '@/localization/types';
+import type { ThemeMode } from '@/services/preferences-storage';
 import { deleteCurrentAccount, signOutCurrentSession } from '@/services/auth';
 import { getUserProfile, type UserProfile } from '@/services/profile';
 import { showToast } from '@/services/toast';
@@ -22,7 +25,7 @@ export default function ProfileScreen() {
   const router = useRouter();
   const { user } = useAppAuth();
   const theme = useAppTheme();
-  const { translations } = useAppLocalization();
+  const { language, setLanguage, translations } = useAppLocalization();
   const copy = translations.profile;
   const styles = useMemo(() => createProfileStyles(theme), [theme]);
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -30,6 +33,8 @@ export default function ProfileScreen() {
   const [isSigningOut, setIsSigningOut] = useState(false);
   const [deleteSheetVisible, setDeleteSheetVisible] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [settingSheet, setSettingSheet] = useState<'language' | 'theme' | null>(null);
+  const [isSavingSetting, setIsSavingSetting] = useState(false);
 
   const loadProfile = useCallback(async () => {
     if (!user) {
@@ -65,6 +70,33 @@ export default function ProfileScreen() {
       title: copy.unavailableTitle,
       type: 'info',
     });
+  };
+
+  const handleLanguageSelect = async (nextLanguage: SupportedLanguage) => {
+    if (nextLanguage === language) {
+      setSettingSheet(null);
+      return;
+    }
+
+    setIsSavingSetting(true);
+
+    try {
+      await setLanguage(nextLanguage);
+      setSettingSheet(null);
+    } catch {
+      showToast({
+        message: copy.settingSaveError,
+        title: copy.settingSaveErrorTitle,
+        type: 'error',
+      });
+    } finally {
+      setIsSavingSetting(false);
+    }
+  };
+
+  const handleThemeSelect = (nextMode: ThemeMode) => {
+    theme.setThemeMode(nextMode);
+    setSettingSheet(null);
   };
 
   const handleSignOut = async () => {
@@ -137,13 +169,13 @@ export default function ProfileScreen() {
             <ProfileRow
               divider
               label={copy.language}
-              value={copy.languageValue}
-              onPress={showUnavailableToast}
+              value={copy.languageOptions[language]}
+              onPress={() => setSettingSheet('language')}
             />
             <ProfileRow
               label={copy.theme}
-              value={copy.themeValue}
-              onPress={showUnavailableToast}
+              value={copy.themeOptions[theme.mode]}
+              onPress={() => setSettingSheet('theme')}
             />
           </View>
         </View>
@@ -186,6 +218,30 @@ export default function ProfileScreen() {
         visible={deleteSheetVisible}
         onCancel={() => setDeleteSheetVisible(false)}
         onConfirm={handleDeleteAccount}
+      />
+      <ProfileSettingSheet
+        busy={isSavingSetting}
+        options={[
+          { label: copy.languageOptions.uk, value: 'uk' },
+          { label: copy.languageOptions.en, value: 'en' },
+        ]}
+        selectedValue={language}
+        title={copy.language}
+        visible={settingSheet === 'language'}
+        onClose={() => setSettingSheet(null)}
+        onSelect={handleLanguageSelect}
+      />
+      <ProfileSettingSheet
+        options={[
+          { label: copy.themeOptions.system, value: 'system' },
+          { label: copy.themeOptions.light, value: 'light' },
+          { label: copy.themeOptions.dark, value: 'dark' },
+        ]}
+        selectedValue={theme.mode}
+        title={copy.theme}
+        visible={settingSheet === 'theme'}
+        onClose={() => setSettingSheet(null)}
+        onSelect={handleThemeSelect}
       />
     </SafeAreaView>
   );

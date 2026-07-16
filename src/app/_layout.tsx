@@ -104,12 +104,12 @@ export default function RootLayout() {
   }
 
   return (
-    <AppThemeProvider>
-      <AppLocalizationProvider>
-        <AppAuthProvider>
+    <AppAuthProvider>
+      <AppThemeProvider>
+        <AppLocalizationProvider>
           <RootNavigator />
-        </AppAuthProvider>
-      </AppLocalizationProvider>
-    </AppThemeProvider>
+        </AppLocalizationProvider>
+      </AppThemeProvider>
+    </AppAuthProvider>
   );
 }

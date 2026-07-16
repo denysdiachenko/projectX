@@ -156,7 +156,7 @@ export default function EditProfileScreen() {
   }
 
   return (
-    <SafeAreaView edges={['right', 'bottom','left']} style={styles.screen}>
+    <SafeAreaView edges={['right', 'bottom', 'left']} style={styles.screen}>
       <StatusBar style={theme.statusBar} />
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}

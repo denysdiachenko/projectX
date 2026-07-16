@@ -2,6 +2,7 @@ import type { TranslationSchema } from '@/localization/types';
 
 export const uk: TranslationSchema = {
   common: {
+    cancel: 'Скасувати',
     dismiss: 'Закрити повідомлення',
   },
   welcome: {
@@ -76,9 +77,18 @@ export const uk: TranslationSchema = {
     saving: 'Зберігаємо…',
     settingsSection: 'Налаштування',
     language: 'Мова',
-    languageValue: 'Українська',
+    languageOptions: {
+      uk: 'Українська',
+      en: 'English',
+    },
     theme: 'Тема',
-    themeValue: 'Системна',
+    themeOptions: {
+      system: 'Системна',
+      light: 'Світла',
+      dark: 'Темна',
+    },
+    settingSaveErrorTitle: 'Не вдалося змінити налаштування',
+    settingSaveError: 'Перевірте інтернет і спробуйте ще раз.',
     accountSection: 'Акаунт',
     changePassword: 'Змінити пароль',
     legalSection: 'Правова інформація',

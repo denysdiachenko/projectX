@@ -8,7 +8,7 @@ export function createProfileEditStyles(theme: AppTheme) {
   return StyleSheet.create({
     screen: {
       flex: 1,
-      // backgroundColor: colors.background.canvas,
+      backgroundColor: colors.background.canvas,
     },
     keyboardView: {
       flex: 1,
