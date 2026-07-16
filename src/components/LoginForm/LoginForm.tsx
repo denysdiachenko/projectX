@@ -6,6 +6,7 @@ import { Pressable, Text, View } from 'react-native';
 
 import AppInput from '@/components/AppInput/AppInput';
 import AppButton from '@/components/AppButton/AppButton';
+import SocialAuthButtons from '@/components/SocialAuthButtons/SocialAuthButtons';
 import { useAppLocalization } from '@/hooks/app-localization';
 import { useAppTheme } from '@/hooks/app-theme';
 import {
@@ -145,20 +146,12 @@ export default function LoginForm({
         <View style={styles.dividerLine} />
       </View>
 
-      <View style={styles.socialActions}>
-        <AppButton
-          label={copy.continueWithGoogle}
-          icon={<AntDesign name="google" color={theme.colors.text.primary} size={20} />}
-          variant="social"
-          onPress={onGoogleLogin}
-        />
-        <AppButton
-          label={copy.continueWithApple}
-          icon={<AntDesign name="apple" color={theme.colors.text.primary} size={20} />}
-          variant="social"
-          onPress={onAppleLogin}
-        />
-      </View>
+      <SocialAuthButtons
+        disabled={isSubmitting}
+        onApplePress={onAppleLogin}
+        onGooglePress={onGoogleLogin}
+        style={styles.socialActions}
+      />
 
       <View style={styles.createAccountRow}>
         <Text style={styles.createAccountPrompt}>{copy.noAccount}</Text>

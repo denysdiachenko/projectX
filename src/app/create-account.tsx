@@ -2,38 +2,47 @@ import { AntDesign } from '@react-native-vector-icons/ant-design';
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useMemo } from 'react';
-import {
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
-} from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import LoginForm from '@/components/LoginForm/LoginForm';
+import CreateAccountForm from '@/components/CreateAccountForm/CreateAccountForm';
 import { createLoginStyles } from '@/components/LoginScreen/styles';
 import { ROUTES } from '@/constants/routes';
 import { useAppLocalization } from '@/hooks/app-localization';
 import { useAppTheme } from '@/hooks/app-theme';
-import { signInWithEmail } from '@/services/auth';
-import type { LoginFormValues } from '@/validation-schemas/login-schema';
+import { signUpWithEmail } from '@/services/auth';
+import { showToast } from '@/services/toast';
+import type { CreateAccountFormValues } from '@/validation-schemas/create-account-schema';
 
-export default function LoginScreen() {
+export default function CreateAccountScreen() {
   const router = useRouter();
   const theme = useAppTheme();
-  const { translations } = useAppLocalization();
-  const copy = translations.login;
+  const { language, translations } = useAppLocalization();
+  const copy = translations.createAccount;
   const styles = useMemo(() => createLoginStyles(theme), [theme]);
 
-  const handleLogin = async ({ email, password }: LoginFormValues) => {
-    await signInWithEmail(email, password);
+  const handleCreateAccount = async ({
+    displayName,
+    email,
+    password,
+  }: CreateAccountFormValues) => {
+    const { session } = await signUpWithEmail({ displayName, email, locale: language, password });
+
+    if (session) {
+      showToast({ message: copy.success, title: copy.successTitle, type: 'success' });
+      return;
+    }
+
+    showToast({
+      message: copy.confirmationMessage,
+      title: copy.confirmationTitle,
+      type: 'success',
+    });
+    router.replace(ROUTES.login);
   };
-  const handleForgotPassword = () => {};
   const handleGoogle = () => {};
   const handleApple = () => {};
-  const handleCreateAccount = () => router.push(ROUTES.createAccount);
+  const handleLogin = () => router.replace(ROUTES.login);
 
   return (
     <View style={styles.screen}>
@@ -42,7 +51,7 @@ export default function LoginScreen() {
       <View pointerEvents="none" style={styles.mintDot} />
       <View pointerEvents="none" style={styles.mintBar} />
 
-      <SafeAreaView edges={['top', 'bottom']} style={styles.keyboardView}>
+      <SafeAreaView edges={['top']} style={styles.keyboardView}>
         <View style={styles.topNavigation}>
           <Pressable
             accessibilityLabel={copy.back}
@@ -69,12 +78,11 @@ export default function LoginScreen() {
               <Text style={styles.subtitle}>{copy.subtitle}</Text>
             </View>
 
-            <LoginForm
-              onAppleLogin={handleApple}
-              onCreateAccount={handleCreateAccount}
-              onForgotPassword={handleForgotPassword}
-              onGoogleLogin={handleGoogle}
-              onSubmit={handleLogin}
+            <CreateAccountForm
+              onAppleSignUp={handleApple}
+              onGoogleSignUp={handleGoogle}
+              onLogin={handleLogin}
+              onSubmit={handleCreateAccount}
             />
           </ScrollView>
         </KeyboardAvoidingView>

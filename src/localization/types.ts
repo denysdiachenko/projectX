@@ -4,14 +4,16 @@ export type TranslationSchema = {
   common: {
     cancel: string;
     dismiss: string;
+    socialAuth: {
+      continueWithGoogle: string;
+      continueWithApple: string;
+    };
   };
   welcome: {
     eyebrow: string;
     title: string;
     subtitle: string;
     createAccount: string;
-    continueWithGoogle: string;
-    continueWithApple: string;
     existingAccount: string;
     login: string;
     legal: string;
@@ -33,8 +35,6 @@ export type TranslationSchema = {
     loginSuccessTitle: string;
     loggingIn: string;
     or: string;
-    continueWithGoogle: string;
-    continueWithApple: string;
     noAccount: string;
     createAccount: string;
     securityNote: string;
@@ -49,6 +49,47 @@ export type TranslationSchema = {
       emailRequired: string;
       emailInvalid: string;
       passwordRequired: string;
+    };
+  };
+  createAccount: {
+    back: string;
+    title: string;
+    subtitle: string;
+    nameLabel: string;
+    namePlaceholder: string;
+    emailLabel: string;
+    emailPlaceholder: string;
+    passwordLabel: string;
+    passwordPlaceholder: string;
+    showPassword: string;
+    hidePassword: string;
+    submit: string;
+    submitting: string;
+    or: string;
+    existingAccount: string;
+    login: string;
+    legal: string;
+    successTitle: string;
+    success: string;
+    confirmationTitle: string;
+    confirmationMessage: string;
+    errorTitle: string;
+    errors: {
+      emailAlreadyRegistered: string;
+      invalidEmail: string;
+      weakPassword: string;
+      signUpDisabled: string;
+      rateLimited: string;
+      network: string;
+      unknown: string;
+    };
+    validation: {
+      nameRequired: string;
+      nameTooLong: string;
+      emailRequired: string;
+      emailInvalid: string;
+      passwordRequired: string;
+      passwordTooShort: string;
     };
   };
   myEvents: {

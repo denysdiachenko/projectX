@@ -55,6 +55,7 @@ function RootNavigator() {
         <Stack.Protected guard={!isAuthenticated}>
           <Stack.Screen name="index" />
           <Stack.Screen name="login" />
+          <Stack.Screen name="create-account" />
         </Stack.Protected>
         <Stack.Protected guard={isAuthenticated}>
           <Stack.Screen

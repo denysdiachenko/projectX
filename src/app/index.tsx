@@ -2,11 +2,11 @@ import { StatusBar } from 'expo-status-bar';
 import { useRouter } from 'expo-router';
 import { useMemo } from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { AntDesign } from '@react-native-vector-icons/ant-design';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAppTheme } from '@/hooks/app-theme';
 import AppButton from "@/components/AppButton/AppButton";
 import WelcomeHero from "@/components/WelcomeHero/WelcomeHero";
+import SocialAuthButtons from '@/components/SocialAuthButtons/SocialAuthButtons';
 import { ROUTES } from '@/constants/routes';
 import { useAppLocalization } from '@/hooks/app-localization';
 import createStyles from "@/app/_content/styles";
@@ -18,7 +18,7 @@ export default function WelcomeScreen() {
   const copy = translations.welcome;
   const styles = useMemo(() => createStyles(theme), [theme]);
 
-  const handleCreateAccount = () => {};
+  const handleCreateAccount = () => router.push(ROUTES.createAccount);
   const handleGoogle = () => {};
   const handleApple = () => {};
   const handleLogin = () => router.push(ROUTES.login);
@@ -42,17 +42,9 @@ export default function WelcomeScreen() {
               variant="primary"
               onPress={handleCreateAccount}
             />
-            <AppButton
-              label={copy.continueWithGoogle}
-              icon={<AntDesign name="google" color={theme.colors.text.primary} size={20} />}
-              variant="social"
-              onPress={handleGoogle}
-            />
-            <AppButton
-              label={copy.continueWithApple}
-              icon={<AntDesign name="apple" color={theme.colors.text.primary} size={20} />}
-              variant="social"
-              onPress={handleApple}
+            <SocialAuthButtons
+              onApplePress={handleApple}
+              onGooglePress={handleGoogle}
             />
           </View>
 

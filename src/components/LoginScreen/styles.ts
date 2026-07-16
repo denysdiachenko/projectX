@@ -16,7 +16,6 @@ export function createLoginStyles(theme: AppTheme) {
     scrollContent: {
       flexGrow: 1,
       paddingHorizontal: spacing.x6,
-      paddingTop: spacing.x6,
       paddingBottom: spacing.x2,
     },
     violetOrb: {

@@ -8,26 +8,12 @@ export default function createStyles(theme: AppTheme) {
   return StyleSheet.create({
     form: {
       marginTop: spacing.x2,
+      gap: spacing.x4,
     },
-    passwordField: {
-      marginTop: spacing.x5,
-    },
-    forgotPassword: {
-      marginTop: spacing.x2,
-      minHeight: spacing.x5,
-      alignSelf: 'flex-end',
-      justifyContent: 'center',
-    },
-    forgotPasswordLabel: {
-      ...typography.bodySmall,
-      fontFamily: theme.fontFamily.semiBold,
-      color: colors.text.brand,
-    },
-    loginButton: {
-      marginTop: spacing.x5,
+    submitButton: {
+      marginTop: spacing.x1,
     },
     divider: {
-      marginTop: 22,
       height: spacing.x6,
       flexDirection: 'row',
       alignItems: 'center',
@@ -41,34 +27,28 @@ export default function createStyles(theme: AppTheme) {
     dividerLabel: {
       ...typography.caption,
       width: spacing.x12,
-      textAlign: 'center',
       color: colors.text.muted,
+      textAlign: 'center',
     },
-    socialActions: {
-      marginTop: spacing.x3,
-    },
-    createAccountRow: {
-      marginTop: spacing.x8,
+    loginRow: {
       minHeight: spacing.x6,
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
       gap: spacing.x2,
     },
-    createAccountPrompt: {
+    loginPrompt: {
       ...typography.bodySmall,
       color: colors.text.secondary,
     },
-    createAccountLink: {
+    loginLink: {
       ...typography.bodySmall,
       fontFamily: theme.fontFamily.semiBold,
       color: colors.text.brand,
     },
-    securityNote: {
+    legal: {
       ...typography.caption,
-      maxWidth: 310,
-      marginTop: spacing.x6,
-      alignSelf: 'center',
+      marginTop: -spacing.x4,
       color: colors.text.muted,
       textAlign: 'center',
     },
