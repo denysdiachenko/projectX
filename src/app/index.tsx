@@ -1,4 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
+import { useRouter } from 'expo-router';
 import { useMemo } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { AntDesign } from '@react-native-vector-icons/ant-design';
@@ -10,6 +11,7 @@ import { useAppLocalization } from '@/hooks/app-localization';
 import {createStyles} from "@/app/_content/styles";
 
 export default function WelcomeScreen() {
+  const router = useRouter();
   const theme = useAppTheme();
   const { translations } = useAppLocalization();
   const copy = translations.welcome;
@@ -18,7 +20,7 @@ export default function WelcomeScreen() {
   const handleCreateAccount = () => {};
   const handleGoogle = () => {};
   const handleApple = () => {};
-  const handleLogin = () => {};
+  const handleLogin = () => router.push('/login');
 
   return (
       <SafeAreaView edges={['bottom']} style={styles.screen}>

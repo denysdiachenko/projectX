@@ -12,5 +12,28 @@ export type TranslationSchema = {
     login: string;
     legal: string;
   };
+  login: {
+    back: string;
+    title: string;
+    subtitle: string;
+    emailLabel: string;
+    emailPlaceholder: string;
+    passwordLabel: string;
+    passwordPlaceholder: string;
+    showPassword: string;
+    hidePassword: string;
+    forgotPassword: string;
+    login: string;
+    or: string;
+    continueWithGoogle: string;
+    continueWithApple: string;
+    noAccount: string;
+    createAccount: string;
+    securityNote: string;
+    validation: {
+      emailRequired: string;
+      emailInvalid: string;
+      passwordRequired: string;
+    };
+  };
 };
-
