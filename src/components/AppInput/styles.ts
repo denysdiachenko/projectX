@@ -25,6 +25,9 @@ export default function createStyles(theme: AppTheme) {
     focusedField: {
       borderColor: colors.border.brand,
     },
+    readOnlyField: {
+      backgroundColor: colors.background.subtle,
+    },
     errorField: {
       borderColor: colors.status.errorForeground,
     },
@@ -38,6 +41,9 @@ export default function createStyles(theme: AppTheme) {
     inputWithAction: {
       paddingRight: 104,
     },
+    readOnlyInput: {
+      color: colors.text.secondary,
+    },
     action: {
       position: 'absolute',
       right: spacing.x4,
@@ -48,6 +54,13 @@ export default function createStyles(theme: AppTheme) {
       ...typography.labelSmall,
       color: colors.text.brand,
       letterSpacing: 0,
+    },
+    endAdornment: {
+      position: 'absolute',
+      right: spacing.x4,
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: '100%',
     },
     errorLabel: {
       ...typography.caption,

@@ -5,7 +5,7 @@ import { Pressable, Text, View } from 'react-native';
 import { AntDesign } from '@react-native-vector-icons/ant-design';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAppTheme } from '@/hooks/app-theme';
-import WelcomeButton from "@/components/WelcomeButton/WelcomeButton";
+import AppButton from "@/components/AppButton/AppButton";
 import WelcomeHero from "@/components/WelcomeHero/WelcomeHero";
 import { ROUTES } from '@/constants/routes';
 import { useAppLocalization } from '@/hooks/app-localization';
@@ -37,19 +37,21 @@ export default function WelcomeScreen() {
           </View>
 
           <View style={styles.actions}>
-            <WelcomeButton
+            <AppButton
               label={copy.createAccount}
               variant="primary"
               onPress={handleCreateAccount}
             />
-            <WelcomeButton
+            <AppButton
               label={copy.continueWithGoogle}
               icon={<AntDesign name="google" color={theme.colors.text.primary} size={20} />}
+              variant="social"
               onPress={handleGoogle}
             />
-            <WelcomeButton
+            <AppButton
               label={copy.continueWithApple}
               icon={<AntDesign name="apple" color={theme.colors.text.primary} size={20} />}
+              variant="social"
               onPress={handleApple}
             />
           </View>

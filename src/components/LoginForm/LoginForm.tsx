@@ -5,7 +5,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { Pressable, Text, View } from 'react-native';
 
 import AppInput from '@/components/AppInput/AppInput';
-import WelcomeButton from '@/components/WelcomeButton/WelcomeButton';
+import AppButton from '@/components/AppButton/AppButton';
 import { useAppLocalization } from '@/hooks/app-localization';
 import { useAppTheme } from '@/hooks/app-theme';
 import {
@@ -130,7 +130,7 @@ export default function LoginForm({
       </Pressable>
 
       <View style={styles.loginButton}>
-        <WelcomeButton
+        <AppButton
           disabled={isSubmitting}
           label={isSubmitting ? copy.loggingIn : copy.login}
           loading={isSubmitting}
@@ -146,14 +146,16 @@ export default function LoginForm({
       </View>
 
       <View style={styles.socialActions}>
-        <WelcomeButton
+        <AppButton
           label={copy.continueWithGoogle}
           icon={<AntDesign name="google" color={theme.colors.text.primary} size={20} />}
+          variant="social"
           onPress={onGoogleLogin}
         />
-        <WelcomeButton
+        <AppButton
           label={copy.continueWithApple}
           icon={<AntDesign name="apple" color={theme.colors.text.primary} size={20} />}
+          variant="social"
           onPress={onAppleLogin}
         />
       </View>

@@ -49,6 +49,27 @@ Deno.serve(async (request) => {
   const adminClient = createClient(supabaseUrl, secretKey, {
     auth: { persistSession: false, autoRefreshToken: false },
   });
+  const { data: avatarObjects, error: listAvatarError } = await adminClient.storage
+    .from('avatars')
+    .list(user.id, { limit: 100 });
+
+  if (listAvatarError) {
+    console.error('Failed to list account avatars.', listAvatarError);
+    return jsonResponse({ error: 'Unable to delete account data' }, 500);
+  }
+
+  if (avatarObjects.length > 0) {
+    const avatarPaths = avatarObjects.map((object) => `${user.id}/${object.name}`);
+    const { error: deleteAvatarError } = await adminClient.storage
+      .from('avatars')
+      .remove(avatarPaths);
+
+    if (deleteAvatarError) {
+      console.error('Failed to delete account avatars.', deleteAvatarError);
+      return jsonResponse({ error: 'Unable to delete account data' }, 500);
+    }
+  }
+
   const { error: deleteError } = await adminClient.auth.admin.deleteUser(user.id);
 
   if (deleteError) {

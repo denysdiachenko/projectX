@@ -26,6 +26,14 @@
       "expo-router",
       "expo-localization",
       [
+        "expo-image-picker",
+        {
+          "photosPermission": "Дозвольте доступ до фотографій, щоб змінити аватар профілю.",
+          "cameraPermission": false,
+          "microphonePermission": false
+        }
+      ],
+      [
         "expo-splash-screen",
         {
           "backgroundColor": "#11B3C9",

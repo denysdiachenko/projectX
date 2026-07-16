@@ -17,7 +17,6 @@ import { createLoginStyles } from '@/components/LoginScreen/styles';
 import { useAppLocalization } from '@/hooks/app-localization';
 import { useAppTheme } from '@/hooks/app-theme';
 import { signInWithEmail } from '@/services/auth';
-import { showToast } from '@/services/toast';
 import type { LoginFormValues } from '@/validation-schemas/login-schema';
 
 export default function LoginScreen() {
@@ -29,11 +28,6 @@ export default function LoginScreen() {
 
   const handleLogin = async ({ email, password }: LoginFormValues) => {
     await signInWithEmail(email, password);
-    showToast({
-      message: copy.loginSuccess,
-      title: copy.loginSuccessTitle,
-      type: 'success',
-    });
   };
   const handleForgotPassword = () => {};
   const handleGoogle = () => {};

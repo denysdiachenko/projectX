@@ -78,6 +78,7 @@ export const colors = {
     muted: primitiveColors.neutral[500],
     brand: primitiveColors.mint[800],
     onBrand: primitiveColors.neutral[0],
+    onSecondary: primitiveColors.neutral[0],
   },
   border: {
     default: primitiveColors.neutral[200],
@@ -87,8 +88,10 @@ export const colors = {
   action: {
     primary: primitiveColors.mint[500],
     primaryPressed: primitiveColors.mint[600],
-    secondary: primitiveColors.neutral[0],
-    secondaryPressed: primitiveColors.neutral[100],
+    secondary: primitiveColors.violet[500],
+    secondaryPressed: primitiveColors.violet[700],
+    social: primitiveColors.neutral[0],
+    socialPressed: primitiveColors.neutral[100],
     disabled: primitiveColors.neutral[200],
   },
   status: {
@@ -126,6 +129,7 @@ export const darkColors: AppColors = {
     muted: primitiveColors.neutral[400],
     brand: primitiveColors.mint[200],
     onBrand: primitiveColors.neutral[950],
+    onSecondary: primitiveColors.neutral[0],
   },
   border: {
     default: primitiveColors.neutral[800],
@@ -137,6 +141,8 @@ export const darkColors: AppColors = {
     primaryPressed: primitiveColors.mint[300],
     secondary: primitiveColors.neutral[900],
     secondaryPressed: primitiveColors.neutral[800],
+    social: primitiveColors.neutral[900],
+    socialPressed: primitiveColors.neutral[800],
     disabled: primitiveColors.neutral[800],
   },
   status: {

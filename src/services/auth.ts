@@ -53,3 +53,23 @@ export async function signInWithEmail(email: string, password: string) {
 
   throw new EmailSignInError('unknown');
 }
+
+export async function signOutCurrentSession() {
+  const { error } = await supabase.auth.signOut({ scope: 'local' });
+
+  if (error) {
+    throw error;
+  }
+}
+
+export async function deleteCurrentAccount() {
+  const { error } = await supabase.functions.invoke('delete-account', {
+    method: 'DELETE',
+  });
+
+  if (error) {
+    throw error;
+  }
+
+  await signOutCurrentSession();
+}
