@@ -20,15 +20,11 @@ import createStyles from './styles';
 
 type CreateAccountFormProps = {
   onSubmit: (values: CreateAccountFormValues) => Promise<void>;
-  onGoogleSignUp: () => void;
-  onAppleSignUp: () => void;
   onLogin: () => void;
 };
 
 export default function CreateAccountForm({
   onSubmit,
-  onGoogleSignUp,
-  onAppleSignUp,
   onLogin,
 }: CreateAccountFormProps) {
   const theme = useAppTheme();
@@ -156,8 +152,6 @@ export default function CreateAccountForm({
 
       <SocialAuthButtons
         disabled={isSubmitting}
-        onApplePress={onAppleSignUp}
-        onGooglePress={onGoogleSignUp}
       />
 
       <View style={styles.loginRow}>

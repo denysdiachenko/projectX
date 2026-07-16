@@ -7,6 +7,15 @@ export type TranslationSchema = {
     socialAuth: {
       continueWithGoogle: string;
       continueWithApple: string;
+      googleErrorTitle: string;
+      appleUnavailableTitle: string;
+      appleUnavailableMessage: string;
+      errors: {
+        providerDisabled: string;
+        network: string;
+        invalidCallback: string;
+        unknown: string;
+      };
     };
   };
   welcome: {

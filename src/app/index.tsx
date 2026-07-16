@@ -19,8 +19,6 @@ export default function WelcomeScreen() {
   const styles = useMemo(() => createStyles(theme), [theme]);
 
   const handleCreateAccount = () => router.push(ROUTES.createAccount);
-  const handleGoogle = () => {};
-  const handleApple = () => {};
   const handleLogin = () => router.push(ROUTES.login);
 
   return (
@@ -42,10 +40,7 @@ export default function WelcomeScreen() {
               variant="primary"
               onPress={handleCreateAccount}
             />
-            <SocialAuthButtons
-              onApplePress={handleApple}
-              onGooglePress={handleGoogle}
-            />
+            <SocialAuthButtons />
           </View>
 
           <View style={{gap: theme.spacing.x5}}>

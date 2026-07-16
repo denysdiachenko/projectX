@@ -12,6 +12,7 @@
       "bundleIdentifier": "com.denys.diachenko.partyplaner"
     },
     "android": {
+      "package": "com.denys.diachenko.partyplaner",
       "adaptiveIcon": {
         "backgroundColor": "#11B3C9",
         "foregroundImage": "./assets/images/icon.png"

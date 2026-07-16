@@ -40,8 +40,6 @@ export default function CreateAccountScreen() {
     });
     router.replace(ROUTES.login);
   };
-  const handleGoogle = () => {};
-  const handleApple = () => {};
   const handleLogin = () => router.replace(ROUTES.login);
 
   return (
@@ -79,8 +77,6 @@ export default function CreateAccountScreen() {
             </View>
 
             <CreateAccountForm
-              onAppleSignUp={handleApple}
-              onGoogleSignUp={handleGoogle}
               onLogin={handleLogin}
               onSubmit={handleCreateAccount}
             />

@@ -31,8 +31,6 @@ export default function LoginScreen() {
     await signInWithEmail(email, password);
   };
   const handleForgotPassword = () => {};
-  const handleGoogle = () => {};
-  const handleApple = () => {};
   const handleCreateAccount = () => router.push(ROUTES.createAccount);
 
   return (
@@ -70,10 +68,8 @@ export default function LoginScreen() {
             </View>
 
             <LoginForm
-              onAppleLogin={handleApple}
               onCreateAccount={handleCreateAccount}
               onForgotPassword={handleForgotPassword}
-              onGoogleLogin={handleGoogle}
               onSubmit={handleLogin}
             />
           </ScrollView>

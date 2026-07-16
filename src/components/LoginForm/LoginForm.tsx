@@ -23,16 +23,12 @@ import createStyles from './styles';
 type LoginFormProps = {
   onSubmit: (values: LoginFormValues) => Promise<void>;
   onForgotPassword: () => void;
-  onGoogleLogin: () => void;
-  onAppleLogin: () => void;
   onCreateAccount: () => void;
 };
 
 export default function LoginForm({
   onSubmit,
   onForgotPassword,
-  onGoogleLogin,
-  onAppleLogin,
   onCreateAccount,
 }: LoginFormProps) {
   const theme = useAppTheme();
@@ -148,8 +144,6 @@ export default function LoginForm({
 
       <SocialAuthButtons
         disabled={isSubmitting}
-        onApplePress={onAppleLogin}
-        onGooglePress={onGoogleLogin}
         style={styles.socialActions}
       />
 

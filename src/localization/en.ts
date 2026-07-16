@@ -7,6 +7,15 @@ export const en: TranslationSchema = {
     socialAuth: {
       continueWithGoogle: 'Continue with Google',
       continueWithApple: 'Continue with Apple',
+      googleErrorTitle: 'Unable to sign in with Google',
+      appleUnavailableTitle: 'Apple Sign In is not connected yet',
+      appleUnavailableMessage: 'Apple Sign In will be added in the next step.',
+      errors: {
+        providerDisabled: 'Google sign-in is currently unavailable. Please try again later.',
+        network: 'Unable to connect. Check your internet connection and try again.',
+        invalidCallback: 'Unable to complete sign-in. Please try again.',
+        unknown: 'An error occurred while signing in. Please try again.',
+      },
     },
   },
   welcome: {
