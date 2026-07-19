@@ -112,6 +112,116 @@ export type TranslationSchema = {
     hintTitle: string;
     hintBody: string;
   };
+  createEvent: {
+    headerTitle: string;
+    back: string;
+    close: string;
+    next: string;
+    createPlan: string;
+    step: string;
+    steps: {
+      eventType: string;
+      guests: string;
+      details: string;
+      menu: string;
+      review: string;
+    };
+    eventType: {
+      title: string;
+      subtitle: string;
+      birthday: string;
+      birthdayHint: string;
+      bbq: string;
+      bbqHint: string;
+      homeParty: string;
+      homePartyHint: string;
+    };
+    guests: {
+      title: string;
+      subtitle: string;
+      total: string;
+      breakdown: string;
+      adults: string;
+      adultsHint: string;
+      children: string;
+      childrenHint: string;
+      alcohol: string;
+      alcoholHint: string;
+      validationHint: string;
+    };
+    details: {
+      title: string;
+      subtitle: string;
+      name: string;
+      namePlaceholder: string;
+      date: string;
+      duration: string;
+      durationHours: string;
+      other: string;
+      customDurationHint: string;
+      location: string;
+      indoor: string;
+      outdoor: string;
+      seasonHint: string;
+      seasons: {
+        winter: string;
+        spring: string;
+        summer: string;
+        autumn: string;
+      };
+    };
+    menu: {
+      title: string;
+      subtitle: string;
+      format: string;
+      snacks: string;
+      buffet: string;
+      full: string;
+      descriptions: {
+        snacks: string;
+        buffet: string;
+        full: string;
+      };
+      drinks: string;
+      beer: string;
+      wine: string;
+      spirits: string;
+      water: string;
+      juice: string;
+      soda: string;
+      waterHint: string;
+    };
+    review: {
+      title: string;
+      subtitle: string;
+      change: string;
+      guestsSummary: string;
+      drinksSummary: string;
+      budget: string;
+      optional: string;
+      budgetPlaceholder: string;
+      currency: string;
+      note: string;
+      notePlaceholder: string;
+    };
+    exit: {
+      title: string;
+      message: string;
+      confirm: string;
+      continue: string;
+    };
+    datePicker: {
+      title: string;
+      confirm: string;
+    };
+    validation: {
+      eventName: string;
+      guests: string;
+      customDuration: string;
+    };
+    planPlaceholderTitle: string;
+    planPlaceholderMessage: string;
+  };
   profile: {
     back: string;
     title: string;

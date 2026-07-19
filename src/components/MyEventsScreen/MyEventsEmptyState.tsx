@@ -1,15 +1,18 @@
 import { AntDesign } from '@react-native-vector-icons/ant-design';
 import { Image } from 'expo-image';
+import { useRouter } from 'expo-router';
 import { useMemo } from 'react';
 import { Text, View } from 'react-native';
 
 import AppButton from '@/components/AppButton/AppButton';
 import { useAppLocalization } from '@/hooks/app-localization';
 import { useAppTheme } from '@/hooks/app-theme';
+import { ROUTES } from '@/constants/routes';
 
 import { createMyEventsStyles } from './styles';
 
 export default function MyEventsEmptyState() {
+  const router = useRouter();
   const theme = useAppTheme();
   const { translations } = useAppLocalization();
   const copy = translations.myEvents;
@@ -32,7 +35,11 @@ export default function MyEventsEmptyState() {
       <Text style={styles.emptyBody}>{copy.emptyBody}</Text>
 
       <View style={styles.createButton}>
-        <AppButton label={copy.createEvent} variant="primary" onPress={() => {}} />
+        <AppButton
+          label={copy.createEvent}
+          variant="primary"
+          onPress={() => router.push(ROUTES.createEvent)}
+        />
       </View>
 
       <View style={styles.hint}>

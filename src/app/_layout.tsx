@@ -69,6 +69,7 @@ function RootNavigator() {
               headerTransparent: true,
             }}
           />
+          <Stack.Screen name="create-event" />
           <Stack.Screen
             name="profile"
             options={profileHeaderOptions(translations.profile.title)}
