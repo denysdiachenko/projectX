@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import { Pressable, Text, TextInput, View } from 'react-native';
 
 import { CREATE_EVENT_DURATION_OPTIONS } from '@/constants/create-event';
+import { formatEventTimeInput } from '@/helpers/eventDateTime';
 import { useAppLocalization } from '@/hooks/app-localization';
 import { useAppTheme } from '@/hooks/app-theme';
 
@@ -16,7 +17,7 @@ import type {
 type EventDetailsStepProps = {
   draft: Pick<
     CreateEventDraft,
-    'name' | 'date' | 'duration' | 'customDuration' | 'location'
+    'name' | 'date' | 'time' | 'duration' | 'customDuration' | 'location'
   >;
   error?: string;
   onOpenDate: () => void;
@@ -75,6 +76,19 @@ export default function EventDetailsStep({
             <Text style={styles.dateText}>{dateLabel}</Text>
             <AntDesign name="calendar" color={theme.colors.text.secondary} size={20} />
           </Pressable>
+        </View>
+        <View style={styles.fieldGroup}>
+          <Text style={styles.fieldLabel}>{copy.details.time}</Text>
+          <TextInput
+            keyboardType="number-pad"
+            maxLength={5}
+            onChangeText={(value) => onUpdate('time', formatEventTimeInput(value))}
+            placeholder={copy.details.timePlaceholder}
+            placeholderTextColor={theme.colors.text.muted}
+            selectionColor={theme.colors.border.brand}
+            style={[styles.input, error === copy.validation.eventTime && styles.inputError]}
+            value={draft.time}
+          />
         </View>
         <View style={styles.fieldGroup}>
           <Text style={styles.fieldLabel}>{copy.details.duration}</Text>

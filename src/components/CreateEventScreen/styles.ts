@@ -10,6 +10,19 @@ export function createCreateEventStyles(theme: AppTheme, bottomInset = 0) {
       flex: 1,
       backgroundColor: colors.background.surface,
     },
+    loadingState: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: spacing.x4,
+      paddingHorizontal: spacing.x6,
+    },
+    loadError: {
+      ...typography.bodyMedium,
+      color: colors.text.secondary,
+      textAlign: 'center',
+    },
+    retryButton: { minWidth: 180 },
     progress: {
       height: 60,
       gap: 10,

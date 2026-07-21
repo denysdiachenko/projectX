@@ -71,6 +71,7 @@ export const colors = {
     subtle: primitiveColors.mint[50],
     brand: primitiveColors.mint[500],
     accent: primitiveColors.violet[500],
+    accentSubtle: primitiveColors.violet[100],
   },
   text: {
     primary: primitiveColors.neutral[900],
@@ -122,6 +123,7 @@ export const darkColors: AppColors = {
     subtle: '#183D38',
     brand: primitiveColors.mint[500],
     accent: primitiveColors.violet[400],
+    accentSubtle: primitiveColors.violet[900],
   },
   text: {
     primary: primitiveColors.neutral[0],

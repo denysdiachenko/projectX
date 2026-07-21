@@ -10,19 +10,26 @@ import { createCreateEventSheetStyles } from './sheetStyles';
 
 type ExitCreateEventSheetProps = {
   visible: boolean;
+  copy?: {
+    title: string;
+    message: string;
+    confirm: string;
+    continue: string;
+  };
   onCancel: () => void;
   onConfirm: () => void;
 };
 
 export default function ExitCreateEventSheet({
   visible,
+  copy,
   onCancel,
   onConfirm,
 }: ExitCreateEventSheetProps) {
   const insets = useSafeAreaInsets();
   const theme = useAppTheme();
   const { translations } = useAppLocalization();
-  const copy = translations.createEvent.exit;
+  const sheetCopy = copy ?? translations.createEvent.exit;
   const [backdropOpacity] = useState(() => new Animated.Value(0));
   const [sheetTranslateY] = useState(() => new Animated.Value(48));
   const styles = useMemo(
@@ -69,11 +76,11 @@ export default function ExitCreateEventSheet({
         </Animated.View>
         <Animated.View style={[styles.sheet, { transform: [{ translateY: sheetTranslateY }] }]}>
           <View style={styles.handle} />
-          <Text style={styles.centeredTitle}>{copy.title}</Text>
-          <Text style={styles.centeredBody}>{copy.message}</Text>
+          <Text style={styles.centeredTitle}>{sheetCopy.title}</Text>
+          <Text style={styles.centeredBody}>{sheetCopy.message}</Text>
           <View style={styles.actions}>
-            <AppButton label={copy.confirm} variant="destructive" onPress={onConfirm} />
-            <AppButton label={copy.continue} variant="secondary" onPress={onCancel} />
+            <AppButton label={sheetCopy.confirm} variant="destructive" onPress={onConfirm} />
+            <AppButton label={sheetCopy.continue} variant="secondary" onPress={onCancel} />
           </View>
         </Animated.View>
       </View>

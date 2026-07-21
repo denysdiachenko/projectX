@@ -104,6 +104,7 @@ export type TranslationSchema = {
   myEvents: {
     title: string;
     greeting: string;
+    greetingWithEvents: string;
     defaultName: string;
     openProfile: string;
     emptyTitle: string;
@@ -111,6 +112,10 @@ export type TranslationSchema = {
     createEvent: string;
     hintTitle: string;
     hintBody: string;
+    guests: string;
+    loadError: string;
+    retry: string;
+    createAnother: string;
   };
   createEvent: {
     headerTitle: string;
@@ -118,6 +123,7 @@ export type TranslationSchema = {
     close: string;
     next: string;
     createPlan: string;
+    creatingPlan: string;
     step: string;
     steps: {
       eventType: string;
@@ -155,6 +161,8 @@ export type TranslationSchema = {
       name: string;
       namePlaceholder: string;
       date: string;
+      time: string;
+      timePlaceholder: string;
       duration: string;
       durationHours: string;
       other: string;
@@ -218,9 +226,71 @@ export type TranslationSchema = {
       eventName: string;
       guests: string;
       customDuration: string;
+      eventTime: string;
     };
-    planPlaceholderTitle: string;
-    planPlaceholderMessage: string;
+    planSuccessTitle: string;
+    planSuccessMessage: string;
+    planErrorTitle: string;
+    planErrorMessage: string;
+  };
+  eventPlan: {
+    headerTitle: string;
+    readyTitle: string;
+    readyMessage: string;
+    context: string;
+    tabs: {
+      plan: string;
+      shopping: string;
+      checklist: string;
+    };
+    sections: {
+      food: string;
+      drinks: string;
+      supplies: string;
+    };
+    categories: Record<string, string>;
+    units: {
+      kg: string;
+      l: string;
+      pcs: string;
+    };
+    seasons: Record<string, string>;
+    locations: Record<string, string>;
+    productsNoteTitle: string;
+    productsNoteBody: string;
+    unavailableTitle: string;
+    unavailableMessage: string;
+    loadError: string;
+    retry: string;
+  };
+  eventManagement: {
+    actionsLabel: string;
+    actionsTitle: string;
+    editAction: string;
+    deleteAction: string;
+    cancel: string;
+    editTitle: string;
+    saveChanges: string;
+    savingChanges: string;
+    loadError: string;
+    retry: string;
+    updateSuccessTitle: string;
+    updateSuccessMessage: string;
+    updateErrorTitle: string;
+    updateErrorMessage: string;
+    deleteConfirmTitle: string;
+    deleteConfirmMessage: string;
+    deleting: string;
+    deleteSuccessTitle: string;
+    deleteSuccessMessage: string;
+    deleteErrorTitle: string;
+    deleteErrorMessage: string;
+    exit: {
+      title: string;
+      message: string;
+      confirm: string;
+      continue: string;
+    };
   };
   profile: {
     back: string;

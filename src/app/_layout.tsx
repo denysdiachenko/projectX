@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import AppHeaderBackButton from '@/components/AppStackHeader/AppHeaderBackButton';
 import ProfileHeaderAction from '@/components/AppStackHeader/ProfileHeaderAction';
 import AppToast from '@/components/AppToast/AppToast';
+import EventHeaderAction from '@/components/EventManagement/EventHeaderAction';
 import { AppAuthProvider, useAppAuth } from '@/hooks/app-auth';
 import { AppLocalizationProvider, useAppLocalization } from '@/hooks/app-localization';
 import { AppThemeProvider, useAppTheme } from '@/hooks/app-theme';
@@ -70,6 +71,14 @@ function RootNavigator() {
             }}
           />
           <Stack.Screen name="create-event" />
+          <Stack.Screen name="edit-event/[eventId]" />
+          <Stack.Screen
+            name="events/[eventId]"
+            options={{
+              ...profileHeaderOptions(translations.eventPlan.headerTitle),
+              headerRight: () => <EventHeaderAction />,
+            }}
+          />
           <Stack.Screen
             name="profile"
             options={profileHeaderOptions(translations.profile.title)}

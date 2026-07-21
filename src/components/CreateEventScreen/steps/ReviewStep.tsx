@@ -51,7 +51,7 @@ export default function ReviewStep({ draft, onEdit, onUpdate }: ReviewStepProps)
       <View style={styles.reviewCards}>
         <ReviewCard
           changeLabel={copy.review.change}
-          hint={`${dateLabel} · ${durationLabel} · ${locationLabel.toLocaleLowerCase(locale)}`}
+          hint={`${dateLabel}, ${draft.time} · ${durationLabel} · ${locationLabel.toLocaleLowerCase(locale)}`}
           icon="calendar"
           title={draft.name || copy.eventType[draft.eventType]}
           onPress={() => onEdit(2)}

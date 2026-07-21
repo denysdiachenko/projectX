@@ -13,7 +13,6 @@ export const CREATE_EVENT_DRINK_OPTIONS = [
   'beer',
   'wine',
   'spirits',
-  'water',
   'juice',
   'soda',
 ] as const satisfies readonly DrinkType[];
@@ -32,11 +31,12 @@ export function createInitialEventDraft(): CreateEventDraft {
     alcoholGuests: 0,
     name: '',
     date: getInitialDate(),
+    time: '18:00',
     duration: 5,
     customDuration: '',
     location: 'indoor',
     menuFormat: 'buffet',
-    drinks: ['beer', 'wine', 'water', 'juice'],
+    drinks: ['beer', 'wine', 'juice'],
     budget: '',
     note: '',
   };

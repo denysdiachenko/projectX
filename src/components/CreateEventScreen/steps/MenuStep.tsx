@@ -29,8 +29,6 @@ export default function MenuStep({ draft, onUpdate }: MenuStepProps) {
   const styles = useMemo(() => createCreateEventStyles(theme), [theme]);
 
   const toggleDrink = (drink: DrinkType) => {
-    if (drink === 'water') return;
-
     onUpdate(
       'drinks',
       draft.drinks.includes(drink)
