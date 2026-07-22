@@ -10,6 +10,9 @@ export function createMyEventsStyles(theme: AppTheme) {
       flex: 1,
       backgroundColor: colors.background.canvas,
     },
+    list: {
+      flex: 1,
+    },
     scrollContent: {
       flexGrow: 1,
       paddingHorizontal: spacing.x6,
@@ -82,9 +85,6 @@ export function createMyEventsStyles(theme: AppTheme) {
     retryButton: {
       minWidth: 160,
     },
-    listCreateButton: {
-      marginTop: spacing.x4,
-    },
     illustration: {
       position: 'relative',
       width: 264,
@@ -115,8 +115,11 @@ export function createMyEventsStyles(theme: AppTheme) {
       color: colors.text.secondary,
       textAlign: 'center',
     },
-    createButton: {
-      marginTop: spacing.x6,
+    bottomAction: {
+      paddingHorizontal: spacing.x6,
+      paddingTop: spacing.x3,
+      paddingBottom: spacing.x4,
+      backgroundColor: colors.background.canvas,
     },
     hint: {
       minHeight: 88,

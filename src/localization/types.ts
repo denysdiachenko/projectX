@@ -249,11 +249,6 @@ export type TranslationSchema = {
       supplies: string;
     };
     categories: Record<string, string>;
-    units: {
-      kg: string;
-      l: string;
-      pcs: string;
-    };
     seasons: Record<string, string>;
     locations: Record<string, string>;
     productsNoteTitle: string;
@@ -261,6 +256,60 @@ export type TranslationSchema = {
     unavailableTitle: string;
     unavailableMessage: string;
     loadError: string;
+    retry: string;
+  };
+  shopping: {
+    title: string;
+    progressTitle: string;
+    progress: string;
+    groupedView: string;
+    listView: string;
+    allItemsTitle: string;
+    emptyTitle: string;
+    emptyBody: string;
+    targetProgress: string;
+    noItems: string;
+    addItem: string;
+    previousItemsTitle: string;
+    previousItemsBody: string;
+    itemQuantity: string;
+    packageSummary: string;
+    editItem: string;
+    deleteItem: string;
+    form: {
+      addTitle: string;
+      editTitle: string;
+      category: string;
+      name: string;
+      namePlaceholder: string;
+      quantity: string;
+      unit: string;
+      packageTitle: string;
+      packageHint: string;
+      packageSize: string;
+      packageCount: string;
+      save: string;
+      saving: string;
+      cancel: string;
+    };
+    validation: {
+      nameRequired: string;
+      nameMax: string;
+      quantityRequired: string;
+      positiveNumber: string;
+      packageCountInteger: string;
+      packagePair: string;
+    };
+    deleteConfirmTitle: string;
+    deleteConfirmMessage: string;
+    deleteConfirm: string;
+    loadError: string;
+    saveErrorTitle: string;
+    saveErrorMessage: string;
+    deleteErrorTitle: string;
+    deleteErrorMessage: string;
+    toggleErrorTitle: string;
+    toggleErrorMessage: string;
     retry: string;
   };
   eventManagement: {

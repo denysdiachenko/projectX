@@ -130,9 +130,9 @@ export default function EventPlanContent({ eventId }: EventPlanContentProps) {
           <Text style={styles.contextText}>{context}</Text>
         </View>
 
-        <PlanTargetGroup targets={foodTargets} title={copy.sections.food} />
-        <PlanTargetGroup targets={drinkTargets} title={copy.sections.drinks} />
-        <PlanTargetGroup targets={supplyTargets} title={copy.sections.supplies} />
+        <PlanTargetGroup targets={foodTargets} title={copy.sections.food} units={plan.units} />
+        <PlanTargetGroup targets={drinkTargets} title={copy.sections.drinks} units={plan.units} />
+        <PlanTargetGroup targets={supplyTargets} title={copy.sections.supplies} units={plan.units} />
 
         <View style={styles.productsNote}>
           <AntDesign name="edit" color={theme.colors.background.accent} size={20} />

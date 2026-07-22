@@ -25,11 +25,16 @@ export default function MyEventsScreen() {
   const displayName = getUserDisplayName(user, copy.defaultName);
   const [events, setEvents] = useState<EventListItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [hasError, setHasError] = useState(false);
   const greeting = events.length > 0 ? copy.greetingWithEvents : copy.greeting;
 
-  const loadEvents = useCallback(async () => {
-    setIsLoading(true);
+  const loadEvents = useCallback(async (refreshing = false) => {
+    if (refreshing) {
+      setIsRefreshing(true);
+    } else {
+      setIsLoading(true);
+    }
     setHasError(false);
 
     try {
@@ -37,7 +42,11 @@ export default function MyEventsScreen() {
     } catch {
       setHasError(true);
     } finally {
-      setIsLoading(false);
+      if (refreshing) {
+        setIsRefreshing(false);
+      } else {
+        setIsLoading(false);
+      }
     }
   }, []);
 
@@ -74,6 +83,7 @@ export default function MyEventsScreen() {
     <SafeAreaView style={styles.screen}>
       <StatusBar style={theme.statusBar} />
       <FlatList
+        style={styles.list}
         contentContainerStyle={styles.scrollContent}
         data={events}
         keyExtractor={(event) => event.id}
@@ -84,13 +94,8 @@ export default function MyEventsScreen() {
             <Text style={styles.greeting}>{greeting.replace('{name}', displayName)}</Text>
           </>
         }
-        ListFooterComponent={events.length > 0 ? (
-          <AppButton
-            label={copy.createAnother}
-            onPress={() => router.push(ROUTES.createEvent)}
-            style={styles.listCreateButton}
-          />
-        ) : null}
+        onRefresh={() => void loadEvents(true)}
+        refreshing={isRefreshing}
         renderItem={({ item }) => (
           <View style={styles.eventsList}>
             <MyEventCard event={item} />
@@ -98,6 +103,14 @@ export default function MyEventsScreen() {
         )}
         showsVerticalScrollIndicator={false}
       />
+      {!isLoading && !hasError ? (
+        <View style={styles.bottomAction}>
+          <AppButton
+            label={events.length > 0 ? copy.createAnother : copy.createEvent}
+            onPress={() => router.push(ROUTES.createEvent)}
+          />
+        </View>
+      ) : null}
     </SafeAreaView>
   );
 }

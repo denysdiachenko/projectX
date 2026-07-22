@@ -4,6 +4,10 @@ import { Text, View } from 'react-native';
 import { useAppLocalization } from '@/hooks/app-localization';
 import { useAppTheme } from '@/hooks/app-theme';
 import type { EventPlanDetails } from '@/services/event-plan';
+import {
+  getMeasurementUnitLabel,
+  type MeasurementUnit,
+} from '@/services/measurement-units';
 
 import { createEventPlanStyles } from './styles';
 
@@ -12,9 +16,10 @@ type PlanTarget = EventPlanDetails['targets'][number];
 type PlanTargetGroupProps = {
   targets: PlanTarget[];
   title: string;
+  units: MeasurementUnit[];
 };
 
-export default function PlanTargetGroup({ targets, title }: PlanTargetGroupProps) {
+export default function PlanTargetGroup({ targets, title, units }: PlanTargetGroupProps) {
   const theme = useAppTheme();
   const { language, translations } = useAppLocalization();
   const styles = useMemo(() => createEventPlanStyles(theme), [theme]);
@@ -37,7 +42,7 @@ export default function PlanTargetGroup({ targets, title }: PlanTargetGroupProps
                 {new Intl.NumberFormat(locale, { maximumFractionDigits: 2 }).format(
                   target.targetQuantity,
                 )}{' '}
-                {copy.units[target.unit as keyof typeof copy.units] ?? target.unit}
+                {getMeasurementUnitLabel(target.unit, units, language)}
               </Text>
             </View>
             {index < targets.length - 1 ? <View style={styles.divider} /> : null}

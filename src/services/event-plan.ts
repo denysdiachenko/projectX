@@ -13,6 +13,8 @@ import { getDeviceTimeZone } from '@/helpers/getDeviceTimeZone';
 import { supabase } from '@/lib/supabase';
 import type { Json, Tables, TablesInsert } from '@/types/database';
 
+import { getMeasurementUnits, type MeasurementUnit } from './measurement-units';
+
 export type EventListItem = {
   adults_count: number;
   children_count: number;
@@ -42,6 +44,7 @@ export type EventPlanDetails = {
     unit: string;
   }[];
   timeZone: string;
+  units: MeasurementUnit[];
 };
 
 const EVENT_TYPE_MAP: Record<CreateEventDraft['eventType'], CalculationEventType> = {
@@ -84,31 +87,35 @@ export async function getUserEvents() {
 }
 
 export async function getEventPlan(eventId: string): Promise<EventPlanDetails> {
-  const { data, error } = await supabase
-    .from('events')
-    .select(`
-      id,
-      name,
-      starts_at,
-      time_zone,
-      duration_hours,
-      location,
-      adults_count,
-      children_count,
-      current_snapshot:calculation_snapshots!events_current_snapshot_fkey (
-        rules_version,
-        result_snapshot,
-        targets:plan_targets!plan_targets_snapshot_owner_fkey (
-          id,
-          category,
-          target_quantity,
-          unit,
-          sort_order
+  const [eventResult, units] = await Promise.all([
+    supabase
+      .from('events')
+      .select(`
+        id,
+        name,
+        starts_at,
+        time_zone,
+        duration_hours,
+        location,
+        adults_count,
+        children_count,
+        current_snapshot:calculation_snapshots!events_current_snapshot_fkey (
+          rules_version,
+          result_snapshot,
+          targets:plan_targets!plan_targets_snapshot_owner_fkey (
+            id,
+            category,
+            target_quantity,
+            unit,
+            sort_order
+          )
         )
-      )
-    `)
-    .eq('id', eventId)
-    .single();
+      `)
+      .eq('id', eventId)
+      .single(),
+    getMeasurementUnits(),
+  ]);
+  const { data, error } = eventResult;
 
   if (error || !data.current_snapshot) {
     throw error ?? new Error('Event calculation snapshot is missing');
@@ -136,6 +143,7 @@ export async function getEventPlan(eventId: string): Promise<EventPlanDetails> {
       }))
       .sort((left, right) => left.sortOrder - right.sortOrder),
     timeZone: data.time_zone,
+    units,
   };
 }
 

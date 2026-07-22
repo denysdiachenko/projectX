@@ -1,18 +1,20 @@
 import { AntDesign } from '@react-native-vector-icons/ant-design';
-import { Tabs, useLocalSearchParams } from 'expo-router';
+import { Tabs, useGlobalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import ShoppingTabIcon from '@/components/EventPlanScreen/ShoppingTabIcon';
+import { getStringRouteParam } from '@/helpers/getStringRouteParam';
 import { useAppLocalization } from '@/hooks/app-localization';
 import { useAppTheme } from '@/hooks/app-theme';
 import { useShoppingListEmpty } from '@/hooks/use-shopping-list-empty';
 
-const TAB_ICON_SIZE = 28;
+const TAB_ICON_SIZE = 30;
 
 export default function EventTabsLayout() {
   const theme = useAppTheme();
   const insets = useSafeAreaInsets();
-  const { eventId } = useLocalSearchParams<{ eventId: string }>();
+  const params = useGlobalSearchParams<{ eventId?: string | string[] }>();
+  const eventId = getStringRouteParam(params.eventId);
   const isShoppingListEmpty = useShoppingListEmpty(eventId);
   const { translations } = useAppLocalization();
   const tabs = translations.eventPlan.tabs;
@@ -24,11 +26,10 @@ export default function EventTabsLayout() {
         tabBarActiveTintColor: theme.colors.text.brand,
         tabBarInactiveTintColor: theme.colors.text.muted,
         tabBarIconStyle: {
-          transform: [{ translateY: theme.spacing.x2 }],
+          transform: [{ translateY: theme.spacing.x4 }],
         },
         tabBarShowLabel: false,
         tabBarStyle: {
-          height: 60 + insets.bottom,
           backgroundColor: theme.colors.background.surface,
           borderTopColor: theme.colors.border.default,
           paddingBottom: insets.bottom,
@@ -39,7 +40,7 @@ export default function EventTabsLayout() {
         options={{
           title: tabs.plan,
           tabBarIcon: ({ color }) => (
-            <AntDesign color={color} name="bars" size={TAB_ICON_SIZE} />
+            <AntDesign color={color} name="appstore" size={TAB_ICON_SIZE} />
           ),
         }}
       />
@@ -61,7 +62,7 @@ export default function EventTabsLayout() {
         options={{
           title: tabs.checklist,
           tabBarIcon: ({ color }) => (
-            <AntDesign color={color} name="check-square" size={TAB_ICON_SIZE} />
+            <AntDesign color={color} name="schedule" size={TAB_ICON_SIZE} />
           ),
         }}
       />

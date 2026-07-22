@@ -230,6 +230,42 @@ export type Database = {
           },
         ]
       }
+      measurement_units: {
+        Row: {
+          base_multiplier: number
+          code: string
+          created_at: string
+          dimension: string
+          is_active: boolean
+          sort_order: number
+          symbol_en: string
+          symbol_uk: string
+          updated_at: string
+        }
+        Insert: {
+          base_multiplier: number
+          code: string
+          created_at?: string
+          dimension: string
+          is_active?: boolean
+          sort_order?: number
+          symbol_en: string
+          symbol_uk: string
+          updated_at?: string
+        }
+        Update: {
+          base_multiplier?: number
+          code?: string
+          created_at?: string
+          dimension?: string
+          is_active?: boolean
+          sort_order?: number
+          symbol_en?: string
+          symbol_uk?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       plan_targets: {
         Row: {
           category: string
@@ -274,6 +310,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "calculation_snapshots"
             referencedColumns: ["id", "event_id", "user_id"]
+          },
+          {
+            foreignKeyName: "plan_targets_unit_fkey"
+            columns: ["unit"]
+            isOneToOne: false
+            referencedRelation: "measurement_units"
+            referencedColumns: ["code"]
           },
         ]
       }
@@ -367,6 +410,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "plan_targets"
             referencedColumns: ["id", "event_id", "user_id"]
+          },
+          {
+            foreignKeyName: "shopping_items_unit_fkey"
+            columns: ["unit"]
+            isOneToOne: false
+            referencedRelation: "measurement_units"
+            referencedColumns: ["code"]
           },
         ]
       }
