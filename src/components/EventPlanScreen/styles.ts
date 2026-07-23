@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 import type { AppTheme } from '@/hooks/app-theme';
 
-export function createEventPlanStyles(theme: AppTheme) {
+export function createEventPlanStyles(theme: AppTheme, contentBottomInset = 0) {
   const { colors, spacing, typography } = theme;
 
   return StyleSheet.create({
@@ -13,7 +13,7 @@ export function createEventPlanStyles(theme: AppTheme) {
     scrollContent: {
       paddingHorizontal: spacing.x5,
       paddingTop: spacing.x4,
-      paddingBottom: spacing.x6,
+      paddingBottom: Math.max(spacing.x6, contentBottomInset + spacing.x4),
     },
     title: {
       ...typography.heading3,

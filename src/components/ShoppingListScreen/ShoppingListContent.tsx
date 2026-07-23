@@ -9,8 +9,10 @@ import {
   Text,
   View,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import AppButton from '@/components/AppButton/AppButton';
+import { EVENT_TAB_BAR_HEIGHT } from '@/constants/event-tabs';
 import { useAppLocalization } from '@/hooks/app-localization';
 import { useAppTheme } from '@/hooks/app-theme';
 import {
@@ -41,8 +43,12 @@ type EditorState = {
 
 export default function ShoppingListContent({ eventId }: { eventId: string }) {
   const theme = useAppTheme();
+  const insets = useSafeAreaInsets();
   const { language, translations } = useAppLocalization();
-  const styles = useMemo(() => createShoppingListStyles(theme), [theme]);
+  const styles = useMemo(
+    () => createShoppingListStyles(theme, 0, EVENT_TAB_BAR_HEIGHT + insets.bottom),
+    [insets.bottom, theme],
+  );
   const copy = translations.shopping;
   const [data, setData] = useState<ShoppingListData | null>(null);
   const [isLoading, setIsLoading] = useState(true);

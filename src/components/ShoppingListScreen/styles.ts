@@ -2,7 +2,11 @@ import { StyleSheet } from 'react-native';
 
 import type { AppTheme } from '@/hooks/app-theme';
 
-export function createShoppingListStyles(theme: AppTheme, bottomInset = 0) {
+export function createShoppingListStyles(
+  theme: AppTheme,
+  bottomInset = 0,
+  contentBottomInset = 0,
+) {
   const { colors, spacing, typography } = theme;
 
   return StyleSheet.create({
@@ -13,7 +17,7 @@ export function createShoppingListStyles(theme: AppTheme, bottomInset = 0) {
     scrollContent: {
       paddingHorizontal: spacing.x5,
       paddingTop: spacing.x4,
-      paddingBottom: spacing.x8,
+      paddingBottom: Math.max(spacing.x8, contentBottomInset + spacing.x4),
     },
     title: {
       ...typography.heading3,

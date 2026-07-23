@@ -2,8 +2,10 @@ import { AntDesign } from '@react-native-vector-icons/ant-design';
 import { useFocusEffect } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
 import { ActivityIndicator, ScrollView, StatusBar, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import AppButton from '@/components/AppButton/AppButton';
+import { EVENT_TAB_BAR_HEIGHT } from '@/constants/event-tabs';
 import { useAppLocalization } from '@/hooks/app-localization';
 import { useAppTheme } from '@/hooks/app-theme';
 import { getEventPlan, type EventPlanDetails } from '@/services/event-plan';
@@ -22,8 +24,12 @@ type EventPlanContentProps = {
 
 export default function EventPlanContent({ eventId }: EventPlanContentProps) {
   const theme = useAppTheme();
+  const insets = useSafeAreaInsets();
   const { language, translations } = useAppLocalization();
-  const styles = useMemo(() => createEventPlanStyles(theme), [theme]);
+  const styles = useMemo(
+    () => createEventPlanStyles(theme, EVENT_TAB_BAR_HEIGHT + insets.bottom),
+    [insets.bottom, theme],
+  );
   const [plan, setPlan] = useState<EventPlanDetails | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
