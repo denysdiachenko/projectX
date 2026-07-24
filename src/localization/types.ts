@@ -119,6 +119,15 @@ export type TranslationSchema = {
     loadError: string;
     retry: string;
     createAnother: string;
+    listView: string;
+    calendarView: string;
+    eventsInMonth: string;
+    eventsCountOne: string;
+    eventsCountFew: string;
+    eventsCountMany: string;
+    noEventsInMonth: string;
+    previousYear: string;
+    nextYear: string;
   };
   createEvent: {
     headerTitle: string;

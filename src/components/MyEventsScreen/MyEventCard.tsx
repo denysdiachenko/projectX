@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 import AppChevron from '@/components/AppChevron/AppChevron';
+import EventCardDecorations from '@/components/MyEventsScreen/EventCardDecorations';
 import { getEventTypeIcon } from '@/constants/event-type-icons';
 import { ROUTES } from '@/constants/routes';
 import { useAppLocalization } from '@/hooks/app-localization';
@@ -12,7 +13,13 @@ import type { EventListItem } from '@/services/event-plan';
 
 import { createMyEventsStyles } from './styles';
 
-export default function MyEventCard({ event }: { event: EventListItem }) {
+export default function MyEventCard({
+  compact = false,
+  event,
+}: {
+  compact?: boolean;
+  event: EventListItem;
+}) {
   const router = useRouter();
   const theme = useAppTheme();
   const { language, translations } = useAppLocalization();
@@ -50,25 +57,44 @@ export default function MyEventCard({ event }: { event: EventListItem }) {
       onPress={() => router.push(ROUTES.eventPlan(event.id))}
       style={({ pressed }) => [
         styles.eventCard,
+        compact && styles.eventCardCompact,
         styles[tone.cardStyle],
         pressed && styles.eventCardPressed,
       ]}>
-      <View style={[styles.eventIcon, styles[tone.iconStyle]]}>
+      <EventCardDecorations compact={compact} tone={tone.decorationTone} />
+      <View
+        style={[
+          styles.eventIcon,
+          compact && styles.eventIconCompact,
+          styles[tone.iconStyle],
+        ]}>
         <AntDesign
           name={getEventTypeIcon(event.event_type)}
           color={tone.iconColor(theme)}
-          size={28}
+          size={compact ? 16 : 28}
         />
       </View>
       <View style={styles.eventCopy}>
         <View style={styles.eventTitleRow}>
-          <Text numberOfLines={1} style={styles.eventTitle}>{event.name}</Text>
+          <Text
+            numberOfLines={1}
+            style={[styles.eventTitle, compact && styles.eventTitleCompact]}>
+            {event.name}
+          </Text>
           <AppChevron color={theme.colors.text.muted} size={16} />
         </View>
-        <Text style={styles.eventDate}>{`${date} · ${location}`}</Text>
-        <Text style={styles.eventGuests}>
-          {translations.myEvents.guests.replace('{count}', String(guests))}
-        </Text>
+        {compact ? (
+          <Text numberOfLines={1} style={[styles.eventDate, styles.eventDateCompact]}>
+            {`${location} · ${translations.myEvents.guests.replace('{count}', String(guests))}`}
+          </Text>
+        ) : (
+          <>
+            <Text style={styles.eventDate}>{`${date} · ${location}`}</Text>
+            <Text style={styles.eventGuests}>
+              {translations.myEvents.guests.replace('{count}', String(guests))}
+            </Text>
+          </>
+        )}
         <Text style={[styles.eventChecklist, styles[tone.progressTextStyle]]}>
           {checklistLabel}
         </Text>
@@ -88,6 +114,7 @@ export default function MyEventCard({ event }: { event: EventListItem }) {
 
 type CardTone = {
   cardStyle: 'eventCardAccent' | 'eventCardBrand' | 'eventCardInfo';
+  decorationTone: 'accent' | 'brand' | 'info';
   iconStyle: 'eventIconAccent' | 'eventIconBrand' | 'eventIconInfo';
   iconColor: (theme: ReturnType<typeof useAppTheme>) => string;
   progressStyle: 'eventProgressAccent' | 'eventProgressBrand' | 'eventProgressInfo';
@@ -101,6 +128,7 @@ function getCardTone(eventType: string): CardTone {
   if (eventType === 'bbq') {
     return {
       cardStyle: 'eventCardBrand',
+      decorationTone: 'brand',
       iconStyle: 'eventIconBrand',
       iconColor: (theme) => theme.colors.text.onBrand,
       progressStyle: 'eventProgressBrand',
@@ -111,6 +139,7 @@ function getCardTone(eventType: string): CardTone {
   if (eventType === 'home_party') {
     return {
       cardStyle: 'eventCardInfo',
+      decorationTone: 'info',
       iconStyle: 'eventIconInfo',
       iconColor: (theme) => theme.colors.text.onSecondary,
       progressStyle: 'eventProgressInfo',
@@ -120,6 +149,7 @@ function getCardTone(eventType: string): CardTone {
 
   return {
     cardStyle: 'eventCardAccent',
+    decorationTone: 'accent',
     iconStyle: 'eventIconAccent',
     iconColor: (theme) => theme.colors.text.onSecondary,
     progressStyle: 'eventProgressAccent',
