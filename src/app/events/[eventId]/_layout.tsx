@@ -48,6 +48,15 @@ export default function EventTabsLayout() {
         }}
       />
       <Tabs.Screen
+        name="guests"
+        options={{
+          title: tabs.guests,
+          tabBarIcon: ({ color }) => (
+            <AntDesign color={color} name="team" size={TAB_ICON_SIZE} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="shopping"
         options={{
           title: tabs.shopping,

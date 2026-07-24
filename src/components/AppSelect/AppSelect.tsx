@@ -2,6 +2,7 @@ import { AntDesign } from '@react-native-vector-icons/ant-design';
 import { useMemo, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
+import AppChevron from '@/components/AppChevron/AppChevron';
 import { useAppTheme } from '@/hooks/app-theme';
 
 import createStyles from './styles';
@@ -55,9 +56,9 @@ export default function AppSelect({
         <Text numberOfLines={1} style={styles.value}>
           {selectedOption?.label ?? value}
         </Text>
-        <AntDesign
+        <AppChevron
           color={theme.colors.text.secondary}
-          name={expanded ? 'up' : 'down'}
+          direction={expanded ? 'up' : 'down'}
           size={16}
         />
       </Pressable>

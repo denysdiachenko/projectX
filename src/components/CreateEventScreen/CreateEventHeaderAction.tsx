@@ -2,6 +2,7 @@ import { AntDesign } from '@react-native-vector-icons/ant-design';
 import { useMemo } from 'react';
 import { Pressable } from 'react-native';
 
+import AppChevron from '@/components/AppChevron/AppChevron';
 import { useAppTheme } from '@/hooks/app-theme';
 
 import { createCreateEventStyles } from './styles';
@@ -26,7 +27,11 @@ export default function CreateEventHeaderAction({
       accessibilityRole="button"
       onPress={onPress}
       style={({ pressed }) => [styles.headerButton, pressed && styles.pressed]}>
-      <AntDesign name={icon} color={theme.colors.text.primary} size={22} />
+      {icon === 'left' ? (
+        <AppChevron color={theme.colors.text.primary} direction="left" size={22} />
+      ) : (
+        <AntDesign name="close" color={theme.colors.text.primary} size={22} />
+      )}
     </Pressable>
   );
 }

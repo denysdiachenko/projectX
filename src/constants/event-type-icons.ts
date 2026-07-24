@@ -4,6 +4,7 @@ const EVENT_TYPE_ICONS: Record<string, AntDesignIconName> = {
   bbq: 'fire',
   birthday: 'gift',
   home_party: 'home',
+  other: 'calendar',
 };
 
 export function getEventTypeIcon(eventType: string): AntDesignIconName {

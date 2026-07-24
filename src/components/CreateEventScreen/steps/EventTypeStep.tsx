@@ -47,6 +47,13 @@ export default function EventTypeStep({ value, onChange }: EventTypeStepProps) {
           selected={value === 'homeParty'}
           onPress={() => onChange('homeParty')}
         />
+        <SelectionCard
+          hint={copy.otherHint}
+          icon="calendar"
+          label={copy.other}
+          selected={value === 'other'}
+          onPress={() => onChange('other')}
+        />
       </View>
     </>
   );

@@ -1,8 +1,8 @@
-import { AntDesign } from '@react-native-vector-icons/ant-design';
 import { useEffect, useMemo, useState } from 'react';
 import { Animated, Easing, Modal, Pressable, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import AppChevron from '@/components/AppChevron/AppChevron';
 import AppButton from '@/components/AppButton/AppButton';
 import { useAppLocalization } from '@/hooks/app-localization';
 import { useAppTheme } from '@/hooks/app-theme';
@@ -102,7 +102,7 @@ export default function EventDateSheet({ value, visible, onClose, onChange }: Ev
             <Pressable
               onPress={() => setMonth(new Date(month.getFullYear(), month.getMonth() - 1, 1))}
               style={styles.monthAction}>
-              <AntDesign name="left" color={theme.colors.text.primary} size={20} />
+              <AppChevron color={theme.colors.text.primary} direction="left" size={20} />
             </Pressable>
             <Text style={styles.monthTitle}>
               {new Intl.DateTimeFormat(locale, { month: 'long', year: 'numeric' }).format(month)}
@@ -110,7 +110,7 @@ export default function EventDateSheet({ value, visible, onClose, onChange }: Ev
             <Pressable
               onPress={() => setMonth(new Date(month.getFullYear(), month.getMonth() + 1, 1))}
               style={styles.monthAction}>
-              <AntDesign name="right" color={theme.colors.text.primary} size={20} />
+              <AppChevron color={theme.colors.text.primary} size={20} />
             </Pressable>
           </View>
           <View style={styles.weekdays}>

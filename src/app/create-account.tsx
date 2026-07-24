@@ -1,10 +1,10 @@
-import { AntDesign } from '@react-native-vector-icons/ant-design';
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useMemo } from 'react';
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import AppChevron from '@/components/AppChevron/AppChevron';
 import CreateAccountForm from '@/components/CreateAccountForm/CreateAccountForm';
 import { createLoginStyles } from '@/components/LoginScreen/styles';
 import { ROUTES } from '@/constants/routes';
@@ -60,7 +60,7 @@ export default function CreateAccountScreen() {
               styles.backButton,
               pressed && styles.backButtonPressed,
             ]}>
-            <AntDesign name="arrow-left" color={theme.colors.text.primary} size={24} />
+            <AppChevron color={theme.colors.text.primary} direction="left" size={24} />
           </Pressable>
         </View>
 

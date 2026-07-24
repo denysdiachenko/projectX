@@ -1,7 +1,7 @@
-import { AntDesign } from '@react-native-vector-icons/ant-design';
 import { useMemo } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
+import AppChevron from '@/components/AppChevron/AppChevron';
 import { useAppTheme } from '@/hooks/app-theme';
 
 import createStyles from './styles';
@@ -34,7 +34,7 @@ export default function ProfileRow({
         <Text style={styles.label}>{label}</Text>
         {value ? <Text style={styles.value}>{value}</Text> : null}
       </View>
-      <AntDesign name="right" color={iconColor} size={16} />
+      <AppChevron color={iconColor} size={16} />
     </Pressable>
   );
 }

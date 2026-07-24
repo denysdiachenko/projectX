@@ -113,6 +113,9 @@ export type TranslationSchema = {
     hintTitle: string;
     hintBody: string;
     guests: string;
+    checklistProgress: string;
+    checklistComplete: string;
+    checklistEmpty: string;
     loadError: string;
     retry: string;
     createAnother: string;
@@ -141,6 +144,8 @@ export type TranslationSchema = {
       bbqHint: string;
       homeParty: string;
       homePartyHint: string;
+      other: string;
+      otherHint: string;
     };
     guests: {
       title: string;
@@ -238,8 +243,13 @@ export type TranslationSchema = {
     context: string;
     tabs: {
       plan: string;
+      guests: string;
       shopping: string;
       checklist: string;
+    };
+    guestsPlaceholder: {
+      title: string;
+      message: string;
     };
     sections: {
       food: string;
@@ -359,6 +369,12 @@ export type TranslationSchema = {
     generationVersionLabel: string;
     generationVersionUnavailable: string;
     editAction: string;
+    addToCalendar: string;
+    addingToCalendar: string;
+    calendarSuccessTitle: string;
+    calendarSuccessMessage: string;
+    calendarErrorTitle: string;
+    calendarErrorMessage: string;
     deleteAction: string;
     cancel: string;
     editTitle: string;

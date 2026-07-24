@@ -1,5 +1,5 @@
 export type CreateEventStep = 0 | 1 | 2 | 3 | 4;
-export type EventType = 'birthday' | 'bbq' | 'homeParty';
+export type EventType = 'birthday' | 'bbq' | 'homeParty' | 'other';
 export type EventLocation = 'indoor' | 'outdoor';
 export type MenuFormat = 'snacks' | 'buffet' | 'full';
 export type DrinkType = 'beer' | 'wine' | 'spirits' | 'juice' | 'soda';

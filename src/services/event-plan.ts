@@ -17,9 +17,13 @@ import { getMeasurementUnits, type MeasurementUnit } from './measurement-units';
 
 export type EventListItem = {
   adults_count: number;
+  checklist_items: {
+    is_completed: boolean;
+  }[];
   children_count: number;
   event_type: string;
   id: string;
+  location: string;
   name: string;
   starts_at: string;
   status: string;
@@ -50,6 +54,7 @@ const EVENT_TYPE_MAP: Record<CreateEventDraft['eventType'], CalculationEventType
   birthday: 'birthday',
   bbq: 'bbq',
   homeParty: 'home_party',
+  other: 'other',
 };
 
 const MENU_FORMAT_MAP: Record<CreateEventDraft['menuFormat'], CalculationMenuFormat> = {
@@ -75,7 +80,20 @@ export class UpdateEventPlanError extends Error {
 export async function getUserEvents() {
   const { data, error } = await supabase
     .from('events')
-    .select('id, name, event_type, starts_at, time_zone, status, adults_count, children_count')
+    .select(`
+      id,
+      name,
+      event_type,
+      starts_at,
+      time_zone,
+      status,
+      location,
+      adults_count,
+      children_count,
+      checklist_items!checklist_items_event_owner_fkey (
+        is_completed
+      )
+    `)
     .order('starts_at', { ascending: true });
 
   if (error) {
@@ -164,6 +182,28 @@ export async function getEventRulesVersion(eventId: string) {
   }
 
   return data.current_snapshot.rules_version;
+}
+
+export async function getEventCalendarDetails(eventId: string) {
+  if (!UUID_PATTERN.test(eventId)) {
+    throw new Error('Invalid event id');
+  }
+
+  const { data, error } = await supabase
+    .from('events')
+    .select('name, starts_at, time_zone, duration_hours, notes')
+    .eq('id', eventId)
+    .single();
+
+  if (error) throw error;
+
+  return {
+    durationHours: data.duration_hours,
+    notes: data.notes,
+    startsAt: data.starts_at,
+    timeZone: data.time_zone,
+    title: data.name,
+  };
 }
 
 export async function getEventDraft(eventId: string): Promise<CreateEventDraft> {

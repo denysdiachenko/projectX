@@ -5,6 +5,7 @@ import type { AppTheme } from '@/hooks/app-theme';
 
 const TAB_BUTTON_SIZE = 60;
 const TAB_BUTTON_RADIUS = 30;
+const TAB_BUTTON_COUNT = 4;
 
 export function createEventTabsStyles(
   theme: AppTheme,
@@ -13,7 +14,10 @@ export function createEventTabsStyles(
 ) {
   const { colors, spacing } = theme;
   const itemHorizontalMargin = spacing.x1;
-  const buttonsWidth = TAB_BUTTON_SIZE * 3 + itemHorizontalMargin * 6;
+  const buttonsWidth = (
+    TAB_BUTTON_SIZE * TAB_BUTTON_COUNT
+    + itemHorizontalMargin * TAB_BUTTON_COUNT * 2
+  );
   const tabBarHorizontalPadding = Math.max(
     spacing.x5,
     (viewportWidth - buttonsWidth) / 2,

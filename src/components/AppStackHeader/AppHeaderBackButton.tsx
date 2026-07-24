@@ -1,8 +1,8 @@
-import { AntDesign } from '@react-native-vector-icons/ant-design';
 import { useRouter } from 'expo-router';
 import { useMemo } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 
+import AppChevron from '@/components/AppChevron/AppChevron';
 import { useAppLocalization } from '@/hooks/app-localization';
 import { useAppTheme } from '@/hooks/app-theme';
 
@@ -35,7 +35,7 @@ export default function AppHeaderBackButton() {
         hitSlop={theme.spacing.x2}
         onPress={() => router.back()}
         style={({ pressed }) => [styles.button, pressed && styles.pressed]}>
-        <AntDesign name="left" color={theme.colors.text.primary} size={22} />
+        <AppChevron color={theme.colors.text.primary} direction="left" size={22} />
       </Pressable>
     </View>
   );

@@ -1,4 +1,4 @@
-export type CalculationEventType = 'birthday' | 'bbq' | 'home_party';
+export type CalculationEventType = 'birthday' | 'bbq' | 'home_party' | 'other';
 export type CalculationLocation = 'indoor' | 'outdoor';
 export type CalculationMenuFormat = 'snacks' | 'buffet' | 'full_menu';
 export type CalculationDrinkCategory = 'beer' | 'wine' | 'spirits' | 'juice' | 'soda';

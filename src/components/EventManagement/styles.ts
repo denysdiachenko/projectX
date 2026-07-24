@@ -71,6 +71,7 @@ export function createEventManagementStyles(theme: AppTheme, bottomInset: number
       gap: spacing.x3,
     },
     actionPressed: { opacity: 0.68 },
+    actionDisabled: { opacity: 0.52 },
     actionLabel: { ...typography.bodyMedium, color: colors.text.primary },
     destructiveLabel: { color: colors.status.errorForeground },
     divider: { height: StyleSheet.hairlineWidth, backgroundColor: colors.border.default },

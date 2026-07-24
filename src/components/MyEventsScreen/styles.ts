@@ -33,33 +33,58 @@ export function createMyEventsStyles(theme: AppTheme) {
       marginTop: spacing.x6,
     },
     eventCard: {
-      minHeight: 96,
+      minHeight: 148,
       flexDirection: 'row',
-      alignItems: 'center',
-      gap: spacing.x3,
-      padding: spacing.x4,
+      alignItems: 'flex-start',
+      gap: spacing.x4,
+      padding: 14,
       borderWidth: 1,
-      borderColor: colors.border.default,
       borderRadius: spacing.x4,
-      backgroundColor: colors.background.surface,
+    },
+    eventCardAccent: {
+      borderColor: colors.background.accent,
+      backgroundColor: colors.background.accentSubtle,
+    },
+    eventCardBrand: {
+      borderColor: colors.border.brand,
+      backgroundColor: colors.background.subtle,
+    },
+    eventCardInfo: {
+      borderColor: colors.status.infoForeground,
+      backgroundColor: colors.status.infoBackground,
     },
     eventCardPressed: {
       opacity: 0.72,
     },
     eventIcon: {
-      width: spacing.x12,
-      height: spacing.x12,
+      width: 62,
+      height: 72,
       alignItems: 'center',
       justifyContent: 'center',
-      borderRadius: spacing.x3,
-      backgroundColor: colors.background.subtle,
+      borderRadius: 14,
+    },
+    eventIconAccent: {
+      backgroundColor: colors.background.accent,
+    },
+    eventIconBrand: {
+      backgroundColor: colors.background.brand,
+    },
+    eventIconInfo: {
+      backgroundColor: colors.status.infoForeground,
     },
     eventCopy: {
       flex: 1,
       gap: 2,
     },
+    eventTitleRow: {
+      minHeight: 22,
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: spacing.x2,
+    },
     eventTitle: {
       ...typography.titleMedium,
+      flex: 1,
       color: colors.text.primary,
     },
     eventDate: {
@@ -69,6 +94,40 @@ export function createMyEventsStyles(theme: AppTheme) {
     eventGuests: {
       ...typography.caption,
       color: colors.text.muted,
+    },
+    eventChecklist: {
+      ...typography.caption,
+      marginTop: spacing.x2,
+      fontFamily: theme.fontFamily.semiBold,
+    },
+    eventChecklistAccent: {
+      color: colors.background.accent,
+    },
+    eventChecklistBrand: {
+      color: colors.text.brand,
+    },
+    eventChecklistInfo: {
+      color: colors.status.infoForeground,
+    },
+    eventProgressTrack: {
+      height: 5,
+      overflow: 'hidden',
+      marginTop: spacing.x2,
+      borderRadius: 3,
+      backgroundColor: colors.border.default,
+    },
+    eventProgressValue: {
+      height: '100%',
+      borderRadius: 3,
+    },
+    eventProgressAccent: {
+      backgroundColor: colors.background.accent,
+    },
+    eventProgressBrand: {
+      backgroundColor: colors.background.brand,
+    },
+    eventProgressInfo: {
+      backgroundColor: colors.status.infoForeground,
     },
     listState: {
       flex: 1,
