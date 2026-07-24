@@ -73,7 +73,7 @@ export function createMyEventsStyles(theme: AppTheme) {
     eventIcon: {
       zIndex: 1,
       width: 62,
-      height: 72,
+      height: 62,
       alignItems: 'center',
       justifyContent: 'center',
       borderRadius: 14,
