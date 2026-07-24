@@ -394,7 +394,6 @@ export function createMyEventsStyles(theme: AppTheme) {
     },
     bottomAction: {
       paddingHorizontal: spacing.x6,
-      paddingTop: spacing.x3,
       paddingBottom: spacing.x4,
       backgroundColor: colors.background.canvas,
     },
