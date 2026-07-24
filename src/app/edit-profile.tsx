@@ -6,7 +6,6 @@ import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import {
-  ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -20,6 +19,7 @@ import AppButton from '@/components/AppButton/AppButton';
 import AppInput from '@/components/AppInput/AppInput';
 import ProfileAvatar from '@/components/ProfileAvatar/ProfileAvatar';
 import { createProfileEditStyles } from '@/components/ProfileEditScreen/styles';
+import { EditProfileSkeleton } from '@/components/Skeletons';
 import { useAppAuth } from '@/hooks/app-auth';
 import { useAppLocalization } from '@/hooks/app-localization';
 import { useAppTheme } from '@/hooks/app-theme';
@@ -148,9 +148,7 @@ export default function EditProfileScreen() {
   if (isLoading) {
     return (
       <SafeAreaView edges={['right', 'bottom', 'left']} style={styles.screen}>
-        <View style={styles.loading}>
-          <ActivityIndicator color={theme.colors.background.brand} />
-        </View>
+        <EditProfileSkeleton />
       </SafeAreaView>
     );
   }

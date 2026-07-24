@@ -1,4 +1,3 @@
-import { generateChecklist } from './checklist';
 import { clamp, getDurationCoefficient, getSeason, roundTo } from './helpers';
 import {
   ALCOHOL_SERVING_LITERS,
@@ -284,6 +283,6 @@ export function calculateEventPlan(input: EventCalculationInput): EventCalculati
     season,
     equivalentGuests: Number(equivalentGuests.toFixed(2)),
     targets: targets.sort((left, right) => left.sortOrder - right.sortOrder),
-    checklistItems: generateChecklist(input.eventType),
+    checklistItems: [],
   };
 }

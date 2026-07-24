@@ -33,6 +33,37 @@ export function createEventManagementStyles(theme: AppTheme, bottomInset: number
       marginBottom: spacing.x3,
       color: colors.text.primary,
     },
+    versionInfo: {
+      minHeight: 64,
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: spacing.x3,
+      marginBottom: spacing.x3,
+      paddingHorizontal: spacing.x4,
+      borderRadius: spacing.x4,
+      backgroundColor: colors.background.subtle,
+    },
+    versionIcon: {
+      width: spacing.x8,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    versionCopy: {
+      flex: 1,
+      justifyContent: 'center',
+      gap: spacing.x1,
+    },
+    versionLabel: {
+      ...typography.caption,
+      color: colors.text.secondary,
+    },
+    versionValue: {
+      ...typography.labelLarge,
+      color: colors.text.primary,
+    },
+    versionLoader: {
+      alignSelf: 'flex-start',
+    },
     action: {
       minHeight: 56,
       flexDirection: 'row',

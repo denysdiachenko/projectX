@@ -1,13 +1,13 @@
 import { AntDesign } from '@react-native-vector-icons/ant-design';
 import { useGlobalSearchParams, useRouter } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Pressable } from 'react-native';
 
 import { ROUTES } from '@/constants/routes';
 import { getStringRouteParam } from '@/helpers/getStringRouteParam';
 import { useAppLocalization } from '@/hooks/app-localization';
 import { useAppTheme } from '@/hooks/app-theme';
-import { deleteEvent } from '@/services/event-plan';
+import { deleteEvent, getEventRulesVersion } from '@/services/event-plan';
 import { showToast } from '@/services/toast';
 
 import EventActionsSheet from './EventActionsSheet';
@@ -24,6 +24,18 @@ export default function EventHeaderAction() {
   const [actionsVisible, setActionsVisible] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [versionState, setVersionState] = useState<{
+    eventId: string;
+    loading: boolean;
+    value: string | null;
+  }>({
+    eventId: '',
+    loading: false,
+    value: null,
+  });
+  const versionRequestId = useRef(0);
+  const isCurrentVersionLoading = versionState.eventId === eventId && versionState.loading;
+  const currentRulesVersion = versionState.eventId === eventId ? versionState.value : null;
 
   const closeActions = () => {
     setActionsVisible(false);
@@ -64,20 +76,42 @@ export default function EventHeaderAction() {
     }
   };
 
+  const openActions = () => {
+    setShowDeleteConfirmation(false);
+    setActionsVisible(true);
+
+    if (!eventId || currentRulesVersion || isCurrentVersionLoading) return;
+
+    const requestId = versionRequestId.current + 1;
+    versionRequestId.current = requestId;
+    setVersionState({ eventId, loading: true, value: null });
+
+    void getEventRulesVersion(eventId)
+      .then((version) => {
+        if (versionRequestId.current === requestId) {
+          setVersionState({ eventId, loading: false, value: version });
+        }
+      })
+      .catch(() => {
+        if (versionRequestId.current === requestId) {
+          setVersionState({ eventId, loading: false, value: null });
+        }
+      });
+  };
+
   return (
     <>
       <Pressable
         accessibilityLabel={copy.actionsLabel}
         accessibilityRole="button"
-        onPress={() => {
-          setShowDeleteConfirmation(false);
-          setActionsVisible(true);
-        }}
+        onPress={openActions}
         style={({ pressed }) => [styles.headerButton, pressed && styles.actionPressed]}>
         <AntDesign color={theme.colors.text.primary} name="ellipsis" size={24} />
       </Pressable>
       <EventActionsSheet
         deleting={isDeleting}
+        loadingRulesVersion={isCurrentVersionLoading}
+        rulesVersion={currentRulesVersion}
         showDeleteConfirmation={showDeleteConfirmation}
         visible={actionsVisible}
         onClose={closeActions}

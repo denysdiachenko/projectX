@@ -1,13 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
-import { ActivityIndicator, FlatList, Text, View } from 'react-native';
+import { FlatList, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import AppButton from '@/components/AppButton/AppButton';
 import MyEventCard from '@/components/MyEventsScreen/MyEventCard';
 import MyEventsEmptyState from '@/components/MyEventsScreen/MyEventsEmptyState';
 import { createMyEventsStyles } from '@/components/MyEventsScreen/styles';
+import { MyEventsSkeleton } from '@/components/Skeletons';
 import { ROUTES } from '@/constants/routes';
 import { useAppAuth } from '@/hooks/app-auth';
 import { useAppLocalization } from '@/hooks/app-localization';
@@ -56,11 +57,7 @@ export default function MyEventsScreen() {
 
   const renderEmptyState = () => {
     if (isLoading) {
-      return (
-        <View style={styles.listState}>
-          <ActivityIndicator color={theme.colors.background.brand} size="large" />
-        </View>
-      );
+      return <MyEventsSkeleton />;
     }
 
     if (hasError) {

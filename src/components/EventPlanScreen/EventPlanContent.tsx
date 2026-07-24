@@ -1,10 +1,11 @@
 import { AntDesign } from '@react-native-vector-icons/ant-design';
 import { useFocusEffect } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
-import { ActivityIndicator, ScrollView, StatusBar, Text, View } from 'react-native';
+import { ScrollView, StatusBar, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import AppButton from '@/components/AppButton/AppButton';
+import { EventPlanSkeleton } from '@/components/Skeletons';
 import { EVENT_TAB_BAR_HEIGHT } from '@/constants/event-tabs';
 import { useAppLocalization } from '@/hooks/app-localization';
 import { useAppTheme } from '@/hooks/app-theme';
@@ -72,10 +73,10 @@ export default function EventPlanContent({ eventId }: EventPlanContentProps) {
 
   if (isLoading) {
     return (
-      <View style={[styles.screen, styles.state]}>
+      <>
         <StatusBar barStyle={theme.statusBar === 'dark' ? 'dark-content' : 'light-content'} />
-        <ActivityIndicator color={theme.colors.background.brand} size="large" />
-      </View>
+        <EventPlanSkeleton />
+      </>
     );
   }
 
@@ -118,18 +119,6 @@ export default function EventPlanContent({ eventId }: EventPlanContentProps) {
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         <Text style={styles.title}>{plan.name}</Text>
         <Text style={styles.meta}>{meta}</Text>
-
-        <View style={styles.readyCard}>
-          <View style={styles.readyIcon}>
-            <AntDesign name="check" color={theme.colors.status.successForeground} size={24} />
-          </View>
-          <View style={styles.readyCopy}>
-            <Text style={styles.readyTitle}>{copy.readyTitle}</Text>
-            <Text style={styles.readyMessage}>
-              {interpolate(copy.readyMessage, { version: plan.rulesVersion })}
-            </Text>
-          </View>
-        </View>
 
         <View style={styles.contextCard}>
           <AntDesign name="info-circle" color={theme.colors.status.infoForeground} size={18} />

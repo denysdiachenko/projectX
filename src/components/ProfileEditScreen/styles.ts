@@ -19,11 +19,6 @@ export function createProfileEditStyles(theme: AppTheme) {
       paddingTop: spacing.x6,
       paddingBottom: spacing.x6,
     },
-    loading: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
     avatarBlock: {
       alignItems: 'center',
     },

@@ -2,7 +2,6 @@ import { AntDesign } from '@react-native-vector-icons/ant-design';
 import { useFocusEffect } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
 import {
-  ActivityIndicator,
   Alert,
   ScrollView,
   StatusBar,
@@ -12,6 +11,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import AppButton from '@/components/AppButton/AppButton';
+import { ShoppingListSkeleton } from '@/components/Skeletons';
 import { EVENT_TAB_BAR_HEIGHT } from '@/constants/event-tabs';
 import { useAppLocalization } from '@/hooks/app-localization';
 import { useAppTheme } from '@/hooks/app-theme';
@@ -177,10 +177,10 @@ export default function ShoppingListContent({ eventId }: { eventId: string }) {
 
   if (isLoading) {
     return (
-      <View style={[styles.screen, styles.state]}>
+      <>
         <StatusBar barStyle={theme.statusBar === 'dark' ? 'dark-content' : 'light-content'} />
-        <ActivityIndicator color={theme.colors.background.brand} size="large" />
-      </View>
+        <ShoppingListSkeleton />
+      </>
     );
   }
 

@@ -1,6 +1,6 @@
 import { AntDesign } from '@react-native-vector-icons/ant-design';
 import { useMemo } from 'react';
-import { Animated, Modal, Pressable, Text, View } from 'react-native';
+import { ActivityIndicator, Animated, Modal, Pressable, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import AppButton from '@/components/AppButton/AppButton';
@@ -12,20 +12,24 @@ import { useBottomSheetAnimation } from './useBottomSheetAnimation';
 
 type EventActionsSheetProps = {
   deleting: boolean;
+  loadingRulesVersion: boolean;
   onClose: () => void;
   onConfirmDelete: () => void;
   onDelete: () => void;
   onEdit: () => void;
+  rulesVersion: string | null;
   showDeleteConfirmation: boolean;
   visible: boolean;
 };
 
 export default function EventActionsSheet({
   deleting,
+  loadingRulesVersion,
   onClose,
   onConfirmDelete,
   onDelete,
   onEdit,
+  rulesVersion,
   showDeleteConfirmation,
   visible,
 }: EventActionsSheetProps) {
@@ -69,6 +73,29 @@ export default function EventActionsSheet({
           ) : (
             <>
               <Text style={styles.title}>{copy.actionsTitle}</Text>
+              <View style={styles.versionInfo}>
+                <View style={styles.versionIcon}>
+                  <AntDesign
+                    color={theme.colors.background.accent}
+                    name="info-circle"
+                    size={20}
+                  />
+                </View>
+                <View style={styles.versionCopy}>
+                  <Text style={styles.versionLabel}>{copy.generationVersionLabel}</Text>
+                  {loadingRulesVersion ? (
+                    <ActivityIndicator
+                      color={theme.colors.background.accent}
+                      size="small"
+                      style={styles.versionLoader}
+                    />
+                  ) : (
+                    <Text style={styles.versionValue}>
+                      {rulesVersion ?? copy.generationVersionUnavailable}
+                    </Text>
+                  )}
+                </View>
+              </View>
               <Pressable onPress={onEdit} style={({ pressed }) => [styles.action, pressed && styles.actionPressed]}>
                 <AntDesign color={theme.colors.text.primary} name="edit" size={22} />
                 <Text style={styles.actionLabel}>{copy.editAction}</Text>

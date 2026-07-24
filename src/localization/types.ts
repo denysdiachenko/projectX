@@ -235,8 +235,6 @@ export type TranslationSchema = {
   };
   eventPlan: {
     headerTitle: string;
-    readyTitle: string;
-    readyMessage: string;
     context: string;
     tabs: {
       plan: string;
@@ -312,9 +310,52 @@ export type TranslationSchema = {
     toggleErrorMessage: string;
     retry: string;
   };
+  checklist: {
+    title: string;
+    add: string;
+    addTask: string;
+    progressTitle: string;
+    progress: string;
+    remaining: string;
+    completed: string;
+    emptyTitle: string;
+    emptyBody: string;
+    markComplete: string;
+    markIncomplete: string;
+    openTaskActions: string;
+    editAction: string;
+    deleteAction: string;
+    form: {
+      addTitle: string;
+      editTitle: string;
+      title: string;
+      placeholder: string;
+      save: string;
+      saving: string;
+      cancel: string;
+    };
+    validation: {
+      titleRequired: string;
+      titleMax: string;
+    };
+    items: Record<string, string>;
+    deleteConfirmTitle: string;
+    deleteConfirmMessage: string;
+    loadErrorTitle: string;
+    loadError: string;
+    saveErrorTitle: string;
+    saveErrorMessage: string;
+    deleteErrorTitle: string;
+    deleteErrorMessage: string;
+    toggleErrorTitle: string;
+    toggleErrorMessage: string;
+    retry: string;
+  };
   eventManagement: {
     actionsLabel: string;
     actionsTitle: string;
+    generationVersionLabel: string;
+    generationVersionUnavailable: string;
     editAction: string;
     deleteAction: string;
     cancel: string;

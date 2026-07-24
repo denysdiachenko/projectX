@@ -33,7 +33,6 @@ export type EventPlanDetails = {
   id: string;
   location: string;
   name: string;
-  rulesVersion: string;
   season: string | null;
   startsAt: string;
   targets: {
@@ -100,7 +99,6 @@ export async function getEventPlan(eventId: string): Promise<EventPlanDetails> {
         adults_count,
         children_count,
         current_snapshot:calculation_snapshots!events_current_snapshot_fkey (
-          rules_version,
           result_snapshot,
           targets:plan_targets!plan_targets_snapshot_owner_fkey (
             id,
@@ -130,7 +128,6 @@ export async function getEventPlan(eventId: string): Promise<EventPlanDetails> {
     id: data.id,
     location: data.location,
     name: data.name,
-    rulesVersion: snapshot.rules_version,
     season: getSnapshotSeason(snapshot.result_snapshot),
     startsAt: data.starts_at,
     targets: snapshot.targets
@@ -145,6 +142,28 @@ export async function getEventPlan(eventId: string): Promise<EventPlanDetails> {
     timeZone: data.time_zone,
     units,
   };
+}
+
+export async function getEventRulesVersion(eventId: string) {
+  if (!UUID_PATTERN.test(eventId)) {
+    throw new Error('Invalid event id');
+  }
+
+  const { data, error } = await supabase
+    .from('events')
+    .select(`
+      current_snapshot:calculation_snapshots!events_current_snapshot_fkey (
+        rules_version
+      )
+    `)
+    .eq('id', eventId)
+    .single();
+
+  if (error || !data.current_snapshot) {
+    throw error ?? new Error('Event calculation snapshot is missing');
+  }
+
+  return data.current_snapshot.rules_version;
 }
 
 export async function getEventDraft(eventId: string): Promise<CreateEventDraft> {
@@ -262,11 +281,13 @@ export async function createEventPlan(draft: CreateEventDraft) {
         user_id: user.id,
       }),
     );
-    const { error: checklistError } = await supabase
-      .from('checklist_items')
-      .insert(checklistRows);
+    if (checklistRows.length > 0) {
+      const { error: checklistError } = await supabase
+        .from('checklist_items')
+        .insert(checklistRows);
 
-    if (checklistError) throw checklistError;
+      if (checklistError) throw checklistError;
+    }
 
     const { data: updatedEvent, error: updateError } = await supabase
       .from('events')

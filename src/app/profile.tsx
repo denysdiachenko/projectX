@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
-import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import AppButton from '@/components/AppButton/AppButton';
@@ -10,6 +10,7 @@ import DeleteAccountSheet from '@/components/ProfileScreen/DeleteAccountSheet';
 import ProfileSettingSheet from '@/components/ProfileScreen/ProfileSettingSheet';
 import { createProfileStyles } from '@/components/ProfileScreen/styles';
 import ProfileRow from '@/components/ProfileRow/ProfileRow';
+import { ProfileSkeleton } from '@/components/Skeletons';
 import { ROUTES } from '@/constants/routes';
 import { useAppAuth } from '@/hooks/app-auth';
 import { useAppLocalization } from '@/hooks/app-localization';
@@ -133,9 +134,7 @@ export default function ProfileScreen() {
   if (isLoading) {
     return (
       <SafeAreaView edges={['right', 'bottom', 'left']} style={styles.screen}>
-        <View style={styles.loading}>
-          <ActivityIndicator color={theme.colors.background.brand} />
-        </View>
+        <ProfileSkeleton />
       </SafeAreaView>
     );
   }

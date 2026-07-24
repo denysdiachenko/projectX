@@ -15,11 +15,6 @@ export function createProfileStyles(theme: AppTheme) {
       paddingTop: spacing.x3,
       paddingBottom: spacing.x6,
     },
-    loading: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
     identity: {
       alignItems: 'center',
     },

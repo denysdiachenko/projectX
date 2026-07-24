@@ -1,11 +1,12 @@
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import AppButton from '@/components/AppButton/AppButton';
 import EventFormScreen from '@/components/CreateEventScreen/EventFormScreen';
 import { createCreateEventStyles } from '@/components/CreateEventScreen/styles';
 import type { CreateEventDraft } from '@/components/CreateEventScreen/types';
+import { EditEventSkeleton } from '@/components/Skeletons';
 import { useAppLocalization } from '@/hooks/app-localization';
 import { useAppTheme } from '@/hooks/app-theme';
 import { getEventDraft } from '@/services/event-plan';
@@ -41,10 +42,10 @@ export default function EditEventScreen() {
 
   if (isLoading) {
     return (
-      <View style={[styles.screen, styles.loadingState]}>
+      <>
         <Stack.Screen options={{ headerShown: false }} />
-        <ActivityIndicator color={theme.colors.background.brand} size="large" />
-      </View>
+        <EditEventSkeleton />
+      </>
     );
   }
 
