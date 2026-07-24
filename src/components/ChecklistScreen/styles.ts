@@ -111,6 +111,7 @@ export function createChecklistStyles(
       alignItems: 'center',
       gap: spacing.x3,
       marginHorizontal: spacing.x4,
+      backgroundColor: colors.background.surface,
     },
     itemDivider: {
       borderBottomWidth: StyleSheet.hairlineWidth,
@@ -132,19 +133,17 @@ export function createChecklistStyles(
     },
     itemTitle: {
       ...typography.bodySmall,
-      flex: 1,
       color: colors.text.primary,
     },
     itemTitleCompleted: {
       color: colors.text.muted,
       textDecorationLine: 'line-through',
     },
-    itemMenu: {
-      width: spacing.x8,
-      height: spacing.x8,
-      alignItems: 'center',
+    itemEditArea: {
+      minHeight: 56,
+      flex: 1,
       justifyContent: 'center',
-      borderRadius: spacing.x4,
+      borderRadius: spacing.x2,
     },
     emptyState: {
       flex: 1,

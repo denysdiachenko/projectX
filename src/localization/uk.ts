@@ -289,6 +289,8 @@ export const uk: TranslationSchema = {
     packageSummary: '{count} × {size} {unit}',
     editItem: 'Редагувати товар',
     deleteItem: 'Видалити товар',
+    completeAction: 'Виконано',
+    undoAction: 'Повернути',
     form: {
       addTitle: 'Додати товар',
       editTitle: 'Редагувати товар',
@@ -337,9 +339,9 @@ export const uk: TranslationSchema = {
     emptyBody: 'Додай перше завдання, щоб нічого не забути.',
     markComplete: 'Позначити завдання виконаним',
     markIncomplete: 'Повернути завдання до невиконаних',
-    openTaskActions: 'Відкрити дії із завданням',
-    editAction: 'Редагувати',
     deleteAction: 'Видалити',
+    completeAction: 'Виконано',
+    undoAction: 'Повернути',
     form: {
       addTitle: 'Нове завдання',
       editTitle: 'Редагувати завдання',

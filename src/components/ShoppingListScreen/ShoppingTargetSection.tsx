@@ -15,22 +15,26 @@ import ShoppingItemRow from './ShoppingItemRow';
 import { createShoppingListStyles } from './styles';
 
 type ShoppingTargetSectionProps = {
+  hintItemId?: string;
   items: ShoppingItem[];
   target: ShoppingTarget;
   units: MeasurementUnit[];
   onAdd: () => void;
   onDelete: (item: ShoppingItem) => void;
   onEdit: (item: ShoppingItem) => void;
+  onSwipeHintPlayed?: () => void;
   onToggle: (item: ShoppingItem) => void;
 };
 
 export default function ShoppingTargetSection({
+  hintItemId,
   items,
   target,
   units,
   onAdd,
   onDelete,
   onEdit,
+  onSwipeHintPlayed,
   onToggle,
 }: ShoppingTargetSectionProps) {
   const theme = useAppTheme();
@@ -82,11 +86,13 @@ export default function ShoppingTargetSection({
         <Text style={styles.noItems}>{copy.noItems}</Text>
       ) : items.map((item) => (
         <ShoppingItemRow
+          animateSwipeHint={item.id === hintItemId}
           item={item}
           key={item.id}
           units={units}
           onDelete={() => onDelete(item)}
           onEdit={() => onEdit(item)}
+          onSwipeHintPlayed={onSwipeHintPlayed}
           onToggle={() => onToggle(item)}
         />
       ))}

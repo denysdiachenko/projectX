@@ -53,12 +53,13 @@ export async function createChecklistItem({
 export async function updateChecklistItem(itemId: string, title: string) {
   const payload: TablesUpdate<'checklist_items'> = {
     custom_title: title.trim(),
+    item_key: null,
+    source: 'custom',
   };
   const { data, error } = await supabase
     .from('checklist_items')
     .update(payload)
     .eq('id', itemId)
-    .eq('source', 'custom')
     .select('*')
     .single();
 

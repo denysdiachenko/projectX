@@ -10,18 +10,22 @@ import ShoppingItemRow from './ShoppingItemRow';
 import { createShoppingListStyles } from './styles';
 
 type ShoppingFlatListProps = {
+  hintItemId?: string;
   items: ShoppingItem[];
   units: MeasurementUnit[];
   onDelete: (item: ShoppingItem) => void;
   onEdit: (item: ShoppingItem) => void;
+  onSwipeHintPlayed?: () => void;
   onToggle: (item: ShoppingItem) => void;
 };
 
 export default function ShoppingFlatList({
+  hintItemId,
   items,
   units,
   onDelete,
   onEdit,
+  onSwipeHintPlayed,
   onToggle,
 }: ShoppingFlatListProps) {
   const theme = useAppTheme();
@@ -37,11 +41,13 @@ export default function ShoppingFlatList({
       </View>
       {items.map((item) => (
         <ShoppingItemRow
+          animateSwipeHint={item.id === hintItemId}
           item={item}
           key={item.id}
           units={units}
           onDelete={() => onDelete(item)}
           onEdit={() => onEdit(item)}
+          onSwipeHintPlayed={onSwipeHintPlayed}
           onToggle={() => onToggle(item)}
         />
       ))}

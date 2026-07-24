@@ -2,7 +2,6 @@ import { AntDesign } from '@react-native-vector-icons/ant-design';
 import { useFocusEffect } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
 import {
-  Alert,
   Pressable,
   RefreshControl,
   ScrollView,
@@ -48,6 +47,7 @@ export default function ChecklistContent({ eventId }: { eventId: string }) {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [editor, setEditor] = useState<EditorState>(null);
+  const [shouldAnimateSwipeHint, setShouldAnimateSwipeHint] = useState(true);
 
   const loadChecklist = useCallback(async () => {
     setIsLoading(true);
@@ -156,48 +156,21 @@ export default function ChecklistContent({ eventId }: { eventId: string }) {
     }
   };
 
-  const requestDelete = (item: ChecklistItem) => {
-    Alert.alert(copy.deleteConfirmTitle, copy.deleteConfirmMessage, [
-      { style: 'cancel', text: copy.form.cancel },
-      {
-        style: 'destructive',
-        text: copy.deleteAction,
-        onPress: () => {
-          void deleteChecklistItem(item.id)
-            .then(() => {
-              setItems((current) => current?.filter((entry) => entry.id !== item.id) ?? current);
-            })
-            .catch(() => {
-              showToast({
-                message: copy.deleteErrorMessage,
-                title: copy.deleteErrorTitle,
-                type: 'error',
-              });
-            });
-        },
-      },
-    ]);
-  };
+  const removeItem = async (item: ChecklistItem) => {
+    setItems((current) => current?.filter((entry) => entry.id !== item.id) ?? current);
 
-  const openItemActions = (item: ChecklistItem) => {
-    const actions = item.source === 'custom'
-      ? [{
-        text: copy.editAction,
-        onPress: () => setEditor(item),
-      }]
-      : [];
-
-    Alert.alert(getItemTitle(item), undefined, [
-      ...actions,
-      {
-        style: 'destructive',
-        text: copy.deleteAction,
-        onPress: () => {
-          setTimeout(() => requestDelete(item), 200);
-        },
-      },
-      { style: 'cancel', text: copy.form.cancel },
-    ]);
+    try {
+      await deleteChecklistItem(item.id);
+    } catch {
+      setItems((current) => current && !current.some((entry) => entry.id === item.id)
+        ? [...current, item].sort((left, right) => left.sort_order - right.sort_order)
+        : current);
+      showToast({
+        message: copy.deleteErrorMessage,
+        title: copy.deleteErrorTitle,
+        type: 'error',
+      });
+    }
   };
 
   if (isLoading) {
@@ -224,6 +197,9 @@ export default function ChecklistContent({ eventId }: { eventId: string }) {
 
   const remainingItems = items.filter((item) => !item.is_completed);
   const completedItems = items.filter((item) => item.is_completed);
+  const hintItemId = shouldAnimateSwipeHint
+    ? remainingItems[0]?.id ?? completedItems[0]?.id
+    : undefined;
 
   return (
     <View style={styles.screen}>
@@ -252,7 +228,6 @@ export default function ChecklistContent({ eventId }: { eventId: string }) {
         </View>
 
         <ChecklistProgress completed={completedItems.length} total={items.length} />
-
         {items.length === 0 ? (
           <View style={styles.emptyState}>
             <View style={styles.emptyIcon}>
@@ -271,16 +246,22 @@ export default function ChecklistContent({ eventId }: { eventId: string }) {
           <>
             <ChecklistSection
               getTitle={getItemTitle}
+              hintItemId={hintItemId}
               items={remainingItems}
               title={copy.remaining}
-              onMenu={openItemActions}
+              onDelete={(item) => void removeItem(item)}
+              onEdit={setEditor}
+              onSwipeHintPlayed={() => setShouldAnimateSwipeHint(false)}
               onToggle={(item) => void toggleItem(item)}
             />
             <ChecklistSection
               getTitle={getItemTitle}
+              hintItemId={hintItemId}
               items={completedItems}
               title={copy.completed}
-              onMenu={openItemActions}
+              onDelete={(item) => void removeItem(item)}
+              onEdit={setEditor}
+              onSwipeHintPlayed={() => setShouldAnimateSwipeHint(false)}
               onToggle={(item) => void toggleItem(item)}
             />
           </>

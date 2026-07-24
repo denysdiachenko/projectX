@@ -289,6 +289,8 @@ export const en: TranslationSchema = {
     packageSummary: '{count} × {size} {unit}',
     editItem: 'Edit product',
     deleteItem: 'Delete product',
+    completeAction: 'Done',
+    undoAction: 'Undo',
     form: {
       addTitle: 'Add product',
       editTitle: 'Edit product',
@@ -337,9 +339,9 @@ export const en: TranslationSchema = {
     emptyBody: 'Add your first task so nothing gets forgotten.',
     markComplete: 'Mark task as completed',
     markIncomplete: 'Move task back to remaining',
-    openTaskActions: 'Open task actions',
-    editAction: 'Edit',
     deleteAction: 'Delete',
+    completeAction: 'Done',
+    undoAction: 'Undo',
     form: {
       addTitle: 'New task',
       editTitle: 'Edit task',

@@ -8,6 +8,7 @@ import {
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import AppHeaderBackButton from '@/components/AppStackHeader/AppHeaderBackButton';
 import ProfileHeaderAction from '@/components/AppStackHeader/ProfileHeaderAction';
@@ -115,12 +116,14 @@ export default function RootLayout() {
   }
 
   return (
-    <AppAuthProvider>
-      <AppThemeProvider>
-        <AppLocalizationProvider>
-          <RootNavigator />
-        </AppLocalizationProvider>
-      </AppThemeProvider>
-    </AppAuthProvider>
+    <GestureHandlerRootView>
+      <AppAuthProvider>
+        <AppThemeProvider>
+          <AppLocalizationProvider>
+            <RootNavigator />
+          </AppLocalizationProvider>
+        </AppThemeProvider>
+      </AppAuthProvider>
+    </GestureHandlerRootView>
   );
 }

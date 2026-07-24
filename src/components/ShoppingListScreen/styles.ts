@@ -154,6 +154,7 @@ export function createShoppingListStyles(
       paddingHorizontal: spacing.x4,
       borderTopWidth: StyleSheet.hairlineWidth,
       borderTopColor: colors.border.default,
+      backgroundColor: colors.background.surface,
     },
     checkbox: {
       width: spacing.x6,

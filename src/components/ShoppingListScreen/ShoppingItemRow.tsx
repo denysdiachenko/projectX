@@ -4,6 +4,7 @@ import { Pressable, Text, View } from 'react-native';
 
 import { useAppLocalization } from '@/hooks/app-localization';
 import { useAppTheme } from '@/hooks/app-theme';
+import SwipeableItemRow from '@/components/SwipeableItemRow/SwipeableItemRow';
 import {
   getMeasurementUnitLabel,
   type MeasurementUnit,
@@ -13,18 +14,22 @@ import type { ShoppingItem } from '@/services/shopping-list';
 import { createShoppingListStyles } from './styles';
 
 type ShoppingItemRowProps = {
+  animateSwipeHint?: boolean;
   item: ShoppingItem;
   units: MeasurementUnit[];
   onDelete: () => void;
   onEdit: () => void;
+  onSwipeHintPlayed?: () => void;
   onToggle: () => void;
 };
 
 export default function ShoppingItemRow({
+  animateSwipeHint,
   item,
   units,
   onDelete,
   onEdit,
+  onSwipeHintPlayed,
   onToggle,
 }: ShoppingItemRowProps) {
   const theme = useAppTheme();
@@ -47,45 +52,48 @@ export default function ShoppingItemRow({
     : null;
 
   return (
-    <View style={styles.itemRow}>
-      <Pressable
-        accessibilityRole="checkbox"
-        accessibilityState={{ checked: item.is_purchased }}
-        hitSlop={theme.spacing.x2}
-        onPress={onToggle}
-        style={[styles.checkbox, item.is_purchased && styles.checkboxChecked]}>
-        {item.is_purchased ? (
-          <AntDesign color={theme.colors.text.onBrand} name="check" size={15} />
-        ) : null}
-      </Pressable>
-      <View style={styles.itemCopy}>
-        <Text
-          numberOfLines={1}
-          style={[styles.itemName, item.is_purchased && styles.itemNamePurchased]}>
-          {item.name}
-        </Text>
-        <Text style={styles.itemMeta}>
-          {packageSummary ? `${quantity} · ${packageSummary}` : quantity}
-        </Text>
-      </View>
-      <View style={styles.itemActions}>
+    <SwipeableItemRow
+      animateSwipeHint={animateSwipeHint}
+      completeAccessibilityLabel={item.is_purchased
+        ? copy.undoAction
+        : copy.completeAction}
+      deleteAccessibilityLabel={copy.deleteItem}
+      isCompleted={item.is_purchased}
+      onComplete={onToggle}
+      onDelete={onDelete}
+      onSwipeHintPlayed={onSwipeHintPlayed}>
+      <View style={styles.itemRow}>
         <Pressable
-          accessibilityLabel={copy.editItem}
-          accessibilityRole="button"
-          hitSlop={theme.spacing.x1}
-          onPress={onEdit}
-          style={({ pressed }) => [styles.iconButton, pressed && styles.pressed]}>
-          <AntDesign color={theme.colors.text.secondary} name="edit" size={19} />
+          accessibilityRole="checkbox"
+          accessibilityState={{ checked: item.is_purchased }}
+          hitSlop={theme.spacing.x2}
+          onPress={onToggle}
+          style={[styles.checkbox, item.is_purchased && styles.checkboxChecked]}>
+          {item.is_purchased ? (
+            <AntDesign color={theme.colors.text.onBrand} name="check" size={15} />
+          ) : null}
         </Pressable>
-        <Pressable
-          accessibilityLabel={copy.deleteItem}
-          accessibilityRole="button"
-          hitSlop={theme.spacing.x1}
-          onPress={onDelete}
-          style={({ pressed }) => [styles.iconButton, pressed && styles.pressed]}>
-          <AntDesign color={theme.colors.status.errorForeground} name="delete" size={19} />
-        </Pressable>
+        <View style={styles.itemCopy}>
+          <Text
+            numberOfLines={1}
+            style={[styles.itemName, item.is_purchased && styles.itemNamePurchased]}>
+            {item.name}
+          </Text>
+          <Text style={styles.itemMeta}>
+            {packageSummary ? `${quantity} · ${packageSummary}` : quantity}
+          </Text>
+        </View>
+        <View style={styles.itemActions}>
+          <Pressable
+            accessibilityLabel={copy.editItem}
+            accessibilityRole="button"
+            hitSlop={theme.spacing.x1}
+            onPress={onEdit}
+            style={({ pressed }) => [styles.iconButton, pressed && styles.pressed]}>
+            <AntDesign color={theme.colors.text.secondary} name="edit" size={19} />
+          </Pressable>
+        </View>
       </View>
-    </View>
+    </SwipeableItemRow>
   );
 }

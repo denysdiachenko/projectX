@@ -8,18 +8,24 @@ import ChecklistItemRow from './ChecklistItemRow';
 import { createChecklistStyles } from './styles';
 
 type ChecklistSectionProps = {
+  hintItemId?: string;
   items: ChecklistItem[];
   title: string;
   getTitle: (item: ChecklistItem) => string;
-  onMenu: (item: ChecklistItem) => void;
+  onDelete: (item: ChecklistItem) => void;
+  onEdit: (item: ChecklistItem) => void;
+  onSwipeHintPlayed?: () => void;
   onToggle: (item: ChecklistItem) => void;
 };
 
 export default function ChecklistSection({
+  hintItemId,
   items,
   title,
   getTitle,
-  onMenu,
+  onDelete,
+  onEdit,
+  onSwipeHintPlayed,
   onToggle,
 }: ChecklistSectionProps) {
   const theme = useAppTheme();
@@ -33,11 +39,14 @@ export default function ChecklistSection({
       <View style={styles.itemsCard}>
         {items.map((item, index) => (
           <ChecklistItemRow
+            animateSwipeHint={item.id === hintItemId}
             isLast={index === items.length - 1}
             item={item}
             key={item.id}
             title={getTitle(item)}
-            onMenu={() => onMenu(item)}
+            onDelete={() => onDelete(item)}
+            onEdit={() => onEdit(item)}
+            onSwipeHintPlayed={onSwipeHintPlayed}
             onToggle={() => onToggle(item)}
           />
         ))}

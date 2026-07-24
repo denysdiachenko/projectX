@@ -274,6 +274,8 @@ export type TranslationSchema = {
     packageSummary: string;
     editItem: string;
     deleteItem: string;
+    completeAction: string;
+    undoAction: string;
     form: {
       addTitle: string;
       editTitle: string;
@@ -322,9 +324,9 @@ export type TranslationSchema = {
     emptyBody: string;
     markComplete: string;
     markIncomplete: string;
-    openTaskActions: string;
-    editAction: string;
     deleteAction: string;
+    completeAction: string;
+    undoAction: string;
     form: {
       addTitle: string;
       editTitle: string;

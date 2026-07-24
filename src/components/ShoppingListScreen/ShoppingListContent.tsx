@@ -2,7 +2,6 @@ import { AntDesign } from '@react-native-vector-icons/ant-design';
 import { useFocusEffect } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
 import {
-  Alert,
   ScrollView,
   StatusBar,
   Text,
@@ -55,6 +54,7 @@ export default function ShoppingListContent({ eventId }: { eventId: string }) {
   const [hasError, setHasError] = useState(false);
   const [editor, setEditor] = useState<EditorState | null>(null);
   const [viewMode, setViewMode] = useState<ShoppingViewMode>('grouped');
+  const [shouldAnimateSwipeHint, setShouldAnimateSwipeHint] = useState(true);
 
   const loadShoppingList = useCallback(async () => {
     setIsLoading(true);
@@ -149,30 +149,29 @@ export default function ShoppingListContent({ eventId }: { eventId: string }) {
     }
   };
 
-  const requestDelete = (item: ShoppingItem) => {
-    Alert.alert(copy.deleteConfirmTitle, copy.deleteConfirmMessage, [
-      { style: 'cancel', text: copy.form.cancel },
-      {
-        style: 'destructive',
-        text: copy.deleteConfirm,
-        onPress: () => {
-          void deleteShoppingItem(item.id)
-            .then(() => {
-              setData((current) => current ? {
-                ...current,
-                items: current.items.filter((entry) => entry.id !== item.id),
-              } : current);
-            })
-            .catch(() => {
-              showToast({
-                message: copy.deleteErrorMessage,
-                title: copy.deleteErrorTitle,
-                type: 'error',
-              });
-            });
-        },
-      },
-    ]);
+  const removeItem = async (item: ShoppingItem) => {
+    setData((current) => current ? {
+      ...current,
+      items: current.items.filter((entry) => entry.id !== item.id),
+    } : current);
+
+    try {
+      await deleteShoppingItem(item.id);
+    } catch {
+      setData((current) => current && !current.items.some((entry) => entry.id === item.id)
+        ? {
+          ...current,
+          items: [...current.items, item].sort(
+            (left, right) => left.sort_order - right.sort_order,
+          ),
+        }
+        : current);
+      showToast({
+        message: copy.deleteErrorMessage,
+        title: copy.deleteErrorTitle,
+        type: 'error',
+      });
+    }
   };
 
   if (isLoading) {
@@ -201,6 +200,7 @@ export default function ShoppingListContent({ eventId }: { eventId: string }) {
   const previousItems = data.items.filter(
     (item) => !item.plan_target_id || !targetIds.has(item.plan_target_id),
   );
+  const hintItemId = shouldAnimateSwipeHint ? data.items[0]?.id : undefined;
   const purchasedCount = data.items.filter((item) => item.is_purchased).length;
   const progressText = copy.progress
     .replace('{purchased}', String(purchasedCount))
@@ -224,7 +224,6 @@ export default function ShoppingListContent({ eventId }: { eventId: string }) {
           </View>
         </View>
         <ShoppingViewToggle value={viewMode} onChange={setViewMode} />
-
         {data.items.length === 0 ? (
           <View style={styles.section}>
             <View style={styles.sectionHeader}>
@@ -238,13 +237,15 @@ export default function ShoppingListContent({ eventId }: { eventId: string }) {
           <>
             {data.targets.map((target) => (
               <ShoppingTargetSection
+                hintItemId={hintItemId}
                 items={data.items.filter((item) => item.plan_target_id === target.id)}
                 key={target.id}
                 target={target}
                 units={data.units}
                 onAdd={() => setEditor({ item: null, target })}
-                onDelete={requestDelete}
+                onDelete={(item) => void removeItem(item)}
                 onEdit={(item) => setEditor({ item, target })}
+                onSwipeHintPlayed={() => setShouldAnimateSwipeHint(false)}
                 onToggle={(item) => void toggleItem(item)}
               />
             ))}
@@ -257,11 +258,13 @@ export default function ShoppingListContent({ eventId }: { eventId: string }) {
                 </View>
                 {previousItems.map((item) => (
                   <ShoppingItemRow
+                    animateSwipeHint={item.id === hintItemId}
                     item={item}
                     key={item.id}
                     units={data.units}
-                    onDelete={() => requestDelete(item)}
+                    onDelete={() => void removeItem(item)}
                     onEdit={() => setEditor({ item, target: null })}
+                    onSwipeHintPlayed={() => setShouldAnimateSwipeHint(false)}
                     onToggle={() => void toggleItem(item)}
                   />
                 ))}
@@ -270,13 +273,15 @@ export default function ShoppingListContent({ eventId }: { eventId: string }) {
           </>
         ) : (
           <ShoppingFlatList
+            hintItemId={hintItemId}
             items={data.items}
             units={data.units}
-            onDelete={requestDelete}
+            onDelete={(item) => void removeItem(item)}
             onEdit={(item) => setEditor({
               item,
               target: data.targets.find((target) => target.id === item.plan_target_id) ?? null,
             })}
+            onSwipeHintPlayed={() => setShouldAnimateSwipeHint(false)}
             onToggle={(item) => void toggleItem(item)}
           />
         )}
