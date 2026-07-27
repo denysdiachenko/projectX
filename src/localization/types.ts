@@ -159,6 +159,7 @@ export type TranslationSchema = {
     guests: {
       title: string;
       subtitle: string;
+      inviteLaterHint: string;
       total: string;
       breakdown: string;
       adults: string;

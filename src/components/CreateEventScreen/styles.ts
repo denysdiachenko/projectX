@@ -80,6 +80,11 @@ export function createCreateEventStyles(theme: AppTheme, bottomInset = 0) {
       ...typography.bodySmall,
       color: colors.text.secondary,
     },
+    guestInviteNote: {
+      ...typography.caption,
+      marginTop: spacing.x1,
+      color: colors.text.muted,
+    },
     optionsList: {
       gap: spacing.x3,
     },

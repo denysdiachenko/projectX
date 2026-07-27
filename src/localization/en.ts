@@ -160,6 +160,7 @@ export const en: TranslationSchema = {
     guests: {
       title: 'Who is coming?',
       subtitle: 'Enter the guest counts — we will calculate the total automatically.',
+      inviteLaterHint: 'You can invite specific guests later.',
       total: 'Total guests',
       breakdown: '{adults} adults · {children} children',
       adults: 'Adults',

@@ -27,6 +27,7 @@ export default function GuestsStep({ draft, error, onUpdate }: GuestsStepProps) 
       <View style={styles.intro}>
         <Text style={styles.title}>{copy.title}</Text>
         <Text style={styles.subtitle}>{copy.subtitle}</Text>
+        <Text style={styles.guestInviteNote}>{copy.inviteLaterHint}</Text>
       </View>
       <View style={styles.totalCard}>
         <View style={styles.totalCopy}>
