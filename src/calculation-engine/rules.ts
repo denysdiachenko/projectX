@@ -4,7 +4,7 @@ import type {
   PlanTargetCategory,
 } from './types';
 
-export const CALCULATION_RULES_VERSION = '1.2.0';
+export const CALCULATION_RULES_VERSION = '1.3.0';
 export const CHILD_PORTION_COEFFICIENT = 0.6;
 export const RESERVE_COEFFICIENT = 1.1;
 export const ICE_PER_GUEST_KG = 0.15;

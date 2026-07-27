@@ -6,6 +6,7 @@ import { ChoiceChip } from '@/components/CreateEventScreen/CreateEventControls';
 import {
   CREATE_EVENT_DRINK_OPTIONS,
   CREATE_EVENT_MENU_OPTIONS,
+  CREATE_EVENT_SUPPLY_OPTIONS,
 } from '@/constants/create-event';
 import { useAppLocalization } from '@/hooks/app-localization';
 import { useAppTheme } from '@/hooks/app-theme';
@@ -14,11 +15,12 @@ import { createCreateEventStyles } from '../styles';
 import type {
   CreateEventDraft,
   DrinkType,
+  SupplyType,
   UpdateCreateEventDraft,
 } from '../types';
 
 type MenuStepProps = {
-  draft: Pick<CreateEventDraft, 'menuFormat' | 'drinks'>;
+  draft: Pick<CreateEventDraft, 'menuFormat' | 'drinks' | 'supplies'>;
   onUpdate: UpdateCreateEventDraft;
 };
 
@@ -34,6 +36,15 @@ export default function MenuStep({ draft, onUpdate }: MenuStepProps) {
       draft.drinks.includes(drink)
         ? draft.drinks.filter((item) => item !== drink)
         : [...draft.drinks, drink],
+    );
+  };
+
+  const toggleSupply = (supply: SupplyType) => {
+    onUpdate(
+      'supplies',
+      draft.supplies.includes(supply)
+        ? draft.supplies.filter((item) => item !== supply)
+        : [...draft.supplies, supply],
     );
   };
 
@@ -87,6 +98,24 @@ export default function MenuStep({ draft, onUpdate }: MenuStepProps) {
           ))}
         </View>
         <Text style={styles.drinksHint}>{copy.waterHint}</Text>
+      </View>
+      <View style={styles.suppliesSection}>
+        <View style={styles.fieldLabelRow}>
+          <Text style={styles.fieldLabel}>{copy.supplies}</Text>
+          <Text style={styles.optional}>{copy.optional}</Text>
+        </View>
+        <View style={styles.chips}>
+          {CREATE_EVENT_SUPPLY_OPTIONS.map((supply) => (
+            <ChoiceChip
+              key={supply}
+              label={copy[supply]}
+              selected={draft.supplies.includes(supply)}
+              showUncheckedIndicator
+              onPress={() => toggleSupply(supply)}
+            />
+          ))}
+        </View>
+        <Text style={styles.drinksHint}>{copy.suppliesHint}</Text>
       </View>
     </>
   );

@@ -56,6 +56,9 @@ function assertValidInput(input: EventCalculationInput) {
   if (new Set(input.drinkCategories).size !== input.drinkCategories.length) {
     throw new Error('drinkCategories must not contain duplicates');
   }
+  if (new Set(input.supplyCategories).size !== input.supplyCategories.length) {
+    throw new Error('supplyCategories must not contain duplicates');
+  }
 }
 
 function createTarget(
@@ -220,36 +223,40 @@ export function calculateEventPlan(input: EventCalculationInput): EventCalculati
     ));
   });
 
-  const chilledDrinkLiters = targets
-    .filter((target) => ['water', 'juice', 'soda', 'beer', 'wine', 'spirits'].includes(target.category))
-    .reduce((total, target) => total + target.targetQuantity, 0);
-  const iceSeasonCoefficient = season === 'summer' ? 1.2 : 1;
-  const iceLocationCoefficient = input.location === 'outdoor' ? 1.1 : 1;
-  const baseIceKg = Math.max(
-    MINIMUM_ICE_KG,
-    guestCount * ICE_PER_GUEST_KG + chilledDrinkLiters * ICE_PER_CHILLED_LITER_KG,
-  );
-  const iceKg = roundTo(
-    baseIceKg * iceSeasonCoefficient * iceLocationCoefficient,
-    0.5,
-  );
+  if (input.supplyCategories.includes('ice')) {
+    const chilledDrinkLiters = targets
+      .filter((target) => (
+        ['water', 'juice', 'soda', 'beer', 'wine', 'spirits'].includes(target.category)
+      ))
+      .reduce((total, target) => total + target.targetQuantity, 0);
+    const iceSeasonCoefficient = season === 'summer' ? 1.2 : 1;
+    const iceLocationCoefficient = input.location === 'outdoor' ? 1.1 : 1;
+    const baseIceKg = Math.max(
+      MINIMUM_ICE_KG,
+      guestCount * ICE_PER_GUEST_KG + chilledDrinkLiters * ICE_PER_CHILLED_LITER_KG,
+    );
+    const iceKg = roundTo(
+      baseIceKg * iceSeasonCoefficient * iceLocationCoefficient,
+      0.5,
+    );
 
-  targets.push(createTarget(
-    'ice',
-    iceKg,
-    'kg',
-    {
-      rule: 'ice',
-      factors: {
-        guestCount,
-        chilledDrinkLiters: Number(chilledDrinkLiters.toFixed(2)),
-        baseIceKg: Number(baseIceKg.toFixed(2)),
-        seasonCoefficient: iceSeasonCoefficient,
-        locationCoefficient: iceLocationCoefficient,
+    targets.push(createTarget(
+      'ice',
+      iceKg,
+      'kg',
+      {
+        rule: 'ice',
+        factors: {
+          guestCount,
+          chilledDrinkLiters: Number(chilledDrinkLiters.toFixed(2)),
+          baseIceKg: Number(baseIceKg.toFixed(2)),
+          seasonCoefficient: iceSeasonCoefficient,
+          locationCoefficient: iceLocationCoefficient,
+        },
       },
-    },
-    170,
-  ));
+      170,
+    ));
+  }
 
   const reserveSupplies = Math.floor(guestCount / SUPPLY_RESERVE_GROUP_SIZE);
   const platesPerGuest = PLATES_PER_GUEST[input.menuFormat];
@@ -257,26 +264,30 @@ export function calculateEventPlan(input: EventCalculationInput): EventCalculati
   const alcoholCupCount = selectedAlcohol.length > 0 ? input.alcoholGuestsCount : 0;
   const cupCount = guestCount + alcoholCupCount + reserveSupplies;
 
-  targets.push(createTarget(
-    'plates',
-    plateCount,
-    'pcs',
-    {
-      rule: 'supplies',
-      factors: { guestCount, perGuest: platesPerGuest, reserveSupplies },
-    },
-    180,
-  ));
-  targets.push(createTarget(
-    'cups',
-    cupCount,
-    'pcs',
-    {
-      rule: 'supplies',
-      factors: { guestCount, alcoholCupCount, reserveSupplies },
-    },
-    190,
-  ));
+  if (input.supplyCategories.includes('plates')) {
+    targets.push(createTarget(
+      'plates',
+      plateCount,
+      'pcs',
+      {
+        rule: 'supplies',
+        factors: { guestCount, perGuest: platesPerGuest, reserveSupplies },
+      },
+      180,
+    ));
+  }
+  if (input.supplyCategories.includes('cups')) {
+    targets.push(createTarget(
+      'cups',
+      cupCount,
+      'pcs',
+      {
+        rule: 'supplies',
+        factors: { guestCount, alcoholCupCount, reserveSupplies },
+      },
+      190,
+    ));
+  }
 
   return {
     rulesVersion: CALCULATION_RULES_VERSION,

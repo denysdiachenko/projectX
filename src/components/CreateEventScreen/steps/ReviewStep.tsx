@@ -41,6 +41,11 @@ export default function ReviewStep({ draft, onEdit, onUpdate }: ReviewStepProps)
     ? copy.details.indoor
     : copy.details.outdoor;
   const selectedDrinkLabels = draft.drinks.map((drink) => copy.menu[drink]).join(', ');
+  const selectedSupplyLabels = draft.supplies.map((supply) => copy.menu[supply]).join(', ');
+  const suppliesSummary = selectedSupplyLabels
+    ? copy.review.suppliesSummary.replace('{supplies}', selectedSupplyLabels)
+    : copy.review.noSupplies;
+  const menuSummary = [selectedDrinkLabels, suppliesSummary].filter(Boolean).join(' · ');
 
   return (
     <>
@@ -67,7 +72,7 @@ export default function ReviewStep({ draft, onEdit, onUpdate }: ReviewStepProps)
         />
         <ReviewCard
           changeLabel={copy.review.change}
-          hint={selectedDrinkLabels}
+          hint={menuSummary}
           icon="star"
           title={copy.menu[draft.menuFormat]}
           onPress={() => onEdit(3)}

@@ -2,6 +2,7 @@ export type CalculationEventType = 'birthday' | 'bbq' | 'home_party' | 'other';
 export type CalculationLocation = 'indoor' | 'outdoor';
 export type CalculationMenuFormat = 'snacks' | 'buffet' | 'full_menu';
 export type CalculationDrinkCategory = 'beer' | 'wine' | 'spirits' | 'juice' | 'soda';
+export type CalculationSupplyCategory = 'ice' | 'plates' | 'cups';
 export type CalculationSeason = 'winter' | 'spring' | 'summer' | 'autumn';
 export type PlanTargetUnit = 'kg' | 'l' | 'pcs';
 
@@ -33,6 +34,7 @@ export type EventCalculationInput = {
   alcoholGuestsCount: number;
   menuFormat: CalculationMenuFormat;
   drinkCategories: CalculationDrinkCategory[];
+  supplyCategories: CalculationSupplyCategory[];
 };
 
 export type PlanTargetExplanation = {

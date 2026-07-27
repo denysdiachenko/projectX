@@ -116,10 +116,12 @@ export function CounterRow({
 export function ChoiceChip({
   label,
   selected,
+  showUncheckedIndicator = false,
   onPress,
 }: {
   label: string;
   selected: boolean;
+  showUncheckedIndicator?: boolean;
   onPress: () => void;
 }) {
   const theme = useAppTheme();
@@ -137,6 +139,8 @@ export function ChoiceChip({
       ]}>
       {selected ? (
         <AntDesign name="check" color={theme.colors.background.brand} size={14} />
+      ) : showUncheckedIndicator ? (
+        <View style={styles.chipCheckbox} />
       ) : null}
       <Text style={[styles.chipLabel, selected && styles.chipLabelSelected]}>{label}</Text>
     </Pressable>

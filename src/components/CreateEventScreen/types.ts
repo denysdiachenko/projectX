@@ -3,6 +3,7 @@ export type EventType = 'birthday' | 'bbq' | 'homeParty' | 'other';
 export type EventLocation = 'indoor' | 'outdoor';
 export type MenuFormat = 'snacks' | 'buffet' | 'full';
 export type DrinkType = 'beer' | 'wine' | 'spirits' | 'juice' | 'soda';
+export type SupplyType = 'ice' | 'plates' | 'cups';
 
 export type CreateEventDraft = {
   eventType: EventType;
@@ -17,6 +18,7 @@ export type CreateEventDraft = {
   location: EventLocation;
   menuFormat: MenuFormat;
   drinks: DrinkType[];
+  supplies: SupplyType[];
   budget: string;
   note: string;
 };

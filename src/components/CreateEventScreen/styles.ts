@@ -418,11 +418,19 @@ export function createCreateEventStyles(theme: AppTheme, bottomInset = 0) {
       color: colors.text.primary,
     },
     chipLabelSelected: { color: colors.background.brand },
+    chipCheckbox: {
+      width: 14,
+      height: 14,
+      borderWidth: 1,
+      borderColor: colors.border.default,
+      borderRadius: spacing.x1,
+    },
     drinksHint: {
       ...typography.caption,
       marginTop: spacing.x2,
       color: colors.text.secondary,
     },
+    suppliesSection: { marginTop: spacing.x4 },
     reviewCards: { gap: spacing.x2 },
     reviewCard: {
       minHeight: 62,

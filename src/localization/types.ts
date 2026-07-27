@@ -213,6 +213,12 @@ export type TranslationSchema = {
       juice: string;
       soda: string;
       waterHint: string;
+      supplies: string;
+      optional: string;
+      ice: string;
+      plates: string;
+      cups: string;
+      suppliesHint: string;
     };
     review: {
       title: string;
@@ -220,6 +226,8 @@ export type TranslationSchema = {
       change: string;
       guestsSummary: string;
       drinksSummary: string;
+      suppliesSummary: string;
+      noSupplies: string;
       budget: string;
       optional: string;
       budgetPlaceholder: string;

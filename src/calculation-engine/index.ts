@@ -8,6 +8,7 @@ export type {
   CalculationLocation,
   CalculationMenuFormat,
   CalculationSeason,
+  CalculationSupplyCategory,
   EventCalculationInput,
   EventCalculationResult,
   PlanTargetCategory,

@@ -2,6 +2,7 @@ import type {
   CreateEventDraft,
   DrinkType,
   MenuFormat,
+  SupplyType,
 } from '@/components/CreateEventScreen/types';
 import { getInitialDate } from '@/helpers/getInitialDate';
 
@@ -23,6 +24,12 @@ export const CREATE_EVENT_MENU_OPTIONS = [
   'full',
 ] as const satisfies readonly MenuFormat[];
 
+export const CREATE_EVENT_SUPPLY_OPTIONS = [
+  'ice',
+  'plates',
+  'cups',
+] as const satisfies readonly SupplyType[];
+
 export function createInitialEventDraft(): CreateEventDraft {
   return {
     eventType: 'birthday',
@@ -37,6 +44,7 @@ export function createInitialEventDraft(): CreateEventDraft {
     location: 'indoor',
     menuFormat: 'buffet',
     drinks: ['beer', 'wine', 'juice'],
+    supplies: [],
     budget: '',
     note: '',
   };

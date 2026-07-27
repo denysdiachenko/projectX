@@ -1,4 +1,7 @@
-import type { CreateEventDraft } from '@/components/CreateEventScreen/types';
+import type {
+  CreateEventDraft,
+  SupplyType,
+} from '@/components/CreateEventScreen/types';
 import {
   calculateEventPlan,
   type CalculationEventType,
@@ -222,7 +225,10 @@ export async function getEventDraft(eventId: string): Promise<CreateEventDraft> 
       menu_format,
       drink_categories,
       budget_amount,
-      notes
+      notes,
+      current_snapshot:calculation_snapshots!events_current_snapshot_fkey (
+        normalized_input
+      )
     `)
     .eq('id', eventId)
     .single();
@@ -246,6 +252,7 @@ export async function getEventDraft(eventId: string): Promise<CreateEventDraft> 
     menuFormat: reverseMenuFormat(data.menu_format),
     name: data.name,
     note: data.notes ?? '',
+    supplies: getDraftSupplies(data.current_snapshot?.normalized_input),
     time: dateTime.time,
   };
 }
@@ -427,6 +434,7 @@ function createCalculationInput(
     alcoholGuestsCount: draft.alcoholGuests,
     menuFormat: MENU_FORMAT_MAP[draft.menuFormat],
     drinkCategories: draft.drinks,
+    supplyCategories: draft.supplies,
   };
 }
 
@@ -473,6 +481,25 @@ function reverseMenuFormat(value: Tables<'events'>['menu_format']): CreateEventD
 
 function toJson(value: unknown): Json {
   return JSON.parse(JSON.stringify(value)) as Json;
+}
+
+const SUPPLY_CATEGORIES: SupplyType[] = ['ice', 'plates', 'cups'];
+
+function getDraftSupplies(input: Json | null | undefined): SupplyType[] {
+  if (!input || typeof input !== 'object' || Array.isArray(input)) {
+    return [...SUPPLY_CATEGORIES];
+  }
+
+  const categories = input.supplyCategories;
+  if (!Array.isArray(categories)) {
+    return [...SUPPLY_CATEGORIES];
+  }
+
+  return categories.filter(
+    (category): category is SupplyType =>
+      typeof category === 'string'
+      && SUPPLY_CATEGORIES.includes(category as SupplyType),
+  );
 }
 
 function getSnapshotSeason(snapshot: Json) {
