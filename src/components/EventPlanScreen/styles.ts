@@ -8,7 +8,7 @@ export function createEventPlanStyles(theme: AppTheme, contentBottomInset = 0) {
   return StyleSheet.create({
     screen: {
       flex: 1,
-      backgroundColor: colors.background.canvas,
+      backgroundColor: colors.background.surface,
     },
     scrollContent: {
       paddingHorizontal: spacing.x5,
@@ -35,33 +35,32 @@ export function createEventPlanStyles(theme: AppTheme, contentBottomInset = 0) {
       flex: 1,
       color: colors.text.secondary,
     },
-    contextCard: {
-      minHeight: 62,
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: spacing.x3,
-      marginTop: spacing.x5,
-      paddingHorizontal: spacing.x4,
-      borderRadius: spacing.x4,
-      backgroundColor: colors.status.infoBackground,
-    },
     contextText: {
       ...typography.caption,
-      flex: 1,
-      color: colors.text.secondary,
+      marginTop: spacing.x3,
+      paddingBottom: spacing.x4,
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderBottomColor: colors.border.default,
+      color: colors.text.muted,
     },
     section: {
       gap: spacing.x3,
-      marginTop: spacing.x5,
+      marginTop: spacing.x6,
     },
     sectionTitle: {
       ...typography.titleMedium,
       color: colors.text.primary,
     },
     targetCard: {
+      overflow: 'hidden',
       paddingHorizontal: spacing.x4,
+      borderWidth: 1,
+      borderColor: colors.border.default,
       borderRadius: 18,
       backgroundColor: colors.background.surface,
+      boxShadow: theme.name === 'dark'
+        ? '0px 8px 20px 0px rgba(0, 0, 0, 0.24)'
+        : '0px 8px 20px 0px rgba(33, 40, 59, 0.07)',
     },
     targetRow: {
       minHeight: 46,

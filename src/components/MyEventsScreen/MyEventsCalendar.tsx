@@ -38,7 +38,13 @@ export default function MyEventsCalendar({
       ListHeaderComponent={header}
       onRefresh={onRefresh}
       refreshing={refreshing}
-      renderItem={({ item }) => <MyEventsMonthEvent event={item} />}
+      renderItem={({ index, item, section }) => (
+        <MyEventsMonthEvent
+          event={item}
+          isFirst={index === 0}
+          isLast={index === section.data.length - 1}
+        />
+      )}
       renderSectionHeader={({ section }) => (
         <View style={styles.calendarSectionHeader}>
           <Text style={styles.calendarSectionTitle}>{section.title}</Text>

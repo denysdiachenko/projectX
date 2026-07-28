@@ -8,7 +8,7 @@ export function createMyEventsStyles(theme: AppTheme) {
   return StyleSheet.create({
     screen: {
       flex: 1,
-      backgroundColor: colors.background.canvas,
+      backgroundColor: colors.background.surface,
     },
     list: {
       flex: 1,
@@ -33,69 +33,110 @@ export function createMyEventsStyles(theme: AppTheme) {
     },
     eventCard: {
       position: 'relative',
-      minHeight: 148,
+      minHeight: 176,
       overflow: 'hidden',
-      flexDirection: 'row',
-      alignItems: 'flex-start',
-      gap: spacing.x4,
-      padding: 14,
+      padding: spacing.x4,
+      paddingLeft: spacing.x24,
       borderWidth: 1,
+      borderColor: colors.border.default,
       borderRadius: spacing.x4,
+      backgroundColor: colors.background.surface,
+      boxShadow: theme.name === 'dark'
+        ? '0px 8px 20px 0px rgba(0, 0, 0, 0.26)'
+        : '0px 8px 20px 0px rgba(33, 40, 59, 0.08)',
     },
     eventCardCompact: {
       flex: 1,
-      minHeight: 118,
-      gap: spacing.x2,
+      minHeight: 132,
       padding: spacing.x3,
+      paddingLeft: spacing.x4,
       borderRadius: spacing.x4,
     },
-    eventCardAccent: {
-      borderColor:
-        theme.name === 'dark' ? theme.primitives.violet[500] : theme.primitives.violet[300],
-      backgroundColor:
-        theme.name === 'dark' ? theme.primitives.violet[900] : theme.primitives.violet[100],
+    eventAccentBar: {
+      position: 'absolute',
+      zIndex: 2,
+      top: 0,
+      bottom: 0,
+      left: 0,
+      width: spacing.x1,
     },
-    eventCardBrand: {
-      borderColor:
-        theme.name === 'dark' ? theme.primitives.mint[600] : theme.primitives.mint[300],
-      backgroundColor:
-        theme.name === 'dark' ? colors.background.subtle : theme.primitives.mint[100],
+    eventAccentBarAccent: {
+      backgroundColor: colors.background.accent,
     },
-    eventCardInfo: {
-      borderColor:
-        theme.name === 'dark' ? theme.primitives.sky[500] : theme.primitives.sky[300],
-      backgroundColor:
-        theme.name === 'dark' ? colors.status.infoBackground : theme.primitives.sky[100],
+    eventAccentBarBrand: {
+      backgroundColor: colors.background.brand,
+    },
+    eventAccentBarInfo: {
+      backgroundColor: colors.status.infoForeground,
     },
     eventCardPressed: {
       opacity: 0.72,
     },
+    eventDateRail: {
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: spacing.x1,
+      width: 72,
+    },
+    eventDateDay: {
+      ...typography.titleLarge,
+      position: 'absolute',
+      top: spacing.x6,
+      width: '100%',
+      textAlign: 'center',
+    },
+    eventDateMonth: {
+      ...typography.overline,
+      position: 'absolute',
+      top: 58,
+      width: '100%',
+      textAlign: 'center',
+    },
+    eventDateDivider: {
+      position: 'absolute',
+      top: 88,
+      left: spacing.x4,
+      width: 44,
+      height: 1,
+      opacity: 0.35,
+    },
+    eventDateTime: {
+      ...typography.caption,
+      position: 'absolute',
+      top: 102,
+      width: '100%',
+      color: colors.text.secondary,
+      textAlign: 'center',
+    },
+    eventHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: spacing.x3,
+    },
     eventIcon: {
-      zIndex: 1,
-      width: 62,
-      height: 62,
+      width: spacing.x10,
+      height: spacing.x10,
       alignItems: 'center',
       justifyContent: 'center',
-      borderRadius: 14,
+      borderRadius: spacing.x3,
     },
     eventIconCompact: {
-      width: 28,
-      height: 28,
-      borderRadius: spacing.x2,
+      width: spacing.x8,
+      height: spacing.x8,
+      borderRadius: spacing.x3,
     },
     eventIconAccent: {
-      backgroundColor: colors.background.accent,
+      backgroundColor: colors.background.accentSubtle,
     },
     eventIconBrand: {
-      backgroundColor: colors.background.brand,
+      backgroundColor: colors.background.subtle,
     },
     eventIconInfo: {
-      backgroundColor: colors.status.infoForeground,
+      backgroundColor: colors.status.infoBackground,
     },
-    eventCopy: {
-      zIndex: 1,
+    eventHeaderCopy: {
       flex: 1,
-      gap: 2,
     },
     eventTitleRow: {
       minHeight: 22,
@@ -119,14 +160,55 @@ export function createMyEventsStyles(theme: AppTheme) {
     eventDateCompact: {
       ...typography.caption,
     },
-    eventGuests: {
+    eventVenueRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: spacing.x2,
+      marginTop: spacing.x3,
+    },
+    eventVenue: {
       ...typography.caption,
+      flex: 1,
       color: colors.text.muted,
     },
-    eventChecklist: {
+    eventShoppingRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: spacing.x1,
+      marginTop: spacing.x3,
+    },
+    eventShoppingRowEmpty: {
+      paddingHorizontal: spacing.x2,
+      paddingVertical: spacing.x1,
+      borderRadius: spacing.x2,
+      backgroundColor: colors.status.warningBackground,
+    },
+    eventShopping: {
       ...typography.caption,
-      marginTop: spacing.x2,
+      flex: 1,
       fontFamily: theme.fontFamily.semiBold,
+    },
+    eventShoppingEmpty: {
+      color: colors.status.warningForeground,
+    },
+    eventShoppingProgress: {
+      color: colors.background.accent,
+    },
+    eventShoppingComplete: {
+      color: colors.text.brand,
+    },
+    eventChecklistBlock: {
+      marginTop: spacing.x3,
+    },
+    eventChecklistRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: spacing.x2,
+    },
+    eventChecklist: {
+      ...typography.labelSmall,
+      flex: 1,
+      letterSpacing: 0,
     },
     eventChecklistAccent: {
       color: colors.background.accent,
@@ -140,7 +222,7 @@ export function createMyEventsStyles(theme: AppTheme) {
     eventProgressTrack: {
       height: 5,
       overflow: 'hidden',
-      marginTop: spacing.x2,
+      marginTop: spacing.x3,
       borderRadius: 3,
       backgroundColor: colors.border.default,
     },
@@ -156,85 +238,6 @@ export function createMyEventsStyles(theme: AppTheme) {
     },
     eventProgressInfo: {
       backgroundColor: colors.status.infoForeground,
-    },
-    eventDecorations: {
-      position: 'absolute',
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
-    },
-    eventDecorationCircle: {
-      position: 'absolute',
-      top: -42,
-      right: -44,
-      width: 112,
-      height: 112,
-      opacity: 0.32,
-      borderRadius: 56,
-    },
-    eventDecorationCircleCompact: {
-      top: -34,
-      right: -36,
-      width: 92,
-      height: 92,
-      borderRadius: 46,
-    },
-    eventDecorationPill: {
-      position: 'absolute',
-      right: spacing.x3,
-      bottom: -2,
-      width: 72,
-      height: 22,
-      opacity: 0.28,
-      borderRadius: 11,
-      transform: [{ rotate: '18deg' }],
-    },
-    eventDecorationPillCompact: {
-      right: spacing.x2,
-      bottom: -4,
-      width: 64,
-      height: 18,
-      borderRadius: 9,
-    },
-    eventDecorationAccent: {
-      backgroundColor: theme.primitives.violet[300],
-    },
-    eventDecorationBrand: {
-      backgroundColor: theme.primitives.mint[300],
-    },
-    eventDecorationInfo: {
-      backgroundColor: theme.primitives.sky[300],
-    },
-    viewToggle: {
-      height: spacing.x10,
-      flexDirection: 'row',
-      marginTop: spacing.x5,
-      padding: spacing.x1,
-      borderRadius: spacing.x4,
-      backgroundColor: colors.background.subtle,
-    },
-    viewToggleItem: {
-      flex: 1,
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: spacing.x2,
-      borderRadius: spacing.x3,
-    },
-    viewToggleItemActive: {
-      backgroundColor: colors.background.brand,
-    },
-    viewToggleItemPressed: {
-      opacity: 0.72,
-    },
-    viewToggleLabel: {
-      ...typography.bodySmall,
-      fontFamily: theme.fontFamily.semiBold,
-      color: colors.text.secondary,
-    },
-    viewToggleLabelActive: {
-      color: colors.text.onBrand,
     },
     monthSelector: {
       overflow: 'hidden',
@@ -299,7 +302,6 @@ export function createMyEventsStyles(theme: AppTheme) {
       justifyContent: 'space-between',
       marginTop: spacing.x6,
       marginBottom: spacing.x3,
-      backgroundColor: colors.background.canvas,
     },
     calendarSectionTitle: {
       ...typography.titleMedium,
@@ -322,9 +324,17 @@ export function createMyEventsStyles(theme: AppTheme) {
       ...typography.caption,
       color: colors.text.secondary,
     },
-    timelineLine: {
+    timelineLineBefore: {
       position: 'absolute',
-      top: 28,
+      top: -spacing.x3,
+      right: 16,
+      width: 1,
+      height: 42,
+      backgroundColor: colors.border.default,
+    },
+    timelineLineAfter: {
+      position: 'absolute',
+      top: 29,
       right: 16,
       bottom: -spacing.x3,
       width: 1,
@@ -332,13 +342,14 @@ export function createMyEventsStyles(theme: AppTheme) {
     },
     timelineDot: {
       position: 'absolute',
-      top: 26,
-      right: 13,
-      width: 7,
-      height: 7,
-      borderWidth: 1,
+      zIndex: 1,
+      top: 24,
+      right: 11.5,
+      width: 10,
+      height: 10,
+      borderWidth: 2,
       borderColor: colors.background.surface,
-      borderRadius: 4,
+      borderRadius: 5,
       backgroundColor: colors.background.brand,
     },
     calendarEmpty: {
@@ -395,7 +406,7 @@ export function createMyEventsStyles(theme: AppTheme) {
     bottomAction: {
       paddingHorizontal: spacing.x6,
       paddingBottom: spacing.x4,
-      backgroundColor: colors.background.canvas,
+      backgroundColor: colors.background.surface,
     },
     hint: {
       minHeight: 88,

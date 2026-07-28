@@ -31,7 +31,7 @@ export default function EventTabsLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: theme.colors.text.brand,
+        tabBarActiveTintColor: theme.colors.background.accent,
         tabBarInactiveTintColor: theme.colors.text.muted,
         tabBarIconStyle: styles.tabBarIcon,
         tabBarItemStyle: styles.tabBarItem,

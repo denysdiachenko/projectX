@@ -40,7 +40,7 @@ function RootNavigator() {
     headerLeft: () => <AppHeaderBackButton />,
     headerShadowVisible: false,
     headerShown: true,
-    headerStyle: { backgroundColor: theme.colors.background.canvas },
+    headerStyle: { backgroundColor: theme.colors.background.surface },
     headerTintColor: theme.colors.text.primary,
     headerTitle: title,
     headerTitleAlign: 'center' as const,

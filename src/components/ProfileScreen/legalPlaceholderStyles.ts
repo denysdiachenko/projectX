@@ -6,7 +6,7 @@ export function createLegalPlaceholderStyles(theme: AppTheme) {
   return StyleSheet.create({
     screen: {
       flex: 1,
-      backgroundColor: theme.colors.background.canvas,
+      backgroundColor: theme.colors.background.surface,
     },
     content: {
       flex: 1,

@@ -115,7 +115,9 @@ export type TranslationSchema = {
     guests: string;
     checklistProgress: string;
     checklistComplete: string;
-    checklistEmpty: string;
+    shoppingProgress: string;
+    shoppingComplete: string;
+    shoppingEmpty: string;
     loadError: string;
     retry: string;
     createAnother: string;

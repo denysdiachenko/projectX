@@ -12,7 +12,7 @@ export function createChecklistStyles(
   return StyleSheet.create({
     screen: {
       flex: 1,
-      backgroundColor: colors.background.canvas,
+      backgroundColor: colors.background.surface,
     },
     scrollContent: {
       flexGrow: 1,

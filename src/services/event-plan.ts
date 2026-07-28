@@ -29,6 +29,9 @@ export type EventListItem = {
   location: string;
   location_text: string | null;
   name: string;
+  shopping_items: {
+    is_purchased: boolean;
+  }[];
   starts_at: string;
   status: string;
   time_zone: string;
@@ -98,6 +101,9 @@ export async function getUserEvents() {
       children_count,
       checklist_items!checklist_items_event_owner_fkey (
         is_completed
+      ),
+      shopping_items!shopping_items_event_owner_fkey (
+        is_purchased
       )
     `)
     .order('starts_at', { ascending: true });

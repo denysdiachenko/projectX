@@ -12,7 +12,7 @@ export function createShoppingListStyles(
   return StyleSheet.create({
     screen: {
       flex: 1,
-      backgroundColor: colors.background.canvas,
+      backgroundColor: colors.background.surface,
     },
     scrollContent: {
       paddingHorizontal: spacing.x5,
@@ -52,37 +52,6 @@ export function createShoppingListStyles(
     summaryProgress: {
       ...typography.bodySmall,
       color: colors.text.secondary,
-    },
-    viewToggle: {
-      flexDirection: 'row',
-      gap: spacing.x1,
-      marginTop: spacing.x4,
-      padding: spacing.x1,
-      borderWidth: 1,
-      borderColor: colors.border.default,
-      borderRadius: spacing.x3,
-      backgroundColor: colors.background.surface,
-    },
-    viewToggleButton: {
-      minHeight: spacing.x10,
-      flex: 1,
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: spacing.x2,
-      paddingHorizontal: spacing.x2,
-      borderRadius: spacing.x2,
-    },
-    viewToggleButtonSelected: {
-      backgroundColor: colors.background.subtle,
-    },
-    viewToggleLabel: {
-      ...typography.labelSmall,
-      color: colors.text.secondary,
-      letterSpacing: 0,
-    },
-    viewToggleLabelSelected: {
-      color: colors.text.brand,
     },
     section: {
       marginTop: spacing.x5,

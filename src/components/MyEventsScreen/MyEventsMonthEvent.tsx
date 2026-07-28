@@ -8,7 +8,15 @@ import { useAppLocalization } from '@/hooks/app-localization';
 import { useAppTheme } from '@/hooks/app-theme';
 import type { EventListItem } from '@/services/event-plan';
 
-export default function MyEventsMonthEvent({ event }: { event: EventListItem }) {
+export default function MyEventsMonthEvent({
+  event,
+  isFirst,
+  isLast,
+}: {
+  event: EventListItem;
+  isFirst: boolean;
+  isLast: boolean;
+}) {
   const theme = useAppTheme();
   const { language } = useAppLocalization();
   const styles = useMemo(() => createMyEventsStyles(theme), [theme]);
@@ -18,7 +26,8 @@ export default function MyEventsMonthEvent({ event }: { event: EventListItem }) 
     <View style={styles.timelineRow}>
       <View style={styles.timelineTimeColumn}>
         <Text style={styles.timelineTime}>{formatEventTime(event, locale)}</Text>
-        <View style={styles.timelineLine} />
+        {!isFirst ? <View style={styles.timelineLineBefore} /> : null}
+        {!isLast ? <View style={styles.timelineLineAfter} /> : null}
         <View style={styles.timelineDot} />
       </View>
       <MyEventCard compact event={event} />

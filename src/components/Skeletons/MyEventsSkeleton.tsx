@@ -15,11 +15,18 @@ export default function MyEventsSkeleton() {
     <SkeletonPulse style={styles.myEvents}>
       {[0, 1].map((index) => (
         <View key={index} style={styles.eventCard}>
-          <SkeletonBlock style={styles.eventIcon} />
-          <View style={styles.eventCopy}>
-            <SkeletonBlock style={styles.titleLine} />
-            <SkeletonBlock style={styles.mediumLine} />
+          <SkeletonBlock style={styles.eventDateRail} />
+          <SkeletonBlock style={styles.eventAccentBar} />
+          <View style={styles.eventSkeletonContent}>
+            <View style={styles.eventSkeletonHeader}>
+              <View style={styles.eventCopy}>
+                <SkeletonBlock style={styles.titleLine} />
+                <SkeletonBlock style={styles.mediumLine} />
+              </View>
+            </View>
             <SkeletonBlock style={styles.shortLine} />
+            <SkeletonBlock style={styles.eventStatusLine} />
+            <SkeletonBlock style={styles.eventProgressLine} />
           </View>
         </View>
       ))}

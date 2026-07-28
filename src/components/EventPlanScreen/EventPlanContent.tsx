@@ -126,10 +126,7 @@ export default function EventPlanContent({ eventId }: EventPlanContentProps) {
           </View>
         ) : null}
 
-        <View style={styles.contextCard}>
-          <AntDesign name="info-circle" color={theme.colors.status.infoForeground} size={18} />
-          <Text style={styles.contextText}>{context}</Text>
-        </View>
+        <Text style={styles.contextText}>{context}</Text>
 
         <PlanTargetGroup targets={foodTargets} title={copy.sections.food} units={plan.units} />
         <PlanTargetGroup targets={drinkTargets} title={copy.sections.drinks} units={plan.units} />

@@ -8,7 +8,7 @@ export function createProfileStyles(theme: AppTheme) {
   return StyleSheet.create({
     screen: {
       flex: 1,
-      backgroundColor: colors.background.canvas,
+      backgroundColor: colors.background.surface,
     },
     scrollContent: {
       paddingHorizontal: spacing.x6,
