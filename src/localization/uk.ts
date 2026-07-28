@@ -186,6 +186,9 @@ export const uk: TranslationSchema = {
       location: 'Локація',
       indoor: 'У приміщенні',
       outdoor: 'Надворі',
+      locationText: 'Місце проведення',
+      locationTextPlaceholder: 'Наприклад, вул. Хрещатик, 10 або назва закладу',
+      optional: 'Необов’язково',
       seasonHint: 'За датою події: {season} — врахуємо більше води та, за вибором, льоду.',
       seasons: {
         winter: 'зима',

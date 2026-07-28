@@ -185,6 +185,9 @@ export type TranslationSchema = {
       location: string;
       indoor: string;
       outdoor: string;
+      locationText: string;
+      locationTextPlaceholder: string;
+      optional: string;
       seasonHint: string;
       seasons: {
         winter: string;

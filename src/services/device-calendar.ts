@@ -7,6 +7,7 @@ import {
 export type DeviceCalendarEvent = {
   durationHours: number;
   notes: string | null;
+  location: string | null;
   startsAt: string;
   timeZone: string;
   title: string;
@@ -23,6 +24,7 @@ export async function addEventToDeviceCalendar(event: DeviceCalendarEvent) {
   const result = await createEventInCalendarAsync({
     endDate,
     endTimeZone: event.timeZone,
+    location: event.location ?? undefined,
     notes: event.notes ?? undefined,
     startDate,
     timeZone: event.timeZone,

@@ -156,6 +156,7 @@ export type Database = {
           event_type: string
           id: string
           location: string
+          location_text: string | null
           menu_format: string
           name: string
           notes: string | null
@@ -180,6 +181,7 @@ export type Database = {
           event_type: string
           id?: string
           location: string
+          location_text?: string | null
           menu_format: string
           name: string
           notes?: string | null
@@ -204,6 +206,7 @@ export type Database = {
           event_type?: string
           id?: string
           location?: string
+          location_text?: string | null
           menu_format?: string
           name?: string
           notes?: string | null

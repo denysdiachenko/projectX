@@ -186,6 +186,9 @@ export const en: TranslationSchema = {
       location: 'Location',
       indoor: 'Indoors',
       outdoor: 'Outdoors',
+      locationText: 'Venue',
+      locationTextPlaceholder: 'For example, 10 Main Street or a venue name',
+      optional: 'Optional',
       seasonHint: 'Based on the date: {season} — we will allow for more water and, if selected, ice.',
       seasons: {
         winter: 'winter',

@@ -27,6 +27,7 @@ export type EventListItem = {
   event_type: string;
   id: string;
   location: string;
+  location_text: string | null;
   name: string;
   starts_at: string;
   status: string;
@@ -39,6 +40,7 @@ export type EventPlanDetails = {
   durationHours: number;
   id: string;
   location: string;
+  locationText: string | null;
   name: string;
   season: string | null;
   startsAt: string;
@@ -91,6 +93,7 @@ export async function getUserEvents() {
       time_zone,
       status,
       location,
+      location_text,
       adults_count,
       children_count,
       checklist_items!checklist_items_event_owner_fkey (
@@ -117,6 +120,7 @@ export async function getEventPlan(eventId: string): Promise<EventPlanDetails> {
         time_zone,
         duration_hours,
         location,
+        location_text,
         adults_count,
         children_count,
         current_snapshot:calculation_snapshots!events_current_snapshot_fkey (
@@ -148,6 +152,7 @@ export async function getEventPlan(eventId: string): Promise<EventPlanDetails> {
     durationHours: data.duration_hours,
     id: data.id,
     location: data.location,
+    locationText: data.location_text,
     name: data.name,
     season: getSnapshotSeason(snapshot.result_snapshot),
     startsAt: data.starts_at,
@@ -194,7 +199,7 @@ export async function getEventCalendarDetails(eventId: string) {
 
   const { data, error } = await supabase
     .from('events')
-    .select('name, starts_at, time_zone, duration_hours, notes')
+    .select('name, starts_at, time_zone, duration_hours, location_text, notes')
     .eq('id', eventId)
     .single();
 
@@ -202,6 +207,7 @@ export async function getEventCalendarDetails(eventId: string) {
 
   return {
     durationHours: data.duration_hours,
+    location: data.location_text,
     notes: data.notes,
     startsAt: data.starts_at,
     timeZone: data.time_zone,
@@ -219,6 +225,7 @@ export async function getEventDraft(eventId: string): Promise<CreateEventDraft> 
       time_zone,
       duration_hours,
       location,
+      location_text,
       adults_count,
       children_count,
       alcohol_guests_count,
@@ -249,6 +256,7 @@ export async function getEventDraft(eventId: string): Promise<CreateEventDraft> 
     duration: usesPresetDuration ? data.duration_hours : 'custom',
     eventType: reverseEventType(data.event_type),
     location: data.location as CreateEventDraft['location'],
+    locationText: data.location_text ?? '',
     menuFormat: reverseMenuFormat(data.menu_format),
     name: data.name,
     note: data.notes ?? '',
@@ -461,6 +469,7 @@ function createEventValues(
     duration_hours: calculationInput.durationHours,
     event_type: calculationInput.eventType,
     location: calculationInput.location,
+    location_text: draft.locationText.trim() || null,
     menu_format: calculationInput.menuFormat,
     name: draft.name.trim(),
     notes: draft.note.trim() || null,

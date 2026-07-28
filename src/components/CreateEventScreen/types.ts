@@ -16,6 +16,7 @@ export type CreateEventDraft = {
   duration: number | 'custom';
   customDuration: string;
   location: EventLocation;
+  locationText: string;
   menuFormat: MenuFormat;
   drinks: DrinkType[];
   supplies: SupplyType[];

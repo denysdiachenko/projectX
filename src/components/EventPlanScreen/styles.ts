@@ -24,6 +24,17 @@ export function createEventPlanStyles(theme: AppTheme, contentBottomInset = 0) {
       marginTop: spacing.x1,
       color: colors.text.secondary,
     },
+    venueRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: spacing.x2,
+      marginTop: spacing.x2,
+    },
+    venueText: {
+      ...typography.bodySmall,
+      flex: 1,
+      color: colors.text.secondary,
+    },
     contextCard: {
       minHeight: 62,
       flexDirection: 'row',

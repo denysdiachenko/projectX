@@ -42,6 +42,7 @@ export function createInitialEventDraft(): CreateEventDraft {
     duration: 5,
     customDuration: '',
     location: 'indoor',
+    locationText: '',
     menuFormat: 'buffet',
     drinks: ['beer', 'wine', 'juice'],
     supplies: [],

@@ -17,7 +17,7 @@ import type {
 type EventDetailsStepProps = {
   draft: Pick<
     CreateEventDraft,
-    'name' | 'date' | 'time' | 'duration' | 'customDuration' | 'location'
+    'name' | 'date' | 'time' | 'duration' | 'customDuration' | 'location' | 'locationText'
   >;
   error?: string;
   onOpenDate: () => void;
@@ -169,6 +169,22 @@ export default function EventDetailsStep({
               );
             })}
           </View>
+        </View>
+        <View style={styles.fieldGroup}>
+          <View style={styles.fieldLabelRow}>
+            <Text style={styles.fieldLabel}>{copy.details.locationText}</Text>
+            <Text style={styles.optional}>{copy.details.optional}</Text>
+          </View>
+          <TextInput
+            autoCapitalize="sentences"
+            maxLength={250}
+            onChangeText={(value) => onUpdate('locationText', value)}
+            placeholder={copy.details.locationTextPlaceholder}
+            placeholderTextColor={theme.colors.text.muted}
+            selectionColor={theme.colors.border.brand}
+            style={styles.input}
+            value={draft.locationText}
+          />
         </View>
         {seasonKey === 'summer' ? (
           <View style={styles.seasonBox}>

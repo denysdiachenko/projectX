@@ -49,7 +49,9 @@ export default function MyEventCard({
         total: totalTasks,
       });
   const tone = getCardTone(event.event_type);
-  const location = translations.eventPlan.locations[event.location] ?? event.location;
+  const location = event.location_text
+    || translations.eventPlan.locations[event.location]
+    || event.location;
 
   return (
     <Pressable

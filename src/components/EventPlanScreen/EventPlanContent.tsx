@@ -119,6 +119,12 @@ export default function EventPlanContent({ eventId }: EventPlanContentProps) {
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         <Text style={styles.title}>{plan.name}</Text>
         <Text style={styles.meta}>{meta}</Text>
+        {plan.locationText ? (
+          <View style={styles.venueRow}>
+            <AntDesign name="environment" color={theme.colors.text.secondary} size={16} />
+            <Text style={styles.venueText}>{plan.locationText}</Text>
+          </View>
+        ) : null}
 
         <View style={styles.contextCard}>
           <AntDesign name="info-circle" color={theme.colors.status.infoForeground} size={18} />

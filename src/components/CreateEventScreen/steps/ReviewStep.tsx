@@ -40,6 +40,12 @@ export default function ReviewStep({ draft, onEdit, onUpdate }: ReviewStepProps)
   const locationLabel = draft.location === 'indoor'
     ? copy.details.indoor
     : copy.details.outdoor;
+  const eventDetailsHint = [
+    `${dateLabel}, ${draft.time}`,
+    durationLabel,
+    locationLabel.toLocaleLowerCase(locale),
+    draft.locationText.trim(),
+  ].filter(Boolean).join(' · ');
   const selectedDrinkLabels = draft.drinks.map((drink) => copy.menu[drink]).join(', ');
   const selectedSupplyLabels = draft.supplies.map((supply) => copy.menu[supply]).join(', ');
   const suppliesSummary = selectedSupplyLabels
@@ -56,7 +62,7 @@ export default function ReviewStep({ draft, onEdit, onUpdate }: ReviewStepProps)
       <View style={styles.reviewCards}>
         <ReviewCard
           changeLabel={copy.review.change}
-          hint={`${dateLabel}, ${draft.time} · ${durationLabel} · ${locationLabel.toLocaleLowerCase(locale)}`}
+          hint={eventDetailsHint}
           icon="calendar"
           title={draft.name || copy.eventType[draft.eventType]}
           onPress={() => onEdit(2)}
