@@ -19,9 +19,31 @@ export function createMyEventsStyles(theme: AppTheme) {
       paddingTop: spacing.x12,
       paddingBottom: spacing.x4,
     },
+    titleRow: {
+      minHeight: spacing.x10,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: spacing.x3,
+    },
     title: {
       ...typography.heading2,
+      flex: 1,
       color: colors.text.primary,
+    },
+    viewModeButton: {
+      width: spacing.x10,
+      height: spacing.x10,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderWidth: 1,
+      borderColor: colors.border.default,
+      borderRadius: spacing.x5,
+      backgroundColor: colors.background.accentSubtle,
+    },
+    viewModeButtonPressed: {
+      opacity: 0.68,
+      transform: [{ scale: 0.96 }],
     },
     greeting: {
       ...typography.bodySmall,

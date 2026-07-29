@@ -50,14 +50,6 @@ export default function SocialAuthButtons({
     }
   };
 
-  const handleApplePress = () => {
-    showToast({
-      message: copy.appleUnavailableMessage,
-      title: copy.appleUnavailableTitle,
-      type: 'info',
-    });
-  };
-
   return (
     <View style={[styles.container, style]}>
       <AppButton
@@ -66,13 +58,6 @@ export default function SocialAuthButtons({
         label={copy.continueWithGoogle}
         loading={isGoogleLoading}
         onPress={handleGooglePress}
-        variant="social"
-      />
-      <AppButton
-        disabled={isDisabled}
-        icon={<AntDesign name="apple" color={theme.colors.text.primary} size={20} />}
-        label={copy.continueWithApple}
-        onPress={handleApplePress}
         variant="social"
       />
     </View>

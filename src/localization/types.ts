@@ -6,10 +6,7 @@ export type TranslationSchema = {
     dismiss: string;
     socialAuth: {
       continueWithGoogle: string;
-      continueWithApple: string;
       googleErrorTitle: string;
-      appleUnavailableTitle: string;
-      appleUnavailableMessage: string;
       errors: {
         providerDisabled: string;
         network: string;

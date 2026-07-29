@@ -6,10 +6,7 @@ export const uk: TranslationSchema = {
     dismiss: 'Закрити повідомлення',
     socialAuth: {
       continueWithGoogle: 'Продовжити з Google',
-      continueWithApple: 'Продовжити з Apple',
       googleErrorTitle: 'Не вдалося увійти через Google',
-      appleUnavailableTitle: 'Apple Sign In ще не підключено',
-      appleUnavailableMessage: 'Додамо вхід через Apple наступним кроком.',
       errors: {
         providerDisabled: 'Вхід через Google зараз недоступний. Спробуйте пізніше.',
         network: 'Не вдалося підключитися. Перевірте інтернет і спробуйте ще раз.',

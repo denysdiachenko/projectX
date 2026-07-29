@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 
 import MyEventsMonthSelector from '@/components/MyEventsScreen/MyEventsMonthSelector';
 import MyEventsPeriodToggle, {
@@ -45,10 +45,14 @@ export default function MyEventsHeader({
 
   return (
     <>
-      <Text style={styles.title}>{copy.title}</Text>
+      <View style={styles.titleRow}>
+        <Text style={styles.title}>{copy.title}</Text>
+        {showControls ? (
+          <MyEventsViewToggle onChange={onViewModeChange} value={viewMode} />
+        ) : null}
+      </View>
       {showControls ? (
         <>
-          <MyEventsViewToggle onChange={onViewModeChange} value={viewMode} />
           {viewMode === 'calendar' ? (
             <MyEventsMonthSelector
               eventCountLabel={eventCountLabel}

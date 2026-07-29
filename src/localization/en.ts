@@ -6,10 +6,7 @@ export const en: TranslationSchema = {
     dismiss: 'Dismiss message',
     socialAuth: {
       continueWithGoogle: 'Continue with Google',
-      continueWithApple: 'Continue with Apple',
       googleErrorTitle: 'Unable to sign in with Google',
-      appleUnavailableTitle: 'Apple Sign In is not connected yet',
-      appleUnavailableMessage: 'Apple Sign In will be added in the next step.',
       errors: {
         providerDisabled: 'Google sign-in is currently unavailable. Please try again later.',
         network: 'Unable to connect. Check your internet connection and try again.',
