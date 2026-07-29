@@ -148,6 +148,7 @@ export type Database = {
           budget_feedback_at: string | null
           budget_outcome: string | null
           children_count: number
+          completed_at: string | null
           created_at: string
           currency: string
           current_snapshot_id: string | null
@@ -173,6 +174,7 @@ export type Database = {
           budget_feedback_at?: string | null
           budget_outcome?: string | null
           children_count: number
+          completed_at?: string | null
           created_at?: string
           currency?: string
           current_snapshot_id?: string | null
@@ -198,6 +200,7 @@ export type Database = {
           budget_feedback_at?: string | null
           budget_outcome?: string | null
           children_count?: number
+          completed_at?: string | null
           created_at?: string
           currency?: string
           current_snapshot_id?: string | null

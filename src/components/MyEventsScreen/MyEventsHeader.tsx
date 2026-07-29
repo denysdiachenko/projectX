@@ -2,6 +2,9 @@ import { useMemo } from 'react';
 import { Text } from 'react-native';
 
 import MyEventsMonthSelector from '@/components/MyEventsScreen/MyEventsMonthSelector';
+import MyEventsPeriodToggle, {
+  type MyEventsPeriod,
+} from '@/components/MyEventsScreen/MyEventsPeriodToggle';
 import type { EventMonth } from '@/components/MyEventsScreen/month-helpers';
 import { createMyEventsStyles } from '@/components/MyEventsScreen/styles';
 import MyEventsViewToggle, {
@@ -17,8 +20,10 @@ type MyEventsHeaderProps = {
   eventYears: number[];
   hasEvents: boolean;
   onMonthChange: (value: EventMonth) => void;
+  onPeriodChange: (value: MyEventsPeriod) => void;
   onViewModeChange: (value: MyEventsViewMode) => void;
   showControls: boolean;
+  period: MyEventsPeriod;
   viewMode: MyEventsViewMode;
 };
 
@@ -27,8 +32,10 @@ export default function MyEventsHeader({
   eventCountLabel,
   eventYears,
   onMonthChange,
+  onPeriodChange,
   onViewModeChange,
   showControls,
+  period,
   viewMode,
 }: MyEventsHeaderProps) {
   const theme = useAppTheme();
@@ -49,7 +56,9 @@ export default function MyEventsHeader({
               onChange={onMonthChange}
               value={activeMonth}
             />
-          ) : null}
+          ) : (
+            <MyEventsPeriodToggle onChange={onPeriodChange} value={period} />
+          )}
         </>
       ) : null}
     </>

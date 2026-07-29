@@ -24,6 +24,8 @@ export type EventListItem = {
     is_completed: boolean;
   }[];
   children_count: number;
+  completed_at: string | null;
+  duration_hours: number;
   event_type: string;
   id: string;
   location: string;
@@ -40,6 +42,7 @@ export type EventListItem = {
 export type EventPlanDetails = {
   adultsCount: number;
   childrenCount: number;
+  completedAt: string | null;
   durationHours: number;
   id: string;
   location: string;
@@ -47,6 +50,7 @@ export type EventPlanDetails = {
   name: string;
   season: string | null;
   startsAt: string;
+  status: string;
   targets: {
     category: string;
     id: string;
@@ -56,6 +60,18 @@ export type EventPlanDetails = {
   }[];
   timeZone: string;
   units: MeasurementUnit[];
+};
+
+export type BudgetOutcome = 'over_budget' | 'unknown' | 'within_budget';
+
+export type EventCompletionDetails = {
+  budgetAmount: number | null;
+  completedAt: string | null;
+  durationHours: number;
+  startsAt: string;
+  status: string;
+  unfinishedChecklistItems: number;
+  unfinishedShoppingItems: number;
 };
 
 const EVENT_TYPE_MAP: Record<CreateEventDraft['eventType'], CalculationEventType> = {
@@ -94,7 +110,9 @@ export async function getUserEvents() {
       event_type,
       starts_at,
       time_zone,
+      duration_hours,
       status,
+      completed_at,
       location,
       location_text,
       adults_count,
@@ -125,6 +143,8 @@ export async function getEventPlan(eventId: string): Promise<EventPlanDetails> {
         starts_at,
         time_zone,
         duration_hours,
+        status,
+        completed_at,
         location,
         location_text,
         adults_count,
@@ -155,6 +175,7 @@ export async function getEventPlan(eventId: string): Promise<EventPlanDetails> {
   return {
     adultsCount: data.adults_count,
     childrenCount: data.children_count,
+    completedAt: data.completed_at,
     durationHours: data.duration_hours,
     id: data.id,
     location: data.location,
@@ -162,6 +183,7 @@ export async function getEventPlan(eventId: string): Promise<EventPlanDetails> {
     name: data.name,
     season: getSnapshotSeason(snapshot.result_snapshot),
     startsAt: data.starts_at,
+    status: data.status,
     targets: snapshot.targets
       .map((target) => ({
         category: target.category,
@@ -174,6 +196,94 @@ export async function getEventPlan(eventId: string): Promise<EventPlanDetails> {
     timeZone: data.time_zone,
     units,
   };
+}
+
+export async function getEventCompletionDetails(
+  eventId: string,
+): Promise<EventCompletionDetails> {
+  if (!UUID_PATTERN.test(eventId)) {
+    throw new Error('Invalid event id');
+  }
+
+  const { data, error } = await supabase
+    .from('events')
+    .select(`
+      starts_at,
+      duration_hours,
+      status,
+      completed_at,
+      budget_amount,
+      checklist_items!checklist_items_event_owner_fkey (
+        is_completed
+      ),
+      shopping_items!shopping_items_event_owner_fkey (
+        is_purchased
+      )
+    `)
+    .eq('id', eventId)
+    .single();
+
+  if (error) throw error;
+
+  return {
+    budgetAmount: data.budget_amount,
+    completedAt: data.completed_at,
+    durationHours: data.duration_hours,
+    startsAt: data.starts_at,
+    status: data.status,
+    unfinishedChecklistItems: data.checklist_items.filter(
+      (item) => !item.is_completed,
+    ).length,
+    unfinishedShoppingItems: data.shopping_items.filter(
+      (item) => !item.is_purchased,
+    ).length,
+  };
+}
+
+export async function completeEvent(
+  eventId: string,
+  budgetOutcome: BudgetOutcome | null,
+) {
+  if (!UUID_PATTERN.test(eventId)) {
+    throw new Error('Invalid event id');
+  }
+
+  const completedAt = new Date().toISOString();
+  const { data, error } = await supabase
+    .from('events')
+    .update({
+      budget_feedback_at: budgetOutcome ? completedAt : null,
+      budget_outcome: budgetOutcome,
+      completed_at: completedAt,
+      status: 'completed',
+    })
+    .eq('id', eventId)
+    .select('id, completed_at')
+    .single();
+
+  if (error) throw error;
+  return data;
+}
+
+export async function reopenEvent(eventId: string) {
+  if (!UUID_PATTERN.test(eventId)) {
+    throw new Error('Invalid event id');
+  }
+
+  const { data, error } = await supabase
+    .from('events')
+    .update({
+      budget_feedback_at: null,
+      budget_outcome: null,
+      completed_at: null,
+      status: 'planned',
+    })
+    .eq('id', eventId)
+    .select('id')
+    .single();
+
+  if (error) throw error;
+  return data.id;
 }
 
 export async function getEventRulesVersion(eventId: string) {

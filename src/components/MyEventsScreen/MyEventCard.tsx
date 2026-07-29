@@ -6,6 +6,10 @@ import { Pressable, Text, View } from 'react-native';
 import AppChevron from '@/components/AppChevron/AppChevron';
 import { getEventTypeIcon } from '@/constants/event-type-icons';
 import { ROUTES } from '@/constants/routes';
+import {
+  getEventLifecycleStatus,
+  type EventLifecycleStatus,
+} from '@/helpers/eventLifecycle';
 import { useAppLocalization } from '@/hooks/app-localization';
 import { useAppTheme } from '@/hooks/app-theme';
 import type { EventListItem } from '@/services/event-plan';
@@ -75,6 +79,13 @@ export default function MyEventCard({
     || event.location;
   const guestsLabel = translations.myEvents.guests.replace('{count}', String(guests));
   const eventMeta = compact ? `${location} · ${guestsLabel}` : guestsLabel;
+  const lifecycleStatus = getEventLifecycleStatus({
+    completedAt: event.completed_at,
+    durationHours: event.duration_hours,
+    startsAt: event.starts_at,
+    status: event.status,
+  });
+  const lifecycleLabel = getLifecycleLabel(lifecycleStatus, translations.myEvents.statuses);
 
   return (
     <Pressable
@@ -132,6 +143,12 @@ export default function MyEventCard({
           </Text>
         </View>
       ) : null}
+      <View style={[styles.eventStatus, styles[`eventStatus_${lifecycleStatus}`]]}>
+        <View style={[styles.eventStatusDot, styles[`eventStatusDot_${lifecycleStatus}`]]} />
+        <Text style={[styles.eventStatusLabel, styles[`eventStatusLabel_${lifecycleStatus}`]]}>
+          {lifecycleLabel}
+        </Text>
+      </View>
       <View
         style={[
           styles.eventShoppingRow,
@@ -178,6 +195,14 @@ export default function MyEventCard({
       ) : null}
     </Pressable>
   );
+}
+
+function getLifecycleLabel(
+  status: EventLifecycleStatus,
+  labels: ReturnType<typeof useAppLocalization>['translations']['myEvents']['statuses'],
+) {
+  if (status === 'needs_closure') return labels.needsClosure;
+  return labels[status];
 }
 
 type ShoppingState = 'complete' | 'empty' | 'progress';

@@ -171,6 +171,60 @@ export function createMyEventsStyles(theme: AppTheme) {
       flex: 1,
       color: colors.text.muted,
     },
+    eventStatus: {
+      alignSelf: 'flex-start',
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: spacing.x1,
+      marginTop: spacing.x3,
+      paddingHorizontal: spacing.x2,
+      paddingVertical: spacing.x1,
+      borderRadius: spacing.x3,
+    },
+    eventStatus_upcoming: {
+      backgroundColor: colors.background.subtle,
+    },
+    eventStatus_ongoing: {
+      backgroundColor: colors.status.successBackground,
+    },
+    eventStatus_needs_closure: {
+      backgroundColor: colors.status.warningBackground,
+    },
+    eventStatus_completed: {
+      backgroundColor: colors.background.subtle,
+    },
+    eventStatusDot: {
+      width: spacing.x2,
+      height: spacing.x2,
+      borderRadius: spacing.x1,
+    },
+    eventStatusDot_upcoming: {
+      backgroundColor: colors.text.muted,
+    },
+    eventStatusDot_ongoing: {
+      backgroundColor: colors.text.brand,
+    },
+    eventStatusDot_needs_closure: {
+      backgroundColor: colors.status.warningForeground,
+    },
+    eventStatusDot_completed: {
+      backgroundColor: colors.text.secondary,
+    },
+    eventStatusLabel: {
+      ...typography.overline,
+    },
+    eventStatusLabel_upcoming: {
+      color: colors.text.secondary,
+    },
+    eventStatusLabel_ongoing: {
+      color: colors.text.brand,
+    },
+    eventStatusLabel_needs_closure: {
+      color: colors.status.warningForeground,
+    },
+    eventStatusLabel_completed: {
+      color: colors.text.secondary,
+    },
     eventShoppingRow: {
       flexDirection: 'row',
       alignItems: 'center',

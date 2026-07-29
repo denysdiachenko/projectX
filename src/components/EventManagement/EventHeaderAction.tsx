@@ -12,9 +12,14 @@ import {
   type DeviceCalendarEvent,
 } from '@/services/device-calendar';
 import {
+  completeEvent,
   deleteEvent,
   getEventCalendarDetails,
+  getEventCompletionDetails,
   getEventRulesVersion,
+  reopenEvent,
+  type BudgetOutcome,
+  type EventCompletionDetails,
 } from '@/services/event-plan';
 import { showToast } from '@/services/toast';
 
@@ -31,8 +36,14 @@ export default function EventHeaderAction() {
   const styles = useMemo(() => createEventManagementStyles(theme, 0), [theme]);
   const [actionsVisible, setActionsVisible] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [showCompletionForm, setShowCompletionForm] = useState(false);
   const [isAddingToCalendar, setIsAddingToCalendar] = useState(false);
+  const [isCompleting, setIsCompleting] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isReopening, setIsReopening] = useState(false);
+  const [budgetOutcome, setBudgetOutcome] = useState<BudgetOutcome | null>(null);
+  const [completionDetails, setCompletionDetails] =
+    useState<EventCompletionDetails | null>(null);
   const [versionState, setVersionState] = useState<{
     eventId: string;
     loading: boolean;
@@ -57,6 +68,65 @@ export default function EventHeaderAction() {
   const closeActions = () => {
     setActionsVisible(false);
     setShowDeleteConfirmation(false);
+    setShowCompletionForm(false);
+    setBudgetOutcome(null);
+  };
+
+  const refreshCompletionDetails = async () => {
+    if (!eventId) return;
+    setCompletionDetails(await getEventCompletionDetails(eventId));
+  };
+
+  const confirmCompletion = async () => {
+    if (!eventId || isCompleting) return;
+
+    setIsCompleting(true);
+
+    try {
+      await completeEvent(eventId, completionDetails?.budgetAmount != null
+        ? budgetOutcome
+        : null);
+      await refreshCompletionDetails();
+      closeActions();
+      showToast({
+        message: copy.completeSuccessMessage,
+        title: copy.completeSuccessTitle,
+        type: 'success',
+      });
+    } catch {
+      showToast({
+        message: copy.completeErrorMessage,
+        title: copy.completeErrorTitle,
+        type: 'error',
+      });
+    } finally {
+      setIsCompleting(false);
+    }
+  };
+
+  const reopen = async () => {
+    if (!eventId || isReopening) return;
+
+    setIsReopening(true);
+
+    try {
+      await reopenEvent(eventId);
+      await refreshCompletionDetails();
+      closeActions();
+      showToast({
+        message: copy.reopenSuccessMessage,
+        title: copy.reopenSuccessTitle,
+        type: 'success',
+      });
+    } catch {
+      showToast({
+        message: copy.reopenErrorMessage,
+        title: copy.reopenErrorTitle,
+        type: 'error',
+      });
+    } finally {
+      setIsReopening(false);
+    }
   };
 
   const confirmDelete = async () => {
@@ -147,9 +217,17 @@ export default function EventHeaderAction() {
 
   const openActions = () => {
     setShowDeleteConfirmation(false);
+    setShowCompletionForm(false);
+    setBudgetOutcome(null);
     setActionsVisible(true);
 
-    if (!eventId || currentRulesVersion || isCurrentVersionLoading) return;
+    if (!eventId) return;
+
+    void refreshCompletionDetails().catch(() => {
+      setCompletionDetails(null);
+    });
+
+    if (currentRulesVersion || isCurrentVersionLoading) return;
 
     const requestId = versionRequestId.current + 1;
     versionRequestId.current = requestId;
@@ -179,15 +257,20 @@ export default function EventHeaderAction() {
       </Pressable>
       <EventActionsSheet
         addingToCalendar={isAddingToCalendar}
+        budgetOutcome={budgetOutcome}
+        completionDetails={completionDetails}
+        completing={isCompleting}
         deleting={isDeleting}
         loadingRulesVersion={isCurrentVersionLoading}
         rulesVersion={currentRulesVersion}
         showDeleteConfirmation={showDeleteConfirmation}
+        showCompletionForm={showCompletionForm}
         visible={actionsVisible}
         onAddToCalendar={() => void addToCalendar()}
         onClose={closeActions}
         onDismiss={() => void openPendingCalendarEvent()}
         onConfirmDelete={() => void confirmDelete()}
+        onComplete={() => void confirmCompletion()}
         onDelete={() => setShowDeleteConfirmation(true)}
         onEdit={() => {
           if (!eventId) {
@@ -202,6 +285,10 @@ export default function EventHeaderAction() {
           closeActions();
           router.push(ROUTES.editEvent(eventId));
         }}
+        onOpenCompletion={() => setShowCompletionForm(true)}
+        onReopen={() => void reopen()}
+        onSelectBudgetOutcome={setBudgetOutcome}
+        reopening={isReopening}
       />
     </>
   );

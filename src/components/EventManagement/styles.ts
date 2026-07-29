@@ -89,6 +89,56 @@ export function createEventManagementStyles(theme: AppTheme, bottomInset: number
       color: colors.text.secondary,
       textAlign: 'center',
     },
+    warning: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      gap: spacing.x3,
+      marginTop: spacing.x5,
+      padding: spacing.x4,
+      borderRadius: spacing.x4,
+      backgroundColor: colors.status.warningBackground,
+    },
+    warningText: {
+      ...typography.caption,
+      flex: 1,
+      color: colors.status.warningForeground,
+    },
+    budgetBlock: {
+      gap: spacing.x3,
+      marginTop: spacing.x6,
+    },
+    budgetTitle: {
+      ...typography.labelLarge,
+      color: colors.text.primary,
+      textAlign: 'center',
+    },
+    budgetOptions: {
+      flexDirection: 'row',
+      gap: spacing.x2,
+    },
+    budgetOption: {
+      minHeight: spacing.x10,
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingHorizontal: spacing.x2,
+      borderWidth: 1,
+      borderColor: colors.border.default,
+      borderRadius: spacing.x5,
+      backgroundColor: colors.background.surface,
+    },
+    budgetOptionSelected: {
+      borderColor: colors.background.accent,
+      backgroundColor: colors.background.accentSubtle,
+    },
+    budgetOptionLabel: {
+      ...typography.labelSmall,
+      color: colors.text.secondary,
+      textAlign: 'center',
+    },
+    budgetOptionLabelSelected: {
+      color: colors.background.accent,
+    },
     actions: { gap: spacing.x3, marginTop: spacing.x8 },
     headerButton: {
       width: spacing.x10,

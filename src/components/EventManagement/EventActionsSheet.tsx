@@ -7,37 +7,59 @@ import AppButton from '@/components/AppButton/AppButton';
 import CalendarOutlined from '@/components/Icons/CalendarOutlined';
 import { useAppLocalization } from '@/hooks/app-localization';
 import { useAppTheme } from '@/hooks/app-theme';
+import type {
+  BudgetOutcome,
+  EventCompletionDetails,
+} from '@/services/event-plan';
 
 import { createEventManagementStyles } from './styles';
 import { useBottomSheetAnimation } from './useBottomSheetAnimation';
 
 type EventActionsSheetProps = {
   addingToCalendar: boolean;
+  budgetOutcome: BudgetOutcome | null;
+  completionDetails: EventCompletionDetails | null;
+  completing: boolean;
   deleting: boolean;
   loadingRulesVersion: boolean;
   onClose: () => void;
   onDismiss: () => void;
   onAddToCalendar: () => void;
   onConfirmDelete: () => void;
+  onComplete: () => void;
   onDelete: () => void;
   onEdit: () => void;
+  onOpenCompletion: () => void;
+  onReopen: () => void;
+  onSelectBudgetOutcome: (outcome: BudgetOutcome) => void;
+  reopening: boolean;
   rulesVersion: string | null;
   showDeleteConfirmation: boolean;
+  showCompletionForm: boolean;
   visible: boolean;
 };
 
 export default function EventActionsSheet({
   addingToCalendar,
+  budgetOutcome,
+  completionDetails,
+  completing,
   deleting,
   loadingRulesVersion,
   onClose,
   onDismiss,
   onAddToCalendar,
   onConfirmDelete,
+  onComplete,
   onDelete,
   onEdit,
+  onOpenCompletion,
+  onReopen,
+  onSelectBudgetOutcome,
+  reopening,
   rulesVersion,
   showDeleteConfirmation,
+  showCompletionForm,
   visible,
 }: EventActionsSheetProps) {
   const theme = useAppTheme();
@@ -51,8 +73,16 @@ export default function EventActionsSheet({
   const { backdropOpacity, sheetTranslateY } = useBottomSheetAnimation(visible);
 
   const close = () => {
-    if (!addingToCalendar && !deleting) onClose();
+    if (!addingToCalendar && !completing && !deleting && !reopening) onClose();
   };
+  const isCompleted = completionDetails?.status === 'completed';
+  const hasBudget = completionDetails?.budgetAmount != null;
+  const unfinishedItems = completionDetails
+    ? interpolate(copy.incompleteItemsWarning, {
+      shopping: completionDetails.unfinishedShoppingItems,
+      tasks: completionDetails.unfinishedChecklistItems,
+    })
+    : null;
 
   return (
     <Modal
@@ -65,7 +95,7 @@ export default function EventActionsSheet({
       <View style={styles.root}>
         <Animated.View style={[styles.backdrop, { opacity: backdropOpacity }]}>
           <Pressable
-            disabled={addingToCalendar || deleting}
+            disabled={addingToCalendar || completing || deleting || reopening}
             onPress={close}
             style={styles.backdropPressable}
           />
@@ -85,6 +115,73 @@ export default function EventActionsSheet({
                   variant="destructive"
                 />
                 <AppButton disabled={deleting} label={copy.cancel} onPress={close} variant="secondary" />
+              </View>
+            </>
+          ) : showCompletionForm ? (
+            <>
+              <Text style={styles.centeredTitle}>{copy.completeTitle}</Text>
+              <Text style={styles.body}>{copy.completeMessage}</Text>
+              {completionDetails
+                && (
+                  completionDetails.unfinishedChecklistItems > 0
+                  || completionDetails.unfinishedShoppingItems > 0
+                ) ? (
+                  <View style={styles.warning}>
+                    <AntDesign
+                      color={theme.colors.status.warningForeground}
+                      name="exclamation-circle"
+                      size={20}
+                    />
+                    <Text style={styles.warningText}>{unfinishedItems}</Text>
+                  </View>
+                ) : null}
+              {hasBudget ? (
+                <View style={styles.budgetBlock}>
+                  <Text style={styles.budgetTitle}>{copy.budgetQuestion}</Text>
+                  <View style={styles.budgetOptions}>
+                    {([
+                      ['within_budget', copy.budgetWithin],
+                      ['over_budget', copy.budgetOver],
+                      ['unknown', copy.budgetUnknown],
+                    ] as const).map(([value, label]) => {
+                      const selected = budgetOutcome === value;
+
+                      return (
+                        <Pressable
+                          accessibilityRole="radio"
+                          accessibilityState={{ checked: selected }}
+                          key={value}
+                          onPress={() => onSelectBudgetOutcome(value)}
+                          style={[
+                            styles.budgetOption,
+                            selected && styles.budgetOptionSelected,
+                          ]}>
+                          <Text
+                            style={[
+                              styles.budgetOptionLabel,
+                              selected && styles.budgetOptionLabelSelected,
+                            ]}>
+                            {label}
+                          </Text>
+                        </Pressable>
+                      );
+                    })}
+                  </View>
+                </View>
+              ) : null}
+              <View style={styles.actions}>
+                <AppButton
+                  disabled={completing || (hasBudget && !budgetOutcome)}
+                  label={completing ? copy.completing : copy.completeAction}
+                  loading={completing}
+                  onPress={onComplete}
+                />
+                <AppButton
+                  disabled={completing}
+                  label={copy.cancel}
+                  onPress={close}
+                  variant="secondary"
+                />
               </View>
             </>
           ) : (
@@ -114,15 +211,37 @@ export default function EventActionsSheet({
                 </View>
               </View>
               <Pressable
-                disabled={addingToCalendar}
+                disabled={addingToCalendar || isCompleted}
                 onPress={onEdit}
                 style={({ pressed }) => [
                   styles.action,
-                  addingToCalendar && styles.actionDisabled,
+                  (addingToCalendar || isCompleted) && styles.actionDisabled,
                   pressed && styles.actionPressed,
                 ]}>
                 <AntDesign color={theme.colors.text.primary} name="edit" size={22} />
                 <Text style={styles.actionLabel}>{copy.editAction}</Text>
+              </Pressable>
+              <View style={styles.divider} />
+              <Pressable
+                disabled={!completionDetails || completing || reopening}
+                onPress={isCompleted ? onReopen : onOpenCompletion}
+                style={({ pressed }) => [
+                  styles.action,
+                  (!completionDetails || completing || reopening) && styles.actionDisabled,
+                  pressed && styles.actionPressed,
+                ]}>
+                {completing || reopening ? (
+                  <ActivityIndicator color={theme.colors.text.primary} size="small" />
+                ) : (
+                  <AntDesign
+                    color={theme.colors.text.primary}
+                    name={isCompleted ? 'reload' : 'check-circle'}
+                    size={22}
+                  />
+                )}
+                <Text style={styles.actionLabel}>
+                  {isCompleted ? copy.reopenAction : copy.completeAction}
+                </Text>
               </Pressable>
               <View style={styles.divider} />
               <Pressable
@@ -161,5 +280,12 @@ export default function EventActionsSheet({
         </Animated.View>
       </View>
     </Modal>
+  );
+}
+
+function interpolate(template: string, values: Record<string, number>) {
+  return Object.entries(values).reduce(
+    (result, [key, value]) => result.replace(`{${key}}`, String(value)),
+    template,
   );
 }

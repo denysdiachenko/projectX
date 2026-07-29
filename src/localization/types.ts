@@ -130,6 +130,16 @@ export type TranslationSchema = {
     noEventsInMonth: string;
     previousYear: string;
     nextYear: string;
+    upcomingEvents: string;
+    pastEvents: string;
+    noUpcomingEvents: string;
+    noPastEvents: string;
+    statuses: {
+      completed: string;
+      needsClosure: string;
+      ongoing: string;
+      upcoming: string;
+    };
   };
   createEvent: {
     headerTitle: string;
@@ -416,6 +426,24 @@ export type TranslationSchema = {
     deleteSuccessMessage: string;
     deleteErrorTitle: string;
     deleteErrorMessage: string;
+    completeAction: string;
+    reopenAction: string;
+    completeTitle: string;
+    completeMessage: string;
+    incompleteItemsWarning: string;
+    budgetQuestion: string;
+    budgetWithin: string;
+    budgetOver: string;
+    budgetUnknown: string;
+    completing: string;
+    completeSuccessTitle: string;
+    completeSuccessMessage: string;
+    completeErrorTitle: string;
+    completeErrorMessage: string;
+    reopenSuccessTitle: string;
+    reopenSuccessMessage: string;
+    reopenErrorTitle: string;
+    reopenErrorMessage: string;
     exit: {
       title: string;
       message: string;
