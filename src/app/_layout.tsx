@@ -58,7 +58,11 @@ function RootNavigator() {
           <Stack.Screen name="index" />
           <Stack.Screen name="login" />
           <Stack.Screen name="create-account" />
+          <Stack.Screen name="auth/email-confirmation" />
+          <Stack.Screen name="auth/forgot-password" />
         </Stack.Protected>
+        <Stack.Screen name="auth/callback" />
+        <Stack.Screen name="auth/update-password" />
         <Stack.Protected guard={isAuthenticated}>
           <Stack.Screen
             name="my-events"

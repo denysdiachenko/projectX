@@ -33,12 +33,7 @@ export default function CreateAccountScreen() {
       return;
     }
 
-    showToast({
-      message: copy.confirmationMessage,
-      title: copy.confirmationTitle,
-      type: 'success',
-    });
-    router.replace(ROUTES.login);
+    router.replace(ROUTES.emailConfirmation(email.trim()));
   };
   const handleLogin = () => router.replace(ROUTES.login);
 

@@ -24,12 +24,14 @@ type LoginFormProps = {
   onSubmit: (values: LoginFormValues) => Promise<void>;
   onForgotPassword: () => void;
   onCreateAccount: () => void;
+  onEmailConfirmationRequired: (email: string) => void;
 };
 
 export default function LoginForm({
   onSubmit,
   onForgotPassword,
   onCreateAccount,
+  onEmailConfirmationRequired,
 }: LoginFormProps) {
   const theme = useAppTheme();
   const { translations } = useAppLocalization();
@@ -51,6 +53,11 @@ export default function LoginForm({
       await onSubmit(values);
     } catch (error) {
       const errorCode = isEmailSignInError(error) ? error.code : 'unknown';
+
+      if (errorCode === 'emailNotConfirmed') {
+        onEmailConfirmationRequired(values.email.trim());
+        return;
+      }
 
       showToast({
         message: copy.errors[errorCode],

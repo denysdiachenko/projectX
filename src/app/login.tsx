@@ -30,7 +30,7 @@ export default function LoginScreen() {
   const handleLogin = async ({ email, password }: LoginFormValues) => {
     await signInWithEmail(email, password);
   };
-  const handleForgotPassword = () => {};
+  const handleForgotPassword = () => router.push(ROUTES.forgotPassword);
   const handleCreateAccount = () => router.push(ROUTES.createAccount);
 
   return (
@@ -69,6 +69,9 @@ export default function LoginScreen() {
 
             <LoginForm
               onCreateAccount={handleCreateAccount}
+              onEmailConfirmationRequired={(email) => {
+                router.push(ROUTES.emailConfirmation(email));
+              }}
               onForgotPassword={handleForgotPassword}
               onSubmit={handleLogin}
             />

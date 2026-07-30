@@ -57,6 +57,91 @@ export type TranslationSchema = {
       passwordRequired: string;
     };
   };
+  emailConfirmation: {
+    back: string;
+    title: string;
+    subtitle: string;
+    emailSentTo: string;
+    resend: string;
+    resending: string;
+    goToLogin: string;
+    resendSuccessTitle: string;
+    resendSuccessMessage: string;
+    resendErrorTitle: string;
+    errors: {
+      invalidEmail: string;
+      network: string;
+      rateLimited: string;
+      unknown: string;
+    };
+  };
+  forgotPassword: {
+    back: string;
+    title: string;
+    subtitle: string;
+    emailLabel: string;
+    emailPlaceholder: string;
+    submit: string;
+    submitting: string;
+    sentTitle: string;
+    sentMessage: string;
+    errorTitle: string;
+    errors: {
+      invalidEmail: string;
+      network: string;
+      rateLimited: string;
+      unknown: string;
+    };
+    validation: {
+      emailRequired: string;
+      emailInvalid: string;
+    };
+  };
+  changePassword: {
+    back: string;
+    title: string;
+    recoveryTitle: string;
+    subtitle: string;
+    recoverySubtitle: string;
+    currentPasswordLabel: string;
+    passwordLabel: string;
+    confirmPasswordLabel: string;
+    passwordPlaceholder: string;
+    showPassword: string;
+    hidePassword: string;
+    submit: string;
+    submitting: string;
+    successTitle: string;
+    successMessage: string;
+    errorTitle: string;
+    invalidLinkTitle: string;
+    invalidLinkMessage: string;
+    goToLogin: string;
+    errors: {
+      invalidCurrentPassword: string;
+      network: string;
+      rateLimited: string;
+      samePassword: string;
+      sessionMissing: string;
+      unknown: string;
+      weakPassword: string;
+    };
+    validation: {
+      currentPasswordRequired: string;
+      passwordRequired: string;
+      passwordTooShort: string;
+      confirmPasswordRequired: string;
+      passwordMismatch: string;
+    };
+  };
+  authCallback: {
+    confirming: string;
+    successTitle: string;
+    successMessage: string;
+    errorTitle: string;
+    errorMessage: string;
+    goToLogin: string;
+  };
   createAccount: {
     back: string;
     title: string;
@@ -494,8 +579,6 @@ export type TranslationSchema = {
     saveError: string;
     avatarPermissionTitle: string;
     avatarPermissionError: string;
-    unavailableTitle: string;
-    unavailableMessage: string;
     deleteConfirmTitle: string;
     deleteConfirmMessage: string;
     deleteConfirmAction: string;

@@ -4,6 +4,8 @@ import { isAuthRetryableFetchError } from '@supabase/supabase-js';
 import { AUTH_REDIRECT_URL } from '@/constants/auth';
 import { supabase } from '@/lib/supabase';
 
+import { createSessionFromAuthUrl } from './auth-callback';
+
 WebBrowser.maybeCompleteAuthSession();
 
 export type SocialAuthErrorCode =
@@ -24,55 +26,6 @@ export class SocialAuthError extends Error {
 
 export function isSocialAuthError(error: unknown): error is SocialAuthError {
   return error instanceof SocialAuthError;
-}
-
-function getCallbackParams(callbackUrl: string) {
-  const url = new URL(callbackUrl);
-  const queryParams = url.searchParams;
-  const fragmentParams = new URLSearchParams(url.hash.replace(/^#/, ''));
-
-  return { queryParams, fragmentParams };
-}
-
-async function createSessionFromCallback(callbackUrl: string) {
-  const { fragmentParams, queryParams } = getCallbackParams(callbackUrl);
-  const callbackError =
-    queryParams.get('error_description') ??
-    fragmentParams.get('error_description') ??
-    queryParams.get('error') ??
-    fragmentParams.get('error');
-
-  if (callbackError) {
-    throw new SocialAuthError('unknown');
-  }
-
-  const code = queryParams.get('code');
-
-  if (code) {
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
-
-    if (error) {
-      throw new SocialAuthError('invalidCallback');
-    }
-
-    return;
-  }
-
-  const accessToken = fragmentParams.get('access_token');
-  const refreshToken = fragmentParams.get('refresh_token');
-
-  if (!accessToken || !refreshToken) {
-    throw new SocialAuthError('invalidCallback');
-  }
-
-  const { error } = await supabase.auth.setSession({
-    access_token: accessToken,
-    refresh_token: refreshToken,
-  });
-
-  if (error) {
-    throw new SocialAuthError('invalidCallback');
-  }
 }
 
 export type SocialSignInResult = 'signedIn' | 'cancelled';
@@ -108,7 +61,11 @@ export async function signInWithGoogle(): Promise<SocialSignInResult> {
     return 'cancelled';
   }
 
-  await createSessionFromCallback(result.url);
+  try {
+    await createSessionFromAuthUrl(result.url);
+  } catch {
+    throw new SocialAuthError('invalidCallback');
+  }
 
   return 'signedIn';
 }

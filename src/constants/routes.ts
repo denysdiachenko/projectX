@@ -2,6 +2,12 @@ export const ROUTES = {
   welcome: '/',
   login: '/login',
   createAccount: '/create-account',
+  emailConfirmation: (email: string) => ({
+    pathname: '/auth/email-confirmation' as const,
+    params: { email },
+  }),
+  forgotPassword: '/auth/forgot-password',
+  changePassword: '/auth/update-password',
   myEvents: '/my-events',
   createEvent: '/create-event',
   eventPlan: (eventId: string) => ({

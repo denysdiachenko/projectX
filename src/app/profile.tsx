@@ -64,14 +64,9 @@ export default function ProfileScreen() {
   const displayName =
     profile?.display_name?.trim() || getUserDisplayName(user, copy.defaultName);
   const email = user?.email ?? copy.emailPlaceholder;
-
-  const showUnavailableToast = () => {
-    showToast({
-      message: copy.unavailableMessage,
-      title: copy.unavailableTitle,
-      type: 'info',
-    });
-  };
+  const hasEmailPasswordIdentity = user?.identities?.some(
+    (identity) => identity.provider === 'email',
+  ) ?? false;
 
   const handleLanguageSelect = async (nextLanguage: SupportedLanguage) => {
     if (nextLanguage === language) {
@@ -182,7 +177,13 @@ export default function ProfileScreen() {
         <View style={styles.section}>
           <Text style={styles.sectionLabel}>{copy.accountSection}</Text>
           <View style={styles.group}>
-            <ProfileRow divider label={copy.changePassword} onPress={showUnavailableToast} />
+            {hasEmailPasswordIdentity ? (
+              <ProfileRow
+                divider
+                label={copy.changePassword}
+                onPress={() => router.push(ROUTES.changePassword)}
+              />
+            ) : null}
             <ProfileRow
               danger
               label={isSigningOut ? copy.loggingOut : copy.logout}
