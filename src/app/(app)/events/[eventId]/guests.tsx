@@ -1,15 +1,15 @@
-import EventTabPlaceholder from '@/components/EventPlanScreen/EventTabPlaceholder';
-import { useAppLocalization } from '@/hooks/app-localization';
+import { useGlobalSearchParams } from 'expo-router';
+
+import EventGuestsContent from '@/components/EventGuestsScreen/EventGuestsContent';
+import { getStringRouteParam } from '@/helpers/getStringRouteParam';
 
 export default function EventGuestsScreen() {
-  const { translations } = useAppLocalization();
-  const copy = translations.eventPlan.guestsPlaceholder;
+  const { eventId: eventIdParam } = useGlobalSearchParams<{
+    eventId?: string | string[];
+  }>();
+  const eventId = getStringRouteParam(eventIdParam);
 
-  return (
-    <EventTabPlaceholder
-      icon="team"
-      message={copy.message}
-      title={copy.title}
-    />
-  );
+  if (!eventId) return null;
+
+  return <EventGuestsContent eventId={eventId} />;
 }

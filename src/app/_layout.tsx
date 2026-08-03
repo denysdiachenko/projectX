@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import AppToast from '@/components/AppToast/AppToast';
+import { rootStyles } from '@/components/AppRoot/styles';
 import { AppAuthProvider, useAppAuth } from '@/hooks/app-auth';
 import { AppLocalizationProvider } from '@/hooks/app-localization';
 import { AppThemeProvider } from '@/hooks/app-theme';
@@ -51,7 +52,7 @@ export default function RootLayout() {
   }
 
   return (
-    <GestureHandlerRootView>
+    <GestureHandlerRootView style={rootStyles.root}>
       <AppAuthProvider>
         <AppThemeProvider>
           <AppLocalizationProvider>

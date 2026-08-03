@@ -263,6 +263,7 @@ export type Database = {
           guest_id: string
           id: string
           invitation_link_id: string
+          response_key: string
           user_id: string
         }
         Insert: {
@@ -271,6 +272,7 @@ export type Database = {
           guest_id: string
           id?: string
           invitation_link_id: string
+          response_key?: string
           user_id: string
         }
         Update: {
@@ -279,6 +281,7 @@ export type Database = {
           guest_id?: string
           id?: string
           invitation_link_id?: string
+          response_key?: string
           user_id?: string
         }
         Relationships: [
@@ -660,6 +663,42 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      ensure_open_event_invitation: {
+        Args: {
+          p_event_id: string
+          p_expires_in_days?: number
+          p_user_id: string
+        }
+        Returns: {
+          invitation_expires_at: string
+          invitation_id: string
+        }[]
+      }
+      get_event_invitation_by_token: {
+        Args: { p_token: string }
+        Returns: {
+          event_id: string
+          event_name: string
+          event_type: string
+          expires_at: string
+          invitation_id: string
+          location_text: string
+          organizer_name: string
+          starts_at: string
+          time_zone: string
+        }[]
+      }
+      submit_event_invitation_response: {
+        Args: {
+          p_adults_count: number
+          p_children_count: number
+          p_name: string
+          p_response_key: string
+          p_rsvp_status: string
+          p_token: string
+        }
+        Returns: string
+      }
       update_event_plan: {
         Args: {
           p_checklist_items: Json

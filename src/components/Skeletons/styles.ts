@@ -137,6 +137,14 @@ export function createSkeletonStyles(theme: AppTheme) {
       height: 88,
       borderRadius: spacing.x4,
     },
+    guestSummary: {
+      height: 72,
+      borderRadius: spacing.x4,
+    },
+    guestCard: {
+      height: 96,
+      borderRadius: spacing.x4,
+    },
     checklistSectionTitle: {
       width: 112,
       height: spacing.x5,

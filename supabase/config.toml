@@ -349,6 +349,14 @@ deno_version = 2
 enabled = true
 verify_jwt = true
 
+[functions.event-invitation-admin]
+enabled = true
+verify_jwt = false
+
+[functions.event-rsvp]
+enabled = true
+verify_jwt = false
+
 # [edge_runtime.secrets]
 # secret_key = "env(SECRET_VALUE)"
 
