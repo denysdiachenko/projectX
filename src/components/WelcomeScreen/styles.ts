@@ -1,8 +1,8 @@
-import type {AppTheme} from "@/hooks/app-theme";
-import {StyleSheet} from "react-native";
+import type { AppTheme } from '@/hooks/app-theme';
+import { StyleSheet } from 'react-native';
 
 export default function createStyles(theme: AppTheme) {
-  const {colors, spacing, typography} = theme;
+  const { colors, spacing, typography } = theme;
 
   return StyleSheet.create({
     screen: {

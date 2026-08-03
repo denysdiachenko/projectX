@@ -24,6 +24,12 @@ export type TranslationSchema = {
     login: string;
     legal: string;
   };
+  invitation: {
+    title: string;
+    receivedMessage: string;
+    missingTitle: string;
+    missingMessage: string;
+  };
   login: {
     back: string;
     title: string;

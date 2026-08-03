@@ -9,7 +9,7 @@ import WelcomeHero from "@/components/WelcomeHero/WelcomeHero";
 import SocialAuthButtons from '@/components/SocialAuthButtons/SocialAuthButtons';
 import { ROUTES } from '@/constants/routes';
 import { useAppLocalization } from '@/hooks/app-localization';
-import createStyles from "@/app/_content/styles";
+import createStyles from '@/components/WelcomeScreen/styles';
 
 export default function WelcomeScreen() {
   const router = useRouter();

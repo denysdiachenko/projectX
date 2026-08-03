@@ -1,5 +1,9 @@
 export const ROUTES = {
   welcome: '/',
+  invitation: (token: string) => ({
+    pathname: '/invite/[token]' as const,
+    params: { token },
+  }),
   login: '/login',
   createAccount: '/create-account',
   emailConfirmation: (email: string) => ({

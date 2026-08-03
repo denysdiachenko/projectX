@@ -25,6 +25,12 @@ export const en: TranslationSchema = {
     login: 'Sign in',
     legal: 'By continuing, you agree to the Terms and Privacy Policy',
   },
+  invitation: {
+    title: "You've been invited to an event",
+    receivedMessage: 'The invitation link was received. Event details will appear here.',
+    missingTitle: 'Invitation link required',
+    missingMessage: 'Open the complete link shared by the event organizer.',
+  },
   login: {
     back: 'Back',
     title: 'Welcome back!',
