@@ -10,6 +10,7 @@ import {
 import { AppState, Platform } from 'react-native';
 
 import { supabase } from '@/lib/supabase';
+import { setSupabaseUnauthorizedHandler } from '@/lib/supabase-fetch';
 
 type AppAuthContextValue = {
   isLoading: boolean;
@@ -25,24 +26,68 @@ export function AppAuthProvider({ children }: PropsWithChildren) {
 
   useEffect(() => {
     let mounted = true;
+    let signOutPromise: Promise<void> | null = null;
+
+    const invalidateSession = () => {
+      if (mounted) {
+        setSession(null);
+      }
+
+      if (!signOutPromise) {
+        signOutPromise = supabase.auth
+          .signOut({ scope: 'local' })
+          .then(() => undefined)
+          .finally(() => {
+            signOutPromise = null;
+          });
+      }
+
+      return signOutPromise;
+    };
+
+    const removeUnauthorizedHandler = setSupabaseUnauthorizedHandler(() => {
+      void invalidateSession();
+    });
+
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, nextSession) => {
       if (!mounted) return;
       setSession(nextSession);
-      setIsLoading(false);
     });
 
-    void supabase.auth.getSession()
-      .then(({ data }) => {
-        if (mounted) setSession(data.session);
-      })
-      .finally(() => {
-        if (mounted) setIsLoading(false);
-      });
+    const initializeSession = async () => {
+      const {
+        data: { session: storedSession },
+      } = await supabase.auth.getSession();
+
+      if (!storedSession) {
+        if (mounted) setSession(null);
+        return;
+      }
+
+      const {
+        data: { user },
+        error,
+      } = await supabase.auth.getUser();
+
+      if (error?.status === 401 || error?.status === 403 || (!error && !user)) {
+        await invalidateSession();
+        return;
+      }
+
+      if (mounted) {
+        setSession(storedSession);
+      }
+    };
+
+    void initializeSession().finally(() => {
+      if (mounted) setIsLoading(false);
+    });
 
     return () => {
       mounted = false;
+      removeUnauthorizedHandler();
       subscription.unsubscribe();
     };
   }, []);

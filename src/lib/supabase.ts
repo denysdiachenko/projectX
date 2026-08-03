@@ -3,6 +3,7 @@ import 'expo-sqlite/localStorage/install';
 
 import { createClient, processLock } from '@supabase/supabase-js';
 
+import { supabaseFetch } from '@/lib/supabase-fetch';
 import type { Database } from '@/types/database';
 
 const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
@@ -21,5 +22,8 @@ export const supabase = createClient<Database>(supabaseUrl, supabasePublishableK
     persistSession: true,
     detectSessionInUrl: false,
     lock: processLock,
+  },
+  global: {
+    fetch: supabaseFetch,
   },
 });
