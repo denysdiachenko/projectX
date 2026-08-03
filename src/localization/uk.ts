@@ -254,7 +254,7 @@ export const uk: TranslationSchema = {
     guests: {
       title: 'Хто буде на святі?',
       subtitle: 'Вкажи кількість гостей — загальну суму порахуємо автоматично.',
-      inviteLaterHint: 'Запросити конкретних гостей можна буде пізніше.',
+      inviteLaterHint: 'Пізніше можна буде поділитися запрошенням або показати QR-код.',
       total: 'Усього гостей',
       breakdown: '{adults} дорослих · {children} дітей',
       adults: 'Дорослі',

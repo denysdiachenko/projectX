@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.5"
+    PostgrestVersion: "14.15"
   }
   graphql_public: {
     Tables: {
@@ -137,6 +137,235 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "calculation_snapshots"
             referencedColumns: ["id", "event_id", "user_id"]
+          },
+        ]
+      }
+      event_guests: {
+        Row: {
+          adults_count: number
+          children_count: number
+          created_at: string
+          email: string | null
+          event_id: string
+          id: string
+          invited_at: string | null
+          name: string
+          note: string | null
+          phone: string | null
+          responded_at: string | null
+          rsvp_status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          adults_count?: number
+          children_count?: number
+          created_at?: string
+          email?: string | null
+          event_id: string
+          id?: string
+          invited_at?: string | null
+          name: string
+          note?: string | null
+          phone?: string | null
+          responded_at?: string | null
+          rsvp_status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          adults_count?: number
+          children_count?: number
+          created_at?: string
+          email?: string | null
+          event_id?: string
+          id?: string
+          invited_at?: string | null
+          name?: string
+          note?: string | null
+          phone?: string | null
+          responded_at?: string | null
+          rsvp_status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_guests_event_owner_fkey"
+            columns: ["event_id", "user_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id", "user_id"]
+          },
+        ]
+      }
+      event_invitation_links: {
+        Row: {
+          created_at: string
+          event_id: string
+          expires_at: string
+          guest_id: string | null
+          id: string
+          label: string | null
+          link_type: string
+          max_responses: number | null
+          revoked_at: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          event_id: string
+          expires_at: string
+          guest_id?: string | null
+          id?: string
+          label?: string | null
+          link_type: string
+          max_responses?: number | null
+          revoked_at?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          event_id?: string
+          expires_at?: string
+          guest_id?: string | null
+          id?: string
+          label?: string | null
+          link_type?: string
+          max_responses?: number | null
+          revoked_at?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_invitation_links_event_owner_fkey"
+            columns: ["event_id", "user_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id", "user_id"]
+          },
+          {
+            foreignKeyName: "event_invitation_links_guest_event_owner_fkey"
+            columns: ["guest_id", "event_id", "user_id"]
+            isOneToOne: false
+            referencedRelation: "event_guests"
+            referencedColumns: ["id", "event_id", "user_id"]
+          },
+        ]
+      }
+      event_invitation_responses: {
+        Row: {
+          created_at: string
+          event_id: string
+          guest_id: string
+          id: string
+          invitation_link_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          event_id: string
+          guest_id: string
+          id?: string
+          invitation_link_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          event_id?: string
+          guest_id?: string
+          id?: string
+          invitation_link_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_invitation_responses_guest_event_owner_fkey"
+            columns: ["guest_id", "event_id", "user_id"]
+            isOneToOne: false
+            referencedRelation: "event_guests"
+            referencedColumns: ["id", "event_id", "user_id"]
+          },
+          {
+            foreignKeyName: "event_invitation_responses_link_event_owner_fkey"
+            columns: ["invitation_link_id", "event_id", "user_id"]
+            isOneToOne: false
+            referencedRelation: "event_invitation_links"
+            referencedColumns: ["id", "event_id", "user_id"]
+          },
+        ]
+      }
+      event_members: {
+        Row: {
+          created_at: string
+          event_id: string
+          guest_id: string | null
+          id: string
+          invited_by: string
+          joined_at: string | null
+          membership_status: string
+          profile_id: string
+          role: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          event_id: string
+          guest_id?: string | null
+          id?: string
+          invited_by: string
+          joined_at?: string | null
+          membership_status?: string
+          profile_id: string
+          role?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          event_id?: string
+          guest_id?: string | null
+          id?: string
+          invited_by?: string
+          joined_at?: string | null
+          membership_status?: string
+          profile_id?: string
+          role?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_members_event_owner_fkey"
+            columns: ["event_id", "user_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id", "user_id"]
+          },
+          {
+            foreignKeyName: "event_members_guest_event_owner_fkey"
+            columns: ["guest_id", "event_id", "user_id"]
+            isOneToOne: false
+            referencedRelation: "event_guests"
+            referencedColumns: ["id", "event_id", "user_id"]
+          },
+          {
+            foreignKeyName: "event_members_invited_by_fkey"
+            columns: ["invited_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "event_members_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
           },
         ]
       }
