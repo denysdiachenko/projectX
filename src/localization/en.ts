@@ -425,7 +425,6 @@ export const en: TranslationSchema = {
       shareDescription: 'Send one link to a chat or any messenger',
       qrTitle: 'Show QR code',
       qrDescription: 'Guests scan it with their camera and open the same response form',
-      sameInvitationNote: 'The QR code and link open the same invitation.',
       preparing: 'Preparing invitation…',
       invitationErrorTitle: 'Unable to create invitation',
       invitationErrorMessage: 'Check your connection and try again.',

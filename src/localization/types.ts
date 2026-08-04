@@ -424,7 +424,6 @@ export type TranslationSchema = {
       shareDescription: string;
       qrTitle: string;
       qrDescription: string;
-      sameInvitationNote: string;
       preparing: string;
       invitationErrorTitle: string;
       invitationErrorMessage: string;

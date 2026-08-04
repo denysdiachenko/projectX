@@ -425,7 +425,6 @@ export const uk: TranslationSchema = {
       shareDescription: 'Надіслати одне посилання в чат або будь-який месенджер',
       qrTitle: 'Показати QR-код',
       qrDescription: 'Гості відсканують код камерою та відкриють ту саму форму',
-      sameInvitationNote: 'QR-код і посилання ведуть на те саме запрошення.',
       preparing: 'Готуємо запрошення…',
       invitationErrorTitle: 'Не вдалося створити запрошення',
       invitationErrorMessage: 'Перевірте інтернет і спробуйте ще раз.',

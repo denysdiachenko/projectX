@@ -85,9 +85,6 @@ export default function InvitationQrModal({
             <AppButton label={copy.shareInvitation} onPress={() => void share()} />
             <AppButton label={copy.copyLink} onPress={() => void copyLink()} variant="social" />
           </View>
-          <View style={styles.qrNote}>
-            <Text style={styles.qrNoteText}>{copy.sameInvitationNote}</Text>
-          </View>
         </View>
       </SafeAreaView>
     </Modal>

@@ -74,11 +74,6 @@ export default function InviteGuestsSheet({
             theme={theme}
             title={copy.qrTitle}
           />
-          <View style={styles.note}>
-            <Text style={styles.noteText}>
-              {loading ? copy.preparing : copy.sameInvitationNote}
-            </Text>
-          </View>
         </Animated.View>
       </View>
     </Modal>
