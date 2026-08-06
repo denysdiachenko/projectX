@@ -31,6 +31,8 @@ export type TranslationSchema = {
     eventFallback: string;
     browserNoteTitle: string;
     browserNoteBody: string;
+    openInApp: string;
+    goHome: string;
     respond: string;
     privacy: string;
     formEyebrow: string;
@@ -52,7 +54,6 @@ export type TranslationSchema = {
     successTitle: string;
     successMessage: string;
     addGroup: string;
-    done: string;
     missingTitle: string;
     missingMessage: string;
     unavailableHintTitle: string;
@@ -230,6 +231,7 @@ export type TranslationSchema = {
     hintTitle: string;
     hintBody: string;
     guests: string;
+    invited: string;
     checklistProgress: string;
     checklistComplete: string;
     shoppingProgress: string;
@@ -416,6 +418,8 @@ export type TranslationSchema = {
       statusMaybe: string;
       statusPending: string;
       statusDeclined: string;
+      inApp: string;
+      viaLink: string;
       loadError: string;
       retry: string;
       sheetTitle: string;

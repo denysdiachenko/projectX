@@ -90,6 +90,8 @@ export default function MyEventCard({
   return (
     <Pressable
       accessibilityRole="button"
+      accessibilityState={{ disabled: !event.is_owner }}
+      disabled={!event.is_owner}
       onPress={() => router.push(ROUTES.eventPlan(event.id))}
       style={({ pressed }) => [
         styles.eventCard,
@@ -126,7 +128,9 @@ export default function MyEventCard({
               style={[styles.eventTitle, compact && styles.eventTitleCompact]}>
               {event.name}
             </Text>
-            <AppChevron color={theme.colors.text.muted} size={16} />
+            {event.is_owner ? (
+              <AppChevron color={theme.colors.text.muted} size={16} />
+            ) : null}
           </View>
           <Text
             numberOfLines={1}
@@ -143,13 +147,23 @@ export default function MyEventCard({
           </Text>
         </View>
       ) : null}
-      <View style={[styles.eventStatus, styles[`eventStatus_${lifecycleStatus}`]]}>
-        <View style={[styles.eventStatusDot, styles[`eventStatusDot_${lifecycleStatus}`]]} />
-        <Text style={[styles.eventStatusLabel, styles[`eventStatusLabel_${lifecycleStatus}`]]}>
-          {lifecycleLabel}
-        </Text>
+      <View style={styles.eventBadgesRow}>
+        <View style={[styles.eventStatus, styles[`eventStatus_${lifecycleStatus}`]]}>
+          <View style={[styles.eventStatusDot, styles[`eventStatusDot_${lifecycleStatus}`]]} />
+          <Text style={[styles.eventStatusLabel, styles[`eventStatusLabel_${lifecycleStatus}`]]}>
+            {lifecycleLabel}
+          </Text>
+        </View>
+        {!event.is_owner ? (
+          <View style={styles.eventInvitationBadge}>
+            <AntDesign color={theme.colors.background.accent} name="mail" size={12} />
+            <Text style={styles.eventInvitationBadgeText}>
+              {translations.myEvents.invited}
+            </Text>
+          </View>
+        ) : null}
       </View>
-      <View
+      {event.is_owner ? <View
         style={[
           styles.eventShoppingRow,
           shoppingState === 'empty' && styles.eventShoppingRowEmpty,
@@ -169,8 +183,8 @@ export default function MyEventCard({
           ]}>
           {shoppingLabel}
         </Text>
-      </View>
-      {totalTasks > 0 ? (
+      </View> : null}
+      {event.is_owner && totalTasks > 0 ? (
         <View style={styles.eventChecklistBlock}>
           <View style={styles.eventChecklistRow}>
             <AntDesign

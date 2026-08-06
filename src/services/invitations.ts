@@ -3,7 +3,7 @@ import type { FunctionsHttpError } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
 import type { Tables } from '@/types/database';
 
-export type EventGuest = Pick<
+type EventGuestRow = Pick<
   Tables<'event_guests'>,
   | 'adults_count'
   | 'children_count'
@@ -13,6 +13,10 @@ export type EventGuest = Pick<
   | 'responded_at'
   | 'rsvp_status'
 >;
+
+export type EventGuest = EventGuestRow & {
+  hasAppAccount: boolean;
+};
 
 export type PublicInvitation = {
   eventId: string;
@@ -45,22 +49,38 @@ export class InvitationError extends Error {
 }
 
 export async function getEventGuests(eventId: string): Promise<EventGuest[]> {
-  const { data, error } = await supabase
-    .from('event_guests')
-    .select(`
-      id,
-      name,
-      adults_count,
-      children_count,
-      rsvp_status,
-      responded_at,
-      created_at
-    `)
-    .eq('event_id', eventId)
-    .order('created_at', { ascending: false });
+  const [guestsResult, membersResult] = await Promise.all([
+    supabase
+      .from('event_guests')
+      .select(`
+        id,
+        name,
+        adults_count,
+        children_count,
+        rsvp_status,
+        responded_at,
+        created_at
+      `)
+      .eq('event_id', eventId)
+      .order('created_at', { ascending: false }),
+    supabase
+      .from('event_members')
+      .select('guest_id')
+      .eq('event_id', eventId)
+      .not('guest_id', 'is', null),
+  ]);
 
-  if (error) throw error;
-  return data;
+  if (guestsResult.error) throw guestsResult.error;
+  if (membersResult.error) throw membersResult.error;
+
+  const appGuestIds = new Set(
+    membersResult.data.flatMap(({ guest_id }) => guest_id ? [guest_id] : []),
+  );
+
+  return guestsResult.data.map((guest) => ({
+    ...guest,
+    hasAppAccount: appGuestIds.has(guest.id),
+  }));
 }
 
 export async function getEventGuestsScreenData(eventId: string) {
@@ -113,15 +133,16 @@ export async function submitInvitationResponse(input: {
   status: RsvpStatus;
   token: string;
 }) {
-  const { data, error } = await supabase.functions.invoke<{ guestId: string }>(
-    'event-rsvp',
-    {
-      body: { action: 'respond', ...input },
-    },
-  );
+  const { data, error } = await supabase.functions.invoke<{
+    eventId: string;
+    guestId: string;
+    linkedToAccount: boolean;
+  }>('event-rsvp', {
+    body: { action: 'respond', ...input },
+  });
 
   if (error || !data?.guestId) throw await toInvitationError(error);
-  return data.guestId;
+  return data;
 }
 
 export function buildInvitationUrl(token: string) {
@@ -132,6 +153,10 @@ export function buildInvitationUrl(token: string) {
   }
 
   return `${baseUrl}/${encodeURIComponent(token)}`;
+}
+
+export function buildInvitationAppUrl(token: string) {
+  return `partyplaner://invite/${encodeURIComponent(token)}`;
 }
 
 export function createResponseKey() {

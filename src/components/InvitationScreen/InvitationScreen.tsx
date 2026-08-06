@@ -1,15 +1,17 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AntDesign } from '@react-native-vector-icons/ant-design';
 import { StatusBar } from 'expo-status-bar';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
-import { ActivityIndicator, Pressable, Text, View } from 'react-native';
+import { ActivityIndicator, Platform, Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import AppButton from '@/components/AppButton/AppButton';
 import AppInput from '@/components/AppInput/AppInput';
+import { ROUTES } from '@/constants/routes';
 import { getStringRouteParam } from '@/helpers/getStringRouteParam';
+import { useAppAuth } from '@/hooks/app-auth';
 import { useAppLocalization } from '@/hooks/app-localization';
 import { useAppTheme } from '@/hooks/app-theme';
 import {
@@ -24,6 +26,7 @@ import {
   type InvitationResponseFormValues,
 } from '@/validation-schemas/invitation-response-schema';
 
+import OpenInvitationInApp from './OpenInvitationInApp';
 import { createInvitationStyles } from './styles';
 
 type ScreenState = 'form' | 'landing' | 'success';
@@ -32,6 +35,8 @@ export default function InvitationScreen() {
   const { token: tokenParam } = useLocalSearchParams<{ token?: string | string[] }>();
   const token = getStringRouteParam(tokenParam);
   const theme = useAppTheme();
+  const router = useRouter();
+  const { user } = useAppAuth();
   const { language, translations } = useAppLocalization();
   const copy = translations.invitation;
   const styles = useMemo(() => createInvitationStyles(theme), [theme]);
@@ -102,6 +107,12 @@ export default function InvitationScreen() {
         responseKey,
         token,
       });
+
+      if (Platform.OS !== 'web') {
+        router.replace(user ? ROUTES.myEvents : ROUTES.welcome);
+        return;
+      }
+
       setScreenState('success');
     } catch {
       setSubmitError(true);
@@ -138,7 +149,7 @@ export default function InvitationScreen() {
     );
   }
 
-  if (unavailable || !invitation) {
+  if (unavailable || !invitation || !token) {
     return (
       <ScreenFrame styles={styles} theme={theme}>
         <View style={styles.centeredState}>
@@ -200,6 +211,7 @@ export default function InvitationScreen() {
             <Text style={styles.infoTitle}>{copy.browserNoteTitle}</Text>
             <Text style={styles.infoBody}>{copy.browserNoteBody}</Text>
           </View>
+          <OpenInvitationInApp label={copy.openInApp} token={token} />
           <AppButton label={copy.respond} onPress={() => setScreenState('form')} />
           <Text style={styles.privacy}>{copy.privacy}</Text>
         </View>
@@ -242,11 +254,6 @@ export default function InvitationScreen() {
             </View>
           </View>
           <AppButton label={copy.addGroup} onPress={addAnotherGroup} variant="secondary" />
-          <AppButton
-            label={copy.done}
-            onPress={() => setScreenState('landing')}
-            variant="social"
-          />
         </View>
       </ScreenFrame>
     );
@@ -344,10 +351,29 @@ type ScreenFrameProps = {
 };
 
 function ScreenFrame({ children, styles, theme }: ScreenFrameProps) {
+  const router = useRouter();
+  const { user } = useAppAuth();
+  const copy = useAppLocalization().translations.invitation;
+
   return (
     <SafeAreaView style={styles.screen}>
       <StatusBar style={theme.statusBar} />
-      <View style={styles.page}>{children}</View>
+      <View style={styles.page}>
+        {Platform.OS !== 'web' ? (
+          <Pressable
+            accessibilityLabel={copy.goHome}
+            accessibilityRole="button"
+            onPress={() => router.replace(user ? ROUTES.myEvents : ROUTES.welcome)}
+            style={({ pressed }) => [
+              styles.homeAction,
+              pressed && styles.homeActionPressed,
+            ]}>
+            <AntDesign color={theme.colors.text.primary} name="home" size={20} />
+            <Text style={styles.homeActionText}>{copy.goHome}</Text>
+          </Pressable>
+        ) : null}
+        {children}
+      </View>
     </SafeAreaView>
   );
 }

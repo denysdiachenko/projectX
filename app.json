@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "partyplaner",
-    "slug": "partyplaner",
+    "slug": "projectx",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -9,10 +9,31 @@
     "userInterfaceStyle": "automatic",
     "ios": {
       "icon": "./assets/images/icon.png",
-      "bundleIdentifier": "com.denys.diachenko.partyplaner"
+      "bundleIdentifier": "com.denys.diachenko.petprojectx",
+      "associatedDomains": [
+        "applinks:partyplaner-omega.vercel.app"
+      ],
+      "appleTeamId": "TSVWJ2WUUQ"
     },
     "android": {
-      "package": "com.denys.diachenko.partyplaner",
+      "package": "com.denys.diachenko.petprojectx",
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "https",
+              "host": "partyplaner-omega.vercel.app",
+              "pathPrefix": "/invite"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ],
       "adaptiveIcon": {
         "backgroundColor": "#11B3C9",
         "foregroundImage": "./assets/images/icon.png"
@@ -65,6 +86,15 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {
+        "sitemap": false
+      },
+      "eas": {
+        "projectId": "eb4c271d-9fc7-41df-960b-f4fa8460b135"
+      }
+    },
+    "owner": "petprojectx"
   }
 }

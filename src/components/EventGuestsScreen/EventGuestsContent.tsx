@@ -203,6 +203,26 @@ function GuestCard({
         <View style={styles.guestCopy}>
           <Text style={styles.guestName}>{guest.name}</Text>
           <Text style={styles.guestPeople}>{people}</Text>
+          <View style={[
+            styles.accountBadge,
+            guest.hasAppAccount ? styles.accountBadgeApp : styles.accountBadgeLink,
+          ]}>
+            <AntDesign
+              color={guest.hasAppAccount
+                ? theme.colors.text.brand
+                : theme.colors.text.secondary}
+              name={guest.hasAppAccount ? 'user' : 'link'}
+              size={12}
+            />
+            <Text style={[
+              styles.accountBadgeText,
+              guest.hasAppAccount
+                ? styles.accountBadgeTextApp
+                : styles.accountBadgeTextLink,
+            ]}>
+              {guest.hasAppAccount ? copy.inApp : copy.viaLink}
+            </Text>
+          </View>
         </View>
         <View style={[styles.statusPill, { backgroundColor: status.background }]}>
           <Text style={[styles.statusText, { color: status.color }]}>{status.label}</Text>

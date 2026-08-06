@@ -18,6 +18,26 @@ export function createInvitationStyles(theme: AppTheme) {
       paddingHorizontal: spacing.x5,
       paddingVertical: spacing.x4,
     },
+    homeAction: {
+      alignSelf: 'flex-start',
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: spacing.x2,
+      minHeight: spacing.x10,
+      marginBottom: spacing.x3,
+      paddingHorizontal: spacing.x3,
+      borderWidth: 1,
+      borderColor: colors.border.default,
+      borderRadius: spacing.x5,
+      backgroundColor: colors.background.surface,
+    },
+    homeActionPressed: {
+      opacity: 0.68,
+    },
+    homeActionText: {
+      ...typography.labelSmall,
+      color: colors.text.primary,
+    },
     content: {
       width: '100%',
       gap: spacing.x5,

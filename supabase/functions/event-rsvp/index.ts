@@ -1,5 +1,5 @@
 import { corsHeaders, jsonResponse } from '../_shared/cors.ts';
-import { createAdminClient } from '../_shared/supabase.ts';
+import { createAdminClient, createUserClient } from '../_shared/supabase.ts';
 
 type DetailsRequest = {
   action: 'details';
@@ -53,6 +53,20 @@ function isRespondRequest(body: unknown): body is RespondRequest {
     && statusIsValid;
 }
 
+async function getOptionalProfileId(request: Request) {
+  const authorization = request.headers.get('Authorization');
+
+  if (!authorization) return null;
+
+  const userClient = createUserClient(authorization);
+  const {
+    data: { user },
+    error,
+  } = await userClient.auth.getUser();
+
+  return error ? null : user?.id ?? null;
+}
+
 Deno.serve(async (request) => {
   if (request.method === 'OPTIONS') {
     return new Response(null, { status: 204, headers: corsHeaders });
@@ -98,6 +112,7 @@ Deno.serve(async (request) => {
     }
 
     if (isRespondRequest(body)) {
+      const profileId = await getOptionalProfileId(request);
       const { data, error } = await adminClient.rpc(
         'submit_event_invitation_response',
         {
@@ -107,6 +122,7 @@ Deno.serve(async (request) => {
           p_response_key: body.responseKey,
           p_rsvp_status: body.status,
           p_token: body.token,
+          p_profile_id: profileId,
         },
       );
 
@@ -127,7 +143,17 @@ Deno.serve(async (request) => {
         return jsonResponse({ code: 'response_failed' }, 500);
       }
 
-      return jsonResponse({ guestId: data });
+      const response = data?.[0];
+
+      if (!response) {
+        return jsonResponse({ code: 'response_failed' }, 500);
+      }
+
+      return jsonResponse({
+        eventId: response.response_event_id,
+        guestId: response.response_guest_id,
+        linkedToAccount: response.linked_to_profile,
+      });
     }
 
     return jsonResponse({ code: 'invalid_action' }, 400);

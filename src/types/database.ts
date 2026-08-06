@@ -263,6 +263,7 @@ export type Database = {
           guest_id: string
           id: string
           invitation_link_id: string
+          profile_id: string | null
           response_key: string
           user_id: string
         }
@@ -272,6 +273,7 @@ export type Database = {
           guest_id: string
           id?: string
           invitation_link_id: string
+          profile_id?: string | null
           response_key?: string
           user_id: string
         }
@@ -281,6 +283,7 @@ export type Database = {
           guest_id?: string
           id?: string
           invitation_link_id?: string
+          profile_id?: string | null
           response_key?: string
           user_id?: string
         }
@@ -298,6 +301,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "event_invitation_links"
             referencedColumns: ["id", "event_id", "user_id"]
+          },
+          {
+            foreignKeyName: "event_invitation_responses_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -693,11 +703,16 @@ export type Database = {
           p_adults_count: number
           p_children_count: number
           p_name: string
+          p_profile_id?: string
           p_response_key: string
           p_rsvp_status: string
           p_token: string
         }
-        Returns: string
+        Returns: {
+          linked_to_profile: boolean
+          response_event_id: string
+          response_guest_id: string
+        }[]
       }
       update_event_plan: {
         Args: {

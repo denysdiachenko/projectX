@@ -28,6 +28,7 @@ export type EventListItem = {
   duration_hours: number;
   event_type: string;
   id: string;
+  is_owner: boolean;
   location: string;
   location_text: string | null;
   name: string;
@@ -102,10 +103,12 @@ export class UpdateEventPlanError extends Error {
 }
 
 export async function getUserEvents() {
-  const { data, error } = await supabase
+  const [eventsResult, sessionResult] = await Promise.all([
+    supabase
     .from('events')
     .select(`
       id,
+      owner_id:user_id,
       name,
       event_type,
       starts_at,
@@ -124,13 +127,21 @@ export async function getUserEvents() {
         is_purchased
       )
     `)
-    .order('starts_at', { ascending: true });
+      .order('starts_at', { ascending: true }),
+    supabase.auth.getSession(),
+  ]);
+  const { data, error } = eventsResult;
 
   if (error) {
     throw error;
   }
 
-  return data satisfies EventListItem[];
+  const userId = sessionResult.data.session?.user.id;
+
+  return data.map(({ owner_id: ownerId, ...event }) => ({
+    ...event,
+    is_owner: ownerId === userId,
+  })) satisfies EventListItem[];
 }
 
 export async function getEventPlan(eventId: string): Promise<EventPlanDetails> {
