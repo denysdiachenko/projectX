@@ -26,6 +26,7 @@ import {
   type InvitationResponseFormValues,
 } from '@/validation-schemas/invitation-response-schema';
 
+import DownloadAppLinks from './DownloadAppLinks';
 import OpenInvitationInApp from './OpenInvitationInApp';
 import { createInvitationStyles } from './styles';
 
@@ -207,13 +208,16 @@ export default function InvitationScreen() {
               </View>
             ) : null}
           </View>
-          <View style={styles.infoCard}>
-            <Text style={styles.infoTitle}>{copy.browserNoteTitle}</Text>
-            <Text style={styles.infoBody}>{copy.browserNoteBody}</Text>
-          </View>
           <OpenInvitationInApp label={copy.openInApp} token={token} />
           <AppButton label={copy.respond} onPress={() => setScreenState('form')} />
           <Text style={styles.privacy}>{copy.privacy}</Text>
+          <DownloadAppLinks
+            androidLabel={copy.downloadAndroid}
+            body={copy.downloadBody}
+            iosLabel={copy.downloadIos}
+            styles={styles}
+            title={copy.downloadTitle}
+          />
         </View>
       </ScreenFrame>
     );

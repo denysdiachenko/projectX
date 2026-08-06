@@ -29,10 +29,12 @@ export type TranslationSchema = {
     badge: string;
     invitedBy: string;
     eventFallback: string;
-    browserNoteTitle: string;
-    browserNoteBody: string;
     openInApp: string;
     goHome: string;
+    downloadTitle: string;
+    downloadBody: string;
+    downloadIos: string;
+    downloadAndroid: string;
     respond: string;
     privacy: string;
     formEyebrow: string;
